@@ -1,0 +1,78 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  autiso.tex              DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+
+\Chapter{Automorphism groups and isomorphism testing for block designs}
+
+The functions in this chapter depend on {\nauty} via the {\GRAPE} package,
+which must be fully installed on a computer running UNIX in order for
+these functions to work.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Computing automorphism groups}
+
+\>AutGroupBlockDesign( <D> )
+
+This function returns the automorphism group of the block design <D>.
+The *automorphism group* $\Aut(<D>)$ of <D> is the group consisting of
+all the permutations of the points $\{1,\ldots,`<D>.v'\}$ which preserve
+the block-multiset of <D>.
+
+This function is not yet implemented for non-binary block designs.
+
+This function can also be called via `AutomorphismGroup(<D>)'.
+
+\beginexample
+gap> D:=PGPointFlatBlockDesign(2,3,1);; # projective plane of order 3
+gap> Size(AutGroupBlockDesign(D));                            
+5616
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Testing isomorphism}
+
+\>IsIsomorphicBlockDesign( <D1>, <D2> )
+
+This boolean function returns `true' if and only if block designs
+<D1> and <D2> are isomorphic. 
+
+This function is not yet implemented for non-binary block designs.
+
+For pairwise isomorphism testing for three or more binary block designs,
+see "BlockDesignIsomorphismClassRepresentatives".
+
+\beginexample
+gap> D1:=BlockDesign(3,[[1],[1,2,3],[2]]);;
+gap> D2:=BlockDesign(3,[[1],[1,2,3],[3]]);;
+gap> IsIsomorphicBlockDesign(D1,D2);
+true
+gap> D3:=BlockDesign(4,[[1],[1,2,3],[3]]);;
+gap> IsIsomorphicBlockDesign(D2,D3);        
+false
+gap> # block designs with different numbers of points are not isomorphic
+\endexample
+
+\>BlockDesignIsomorphismClassRepresentatives( <L> )
+
+Given a list <L> of binary block designs, this function returns a list
+consisting of pairwise non-isomorphic elements of <L>, representing all
+the isomorphism classes of elements of <L>. The order of the elements
+in the returned list may differ from their order in <L>.
+
+\beginexample 
+gap> D1:=BlockDesign(3,[[1],[1,2,3],[2]]);;
+gap> D2:=BlockDesign(3,[[1],[1,2,3],[3]]);;
+gap> D3:=BlockDesign(4,[[1],[1,2,3],[3]]);; 
+gap> BlockDesignIsomorphismClassRepresentatives([D1,D2,D3]);
+[ rec( isBlockDesign := true, v := 4, blocks := [ [ 1 ], [ 1, 2, 3 ], [ 3 ] ],
+      isBinary := true ), 
+  rec( isBlockDesign := true, v := 3, blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ] ],
+      isBinary := true ) ]
+\endexample

@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        The DESIGN Package for GAP
+
+This README describes the {\DESIGN}~1.1 package for {\GAP}~4.4.
+The {\DESIGN} package is for generating, classifying and studying block
+designs.
+
+All {\DESIGN} functions are written entirely in the {\GAP} language.
+However, {\DESIGN} requires the {\GRAPE} package to be installed,
+and makes use of certain {\GRAPE} functions, some of which make use of
+B.~D.~McKay{\pif}s {\nauty} (Version~2.0b5) package.  These {\GRAPE}
+functions can only be used on a fully installed version of {\GRAPE}
+in a UNIX environment. {\DESIGN} also requires the {\GAPDoc} package,
+if you want to read lists of designs in the \URL{http://designtheory.org}
+external representation format.
+
+Except for the function `SmallestImageSet', which is Copyright
+{\copyright} Steve Linton 2003, the {\DESIGN} package is Copyright
+{\copyright} Leonard H. Soicher 2003--2004.  {\DESIGN} is part of an EPSRC
+funded project to provide a web-based resource for design theory; see
+\URL{http://designtheory.org}.
+
+{\DESIGN} is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version. For details, see 
+\URL{http://www.gnu.org/licenses/gpl.html}
+
+If you use {\DESIGN} to solve a problem then please send a short email
+about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
+package as follows:
+
+Leonard H. Soicher, The DESIGN package for GAP,
+http://designtheory.org/software/gap_design/.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                Installing the DESIGN Package
+
+The {\DESIGN} package only runs properly on a UNIX system. Before
+installing {\DESIGN} (on your UNIX system), you must make sure that the
+{\GRAPE} and {\GAPDoc} packages are fully installed.
+
+To install {\DESIGN} 1.1 (after installing {\GAP}, {\GRAPE} and
+{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r1.tar.gz',
+available from \URL{http://designtheory.org/software/gap_design/}
+and then copy this archive file into the `pkg' directory of the {\GAP}
+root directory. Actually, it is possible to have several {\GAP} root
+directories and so it is easy to install {\DESIGN} locally even if you
+have no permission to add files to the main {\GAP} installation (see
+"ref:GAP Root Directory").  Now go to the appropriate `pkg' directory
+containing `design1r1.tar.gz', and then run
+
+gunzip design1r1.tar.gz
+tar -xf design1r1.tar
+
+That's all there is to do.
+
+Both dvi and pdf versions of the {\DESIGN} manual are available
+(as `manual.dvi' and `manual.pdf' respectively) in the `doc' directory
+of the home directory of {\DESIGN}.
+
+If you install {\DESIGN}, then please tell
+\Mailto{L.H.Soicher@qmul.ac.uk}, where you should also send any comments
+or bug reports.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Main changes from DESIGN 1.0 to DESIGN 1.1
+------------------------------------------
+
+(1) Made compatible with GAP 4.4 and its package loading mechanism.
+DESIGN 1.1 works only with GAP 4.4/GRAPE 4.2/GAPDoc.
+
+(2) Upgraded XML I/O to DTRS protocol 2.0.
+
+(3) BlockDesignsToXMLFile has additional parameters to allow more user
+control over expansion, output, and design id's. The default now is for
+minimal expansion and writing out, which is a *change* from DESIGN 1.0.
+
+(4) Added functions:
+   BlockDesignIsomorphismClassRepresentatives,
+   DualBlockDesign,
+   ComplementBlocksBlockDesign.
+
+(5) Function names made read-only.
+
+(6) Some utility functionality moved to GRAPE 4.2.
+
+(7) Added files README and gpl.txt.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Leonard Soicher
+Queen Mary, University of London
+June 2004

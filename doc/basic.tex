@@ -1,0 +1,167 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  basic.tex            DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+\def\x{\times}
+\Chapter{Determining basic properties of block designs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{The functions for basic properties}
+
+\>IsBlockDesign( <obj> )
+
+This boolean function  returns `true' if and only if <obj>, which can be
+an object of arbitrary type, is a block design.
+
+\beginexample
+gap> IsBlockDesign(5);
+false
+gap> IsBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );
+true
+\endexample
+
+
+
+\>IsBinaryBlockDesign( <D> )
+
+This boolean function  returns `true' if and only if the block design
+<D> is *binary*, that is, if no block of <D> has a repeated element.
+
+\beginexample
+gap> IsBinaryBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );
+true
+gap> IsBinaryBlockDesign( BlockDesign(2,[[1],[1,2],[1,2,2]]) );
+false
+\endexample
+
+
+
+\>IsSimpleBlockDesign( <D> )
+
+This boolean function  returns `true' if and only if the block design
+<D> is *simple*, that is, if no block of <D> is repeated.
+
+\beginexample
+gap> IsSimpleBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );  
+false
+gap> IsSimpleBlockDesign( BlockDesign(2,[[1],[1,2],[1,2,2]]) );
+true
+\endexample
+
+
+
+\>IsConnectedBlockDesign( <D> )
+
+This boolean function  returns `true' if and only if the block design
+<D> is *connected*, that is, if its incidence graph is a connected
+graph.
+
+\beginexample
+gap> IsConnectedBlockDesign( BlockDesign(2,[[1],[2]]) ); 
+false
+gap> IsConnectedBlockDesign( BlockDesign(2,[[1,2]]) );  
+true
+\endexample
+
+
+
+\>ReplicationNumber( <D> )
+ 
+If the block design <D> is equireplicate, then this function returns
+its replication number; otherwise `fail' is returned.
+
+A block design $D$ is *equireplicate* with *replication number* $r$ if,
+for every point $x$ of $D$, $r$ is equal to the sum over the blocks of
+the multiplicity of $x$ in a block. For a binary block design this is
+the same as saying that each point $x$ is contained in exactly $r$ blocks.
+
+\beginexample
+gap> ReplicationNumber(BlockDesign(4,[[1],[1,2],[2,3,3],[4,4]]));
+2
+gap> ReplicationNumber(BlockDesign(4,[[1],[1,2],[2,3],[4,4]]));  
+fail
+\endexample
+
+
+
+\>BlockSizes( <D> )
+
+This function returns the set of sizes (actually list-lengths) of the 
+blocks of the block design <D>.
+
+\beginexample
+gap> BlockSizes( BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]) );  
+[ 1, 3 ]
+\endexample
+
+
+
+\>BlockNumbers( <D> )
+
+Let <D> be a block design. Then this function returns a list of
+the same length as `BlockSizes(<D>)', such that the $i$-th element 
+of this returned list is the number of blocks of <D> of size
+`BlockSizes(<D>)[$i$]'.
+
+\beginexample
+gap> D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]); 
+rec( isBlockDesign := true, v := 3, 
+  blocks := [ [ 1 ], [ 1, 2, 2 ], [ 1, 2, 3 ], [ 2 ], [ 3 ] ] )
+gap> BlockSizes(D);
+[ 1, 3 ]
+gap> BlockNumbers(D);
+[ 3, 2 ]
+\endexample
+
+
+
+\>TSubsetLambdasVector( <D>, <t> )
+
+Let <D> be a block design, <t> a non-negative integer, and 
+`$v$=<D>.v'. Then this function returns an integer vector $L$ 
+whose positions correspond to the <t>-subsets of $\{1,\ldots,v\}$.
+The $i$-th element of $L$ is the sum over all blocks $B$ of <D> 
+of the number of times the $i$-th <t>-subset (in lexicographic order) 
+is contained in $B$. (For example, if $t=2$ and $B=[1,1,2,3,3,4]$, then
+$B$ contains $[1,2]$ twice, $[1,3]$ four times, $[1,4]$ twice,
+$[2,3]$ twice, $[2,4]$ once, and $[3,4]$ twice.) In particular, 
+if <D> is binary then $L[i]$ is simply the number of blocks of <D> 
+containing the $i$-th <t>-subset (in lexicographic order).
+ 
+\beginexample
+gap> D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]);;
+gap> TSubsetLambdasVector(D,0);
+[ 5 ]
+gap> TSubsetLambdasVector(D,1);
+[ 3, 4, 2 ]
+gap> TSubsetLambdasVector(D,2);
+[ 3, 1, 1 ]
+gap> TSubsetLambdasVector(D,3);
+[ 1 ]
+\endexample
+
+
+
+\>AllTDesignLambdas( <D> )
+
+If the block design <D> is not a $t$-design for some $t\ge 0$ then this
+function returns an empty list. Otherwise <D> is a binary block design
+with constant block size $k$, say, and this function returns a list
+$L$ of length $T+1$, where $T$ is the maximum $t\le k$ such that <D>
+is a $t$-design, and, for $i=1,\ldots,T+1$, $L[i]$ is equal to the
+(constant) number of blocks of <D> containing an $(i-1)$-subset of
+$\{1,\ldots,`<D>.v'\}$.
+
+\beginexample
+gap> AllTDesignLambdas(PGPointFlatBlockDesign(3,2,1));                  
+[ 35, 7, 1 ]
+\endexample
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

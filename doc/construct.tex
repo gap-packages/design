@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  construct.tex            DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+\def\x{\times}
+\Chapter{Constructing block designs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Functions to construct block designs}
+
+\>BlockDesign( <v>, <B> )
+
+Let <v> be a positive integer. Then this function  returns the block
+design with point-set $\{1,\ldots,<v>\}$ and block multiset <B>, which
+must be a non-empty sorted list of non-empty sorted lists of elements
+of $\{1,\ldots,<v>\}$.
+
+\beginexample
+gap> BlockDesign( 2, [[1],[1,2],[1,2]] );
+rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
+\endexample
+
+
+
+\>PGPointFlatBlockDesign( <n>, <q>, <d> )
+
+Let <n> be a non-negative integer, <q> a prime-power, and <d> a
+non-negative integer less than or equal to <n>. Then this function
+returns the block design whose points are the (projective) points of
+the projective space $PG(<n>,<q>)$, and whose blocks are the $<d>$-flats
+of $PG(<n>,<q>)$, considering a <d>-flat as a set of projective points.
+
+Note that the *projective space* $PG(<n>,<q>)$ consists of all the
+subspaces of the vector space $V(<n>+1,<q>)$, with the *projective
+points* being the 1-dimensional subspaces and the *$<d>$-flats* being
+the $(<d>+1)$-dimensional subspaces.
+
+\beginexample
+gap> D:=PGPointFlatBlockDesign(3,2,1);;
+gap> Print(D,"\n");
+rec(
+  isBlockDesign := true,
+  v := 15,
+  pointNames := 
+   [ VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ] ] ) ],
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
+      [ 1, 10, 11 ], [ 1, 12, 13 ], [ 1, 14, 15 ], [ 2, 4, 6 ], [ 2, 5, 7 ], 
+      [ 2, 8, 10 ], [ 2, 9, 11 ], [ 2, 12, 14 ], [ 2, 13, 15 ], [ 3, 4, 7 ], 
+      [ 3, 5, 6 ], [ 3, 8, 11 ], [ 3, 9, 10 ], [ 3, 12, 15 ], [ 3, 13, 14 ], 
+      [ 4, 8, 12 ], [ 4, 9, 13 ], [ 4, 10, 14 ], [ 4, 11, 15 ], [ 5, 8, 13 ], 
+      [ 5, 9, 12 ], [ 5, 10, 15 ], [ 5, 11, 14 ], [ 6, 8, 14 ], [ 6, 9, 15 ], 
+      [ 6, 10, 12 ], [ 6, 11, 13 ], [ 7, 8, 15 ], [ 7, 9, 14 ], 
+      [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
+gap> Size(AutGroupBlockDesign(D));
+20160
+\endexample
+
+
+
+\>TDesignFromTBD( <D>, <t>, <K> )
+
+Assuming that <D> is a <t>-wise balanced <t>-$(v,<K>,\lambda)$ design,
+with <t> a positive integer and <K> a set contained in `[<t>..<D>.v]',
+this function returns the <t>-design obtained by applying the
+McSorley-Soicher construction to <D>.  The returned design is a
+<t>-$(v,<K>[1],n\lambda)$, where $n$ is the least common multiple of 
+$\{{k-t\choose <K>[1]-t} : k\in <K>\}$.
+
+\beginexample
+gap> D:=BlockDesigns(rec(v:=10,blockSizes:=[3,4],           
+>          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8 ], 
+      [ 2, 6, 9 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
+      [ 4, 5, 10 ], [ 4, 6, 8 ], [ 4, 7, 9 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,6)(8,10), (2,3,4)(8,9,10), 
+      (2,3,4)(5,8,7,9,6,10), (2,6,10)(3,7,9)(4,5,8) ]) )
+gap> Dstar:=TDesignFromTBD(D,2,[3,4]);                       
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
+      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
+      [ 2, 3, 4 ], [ 2, 5, 8 ], [ 2, 5, 8 ], [ 2, 6, 9 ], [ 2, 6, 9 ], 
+      [ 2, 7, 10 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
+      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 10 ], [ 4, 5, 10 ], 
+      [ 4, 6, 8 ], [ 4, 6, 8 ], [ 4, 7, 9 ], [ 4, 7, 9 ], [ 5, 6, 7 ], 
+      [ 8, 9, 10 ] ] )
+gap> AllTDesignLambdas(Dstar);
+[ 30, 9, 2 ]
+\endexample
+
+
+
+\>DualBlockDesign( <D> )
+
+Suppose <D> is a block design for which every point lies on at least
+one block.  Then this function returns the dual of <D>, the block design
+in which the roles of points and blocks are interchanged, but incidence
+(including repeated incidence) stays the same.  Note that, since the
+list of blocks of a block design is always sorted, the block list of
+the dual of the dual of <D> may not be equal to the block list of <D>.
+
+\beginexample
+gap> D:=BlockDesign(4,[[1,3],[2,3,4],[3,4]]);;
+gap> dualD:=DualBlockDesign(D);
+rec( isBlockDesign := true, v := 3, 
+  blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ], [ 2, 3 ] ], 
+  pointNames := [ [ 1, 3 ], [ 2, 3, 4 ], [ 3, 4 ] ] )
+gap> DualBlockDesign(dualD).blocks;           
+[ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
+\endexample
+
+
+
+\>ComplementBlocksBlockDesign( <D> )
+
+Suppose <D> is a binary incomplete-block design.
+Then this function returns the block design on the same
+point-set as <D>, whose blocks are the complements of
+those of <D> (complemented with respect to the point-set).
+
+\beginexample
+gap> D:=PGPointFlatBlockDesign(2,2,1);
+rec( isBlockDesign := true, v := 7, 
+  pointNames := [ <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)> ], 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 2, 4, 6 ], 
+      [ 2, 5, 7 ], [ 3, 4, 7 ], [ 3, 5, 6 ] ] )
+gap> AllTDesignLambdas(D);
+[ 7, 3, 1 ]
+gap> C:=ComplementBlocksBlockDesign(D);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4, 7 ], [ 1, 2, 5, 6 ], [ 1, 3, 4, 6 ], [ 1, 3, 5, 7 ], 
+      [ 2, 3, 4, 5 ], [ 2, 3, 6, 7 ], [ 4, 5, 6, 7 ] ], 
+  pointNames := [ <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)> ] )
+gap> AllTDesignLambdas(C);
+[ 7, 4, 2 ]
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
