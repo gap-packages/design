@@ -1,6 +1,6 @@
-#############################################################################
+############################################################################
 ##
-##    blockdesign.g             Design 1.1 Package          Leonard Soicher
+##    blockdesign.g             Design 1.2 Package          Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 
@@ -8,7 +8,7 @@
 # block designs with given properties.
 # At present there is limited support for non-binary block designs.
 # 
-# Copyright (C) 2003-2004 Leonard H. Soicher
+# Copyright (C) 2003-2006 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +26,56 @@
 #
 
 BindGlobal("DESIGN_VERSION",InstalledPackageVersion("design"));
+BindGlobal("DESIGN_INDETERMINATE_RATIONALS_1",Indeterminate(Rationals,1));
+
+BindGlobal("IsSylowTowerGroupOfSomeComplexion",function(G)
+#
+# Suppose  G  is a finite group, and  p_1,...,p_k  are the distinct 
+# (positive) primes dividing |G|, in some order. We say that 
+# G is a *Sylow tower group of complexion* (p_1,...,p_k) if 
+# G has a normal series 1=T_0<T_1<...<T_n=G such that, for 
+# i=1,...,n, T_i/T_{i-1} is isomorphic to a Sylow p_i-subgroup
+# of G. 	
+#
+# This function returns  true  if G is a Sylow tower group of some complexion; 
+# else  false  is returned. 
+#
+local P,T,U,indices,usedindices,found,i;
+if not IsGroup(G) or not IsFinite(G) then
+   Error("<G> must be a finite group");
+fi;
+if IsNilpotentGroup(G) then
+   return true;
+elif not IsSolvableGroup(G) then 
+   return false;
+fi;
+P:=List(Reversed(Set(FactorsInt(Size(G)))),p->SylowSubgroup(G,p));
+T:=TrivialSubgroup(G); 
+indices:=[1..Length(P)];
+usedindices:=[];
+while Length(usedindices)<Length(indices)-1 do
+   #
+   # Loop invariant: T is a normal subgroup of G,
+   # and T is a Sylow tower group of complexion 
+   # (p_{j_1},...,p_{j_m}), where  usedindices=[j_1,...,j_m],
+   # and P[j] is a Sylow p_j-subgroup of G for j=1,...,Length(indices).
+   #
+   found:=false;
+   for i in Difference(indices,usedindices) do
+      U:=ClosureGroup(T,P[i]);
+      if IsNormal(G,U) then
+         found:=true;
+         T:=U;
+         Add(usedindices,i);
+         break;
+      fi;
+   od;
+   if not found then
+      return false;
+   fi;
+od;
+return true;
+end);
 
 BindGlobal("OnMultisetsRecursive",function(x,g)
 #
@@ -60,6 +110,158 @@ for i in [1..Length(v)] do
    fi;
 od;
 return false;
+end);
+
+BindGlobal("BlockIntersectionPolynomial",function(x,m,lambdavec)
+#
+# Suppose  x  is a rational number or an indeterminate over the rationals, 
+# and  m  and  lambdavec  are non-empty lists whose elements are rational 
+# numbers  (and/or indeterminates over the rationals), such that 
+# Length(lambdavec)<=Length(m). 
+# 
+# Then this function returns the block intersection polynomial 
+# B(x) = B(x,m,lambdavec), defined in  Cameron and Soicher, 
+# Block intersection polynomials, http://designtheory.org/library/preprints/ . 
+# 
+local P,s,t,s1,s2,i,j;
+
+P := function(x,k)
+local prod,i;
+prod:=1*x^0;
+for i in [0..k-1] do
+   prod:=prod*(x-i);
+od;
+return prod;
+end;
+
+if not ((IsRat(x) or IsPolynomialFunction(x)) and IsList(m) and IsList(lambdavec)) then
+   Error("usage: BlockIntersectionPolynomial( <Rat> or <PolynomialFunction>, <List>, <List> )");
+fi;
+if m=[] or lambdavec=[] or Length(lambdavec)>Length(m) then
+   Error("must have <m> and <lambdavec> non-empty, and Length(<lambdavec>)<=Length(<m>)");
+fi;
+if not ForAll(m,x->IsRat(x) or IsPolynomialFunction(x)) then
+   Error("elements of <m> must be rationals or polynomials over the rationals");
+fi;
+if not ForAll(lambdavec,x->IsRat(x) or IsPolynomialFunction(x)) then
+   Error("elements of <lambdavec> must be rationals or polynomials over the rationals");
+fi;
+s:=Length(m)-1;
+t:=Length(lambdavec)-1;
+s1:=0*x^0;
+for j in [0..t] do
+   s2:=0*x^0;
+   for i in [j..s] do
+      s2:=s2+P(i,j)*m[i+1];
+   od;
+   s1:=s1+Binomial(t,j)*P(-x,t-j)*(P(s,j)*lambdavec[j+1]-s2);
+od;
+return s1;
+end);
+
+BindGlobal("BlockIntersectionPolynomialCheck",function(m,lambdavec)
+#
+# Suppose  m  is a list of non-negative integers,
+# and  lambdavec  is a list of non-negative rational numbers,
+# with Length(lambdavec) odd, and Length(lambdavec)<=Length(m). 
+# 
+# Then this function checks whether the block intersection polynomial 
+# B(x,m,lambdavec) is a polynomial over the integers and 
+# has a non-negative value whenever x is an integer. 
+# Returns true if all this is so; else false is returned.
+#
+local c,x,B,D,i;
+if not IsList(m) or not IsList(lambdavec) then
+   Error("usage: BlockIntersectionPolynomialCheck( <List>, <List> )");
+fi;
+if Length(lambdavec) mod 2 = 0 or Length(lambdavec)>Length(m) then
+   Error("Length(<lambdavec>) must be odd and at most Length(<m>)");
+fi;
+if not ForAll(m,x->IsInt(x) and x>=0) then
+   Error("elements of <m> must be non-negative integers");
+fi;
+if not ForAll(m,x->IsRat(x) and x>=0) then
+   Error("elements of <lambdavec> must be non-negative rationals");
+fi;
+x:=DESIGN_INDETERMINATE_RATIONALS_1;
+B:=BlockIntersectionPolynomial(x,m,lambdavec);
+c:=ShallowCopy(CoefficientsOfUnivariatePolynomial(B));
+if Length(c)=0 then
+   # B is the zero polynomial
+   return true;
+elif not ForAll(c,IsInt) then
+   return false;
+elif c[Length(c)]<0 or c[1]<0 or Length(c) mod 2 = 0 then
+   # B has negative leading coef or B(0)<0 or B has odd degree.
+   return false;
+elif Length(c)=1 then
+   # B is a constant positive polynomial
+   return true;
+fi;
+# Now apply the bound in [Soicher, MCompSci Thesis] to the absolute
+# values of the zeros of B.  See also  Cameron and Soicher, 
+# Block intersection polynomials, http://designtheory.org/library/preprints/ . 
+for i in [1..Length(c)-1] do
+   c[i]:=-AbsoluteValue(c[i]);
+od;
+D:=UnivariatePolynomial(Rationals,c,1);
+i:=1;
+while Value(D,i)<=0 do
+   if Value(B,i)<0 or Value(B,-i)<0 then
+      return false;
+   fi;
+   i:=i+1;
+od;
+return true;
+end);
+
+BindGlobal("PartialDesignCheck",function(designinfo,block,blockbags)
+#
+# This boolean function returns  false  only if  blockbags  
+# (and the points involved in blockbags) cannot be a subdesign 
+# of a design with the given  designinfo  and  block.  
+# Note: block must be in blockbags.  
+#
+local s,lambdavec,m,c,bag,intsize;
+if not ForAny(blockbags,x->x.comb=block) then
+   Error("<block> must be a block in a bag in <blockbags>");
+fi;
+s:=Length(block); # s>0
+lambdavec:=ShallowCopy(designinfo.lambdavec);
+if Length(lambdavec)<3 then
+   if Length(lambdavec)=0 or not IsBound(designinfo.lambdamat) then
+      Error("this should not happen");
+   fi;
+   if Length(lambdavec)=1 then
+      lambdavec[2]:=Sum(List(block,i->designinfo.lambdamat[i][i]))/s;
+   fi;
+   # at this point, Length(lambdavec)=2
+   if s>1 then
+      lambdavec[3]:=0;
+      for c in Combinations(block,2) do
+         lambdavec[3]:=lambdavec[3]+designinfo.lambdamat[c[1]][c[2]];
+      od;
+      lambdavec[3]:=lambdavec[3]/Binomial(s,2);
+   fi;
+fi;
+if Length(lambdavec) mod 2 = 0 then
+   lambdavec:=lambdavec{[1..Length(lambdavec)-1]};
+fi;
+if Length(lambdavec)>s then
+   lambdavec:=lambdavec{[1..s]};
+fi;
+m:=ListWithIdenticalEntries(s+1,0);
+for bag in blockbags do    
+   intsize:=Size(Intersection(bag.comb,block));
+   m[intsize+1]:=m[intsize+1]+bag.mult;
+od;
+if IsBound(designinfo.blockmmat) and IsBound(designinfo.blockmmat[s]) then
+   # designinfo.blockmmat[s] is an integer vector of length s+1 and 
+   # designinfo.blockmmat[s][i] is a lower bound on the number
+   # of blocks intersecting a block of size s in exactly i-1 points.
+   m:=List([1..s+1],i->Maximum(m[i],designinfo.blockmmat[s][i]));
+fi;
+return BlockIntersectionPolynomialCheck(m,lambdavec);
 end);
 
 BindGlobal("CC_PermutationGroupProperties",function(G,n)
@@ -130,27 +332,84 @@ fi;
 return true;
 end);
 
-BindGlobal("BlockDesign",function(v,blocks)
+BindGlobal("BlockDesign",function(arg)
 #
-# Returns the block design  ({1,...,v},blocks).
+# Let  v=arg[1],  blocks=arg[2],  and  G=arg[3]  (default: Group(())). 
+# Then this function returns the block design with point-set {1,...,v},
+# and whose block-list is the sorted concatenation of the G-orbits of the
+# the elements of  blocks. 
 #
-if not (IsInt(v) and IsList(blocks)) then
-   Error("usage: BlockDesign( <Int>, <List> )");
+# Note: It is no longer required that  blocks  be sorted.
+#
+local v,block,blocks,G,newblocks;
+v:=arg[1];
+blocks:=arg[2];
+if IsBound(arg[3]) then 
+   G:=arg[3];
+else
+   G:=Group(());
+fi;
+if not (IsInt(v) and IsList(blocks) and IsPermGroup(G)) then
+   Error("usage: BlockDesign( <Int>, <List> [, <PermGroup> ] )");
 fi;
 if v<1 then
    Error("<v> must be positive");
 fi;
-if not (blocks<>[] and IsSortedList(blocks)) then
-   Error("<blocks> must be a non-empty sorted list");
+if v<LargestMovedPoint(GeneratorsOfGroup(G)) then 
+   Error("<G> must be a permutation group on [1..<v>]");
+fi;
+if blocks=[] then
+   Error("<blocks> must be non-empty");
 fi;
 if not ForAll(blocks,x->x<>[] and IsSortedList(x)) then
    Error("each element of <blocks> must be a non-empty sorted list");
 fi;
 if not IsSubset([1..v],Set(Flat(blocks))) then
-   Error("not all points are in [1..<v>]");
+   Error("not all elements of <blocks> are in [1..<v>]");
 fi;
-return rec(isBlockDesign:=true,v:=v,blocks:=Immutable(blocks));
+if IsTrivial(G) then
+   return rec(isBlockDesign:=true, v:=v, blocks:=AsSortedList(blocks));
+fi;
+# Now handle the case where G is nontrivial.
+newblocks:=[];
+for block in blocks do 
+   if IsSet(block) then
+      Append(newblocks,Orbit(G,block,OnSets));
+   else 
+      Append(newblocks,Orbit(G,block,OnMultisetsRecursive));
+   fi;
+od;
+return rec(isBlockDesign:=true, v:=v, blocks:=AsSortedList(newblocks),
+   autSubgroup:=G);
 end);
+
+BindGlobal("BlockDesignPoints",function(D)
+if not IsBlockDesign(D) then
+   Error("usage: BlockDesignPoints( <BlockDesign> )");
+fi;
+return Immutable([1..D.v]);
+end); 
+
+BindGlobal("BlockDesignBlocks",function(D)
+if not IsBlockDesign(D) then
+   Error("usage: BlockDesignBlocks( <BlockDesign> )");
+fi;
+return Immutable(D.blocks);
+end); 
+
+BindGlobal("NrBlockDesignPoints",function(D)
+if not IsBlockDesign(D) then
+   Error("usage: NrBlockDesignPoints( <BlockDesign> )");
+fi;
+return D.v;
+end); 
+
+BindGlobal("NrBlockDesignBlocks",function(D)
+if not IsBlockDesign(D) then
+   Error("usage: NrBlockDesignBlocks( <BlockDesign> )");
+fi;
+return Length(D.blocks);
+end); 
 
 BindGlobal("IsBinaryBlockDesign",function(D)
 if not IsBlockDesign(D) then
@@ -227,6 +486,9 @@ fi;
 if IsBound(D.tSubsetStructure) and t=D.tSubsetStructure.t then 
    return Immutable(D.tSubsetStructure);
 fi;
+if IsBound(D.allTDesignLambdas) and Length(D.allTDesignLambdas)>=t+1 then
+   return Immutable(rec(t:=t,lambdas:=[D.allTDesignLambdas[t+1]]));
+fi;
 tsubsets:=Combinations([1..D.v],t);
 tvector:=TSubsetLambdasVector(D,t);
 lambdas:=Set(tvector);
@@ -237,8 +499,15 @@ if Length(lambdas)>1 then
       Add(partition[PositionSorted(lambdas,tvector[i])],tsubsets[i]); 
    od;
    tsubsetstructure.partition:=partition;
+   return Immutable(tsubsetstructure);
+elif not IsBound(D.tSubsetStructure) and
+   t>1 and Length(lambdas)=1 and lambdas[1]>0 then
+   # this is probably info worth recording 
+   D.tSubsetStructure:=Immutable(tsubsetstructure);
+   return D.tSubsetStructure;
+else
+   return Immutable(tsubsetstructure);
 fi;
-return Immutable(tsubsetstructure);
 end);
 
 BindGlobal("AllTDesignLambdas",function(D)
@@ -280,11 +549,332 @@ local b;
 if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
    Error("usage: PossibleTDesignLambdasFromParameters( <Int>, <Int>, <Int>, <Int> )");
 fi;
-if not (t>=0 and t<=k and k<=v and lambda>0) then
-   Error("invalid t-design parameters");
+if v<=0 or k<=0 or lambda<=0 then
+   Error("must have <v>,<k>,<lambda> > 0");
 fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k,lambda>0.
+#
 b:=lambda*Binomial(v,t)/Binomial(k,t);
 return List([0..k],i->b*Binomial(k,i)/Binomial(v,i)); 
+end);
+
+BindGlobal("IsPossiblySBIBD",function(v,k,lambda)
+#
+# This boolean function returns false only if there is no
+# (v,k,lambda)-SBIBD.
+#
+local n,p,p1,p2,num;
+if not (IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: IsPossiblySBIBD( <Int>, <Int>, <Int> )");
+fi;
+if not (2<=k and k<v and lambda>0) then
+   Error("must have 2 <= <k> < <v>, and  <lambda> > 0"); 
+fi;
+if lambda*(v-1)/(k-1) <> k then
+   return false;
+fi;
+# Parameters are admissible, and  r=k, b=v.
+# Now partially check BRC.
+n:=k-lambda;
+if v mod 2 = 0 then
+   # return true iff  n  is the square of an integer.
+   return n=RootInt(n,2)^2; 
+fi;
+# For v odd, partially test BRC, applying Theorem 2.24 of
+# D.R. Stinson, Combinatorial Designs: Constructions and Analysis,
+# Springer, 2004.
+p1:=List(Filtered(Collected(FactorsInt(lambda)),x->x[2] mod 2 <> 0),y->y[1]);
+# now p1 is a list of the distinct primes dividing the 
+# squarefree part of  lambda.
+p2:=List(Filtered(Collected(FactorsInt(n)),
+                      x->x[1]<>2 and x[2] mod 2 <> 0),y->y[1]);
+# now p2 is a list of the distinct *odd* primes dividing the 
+# squarefree part of  n.
+num:=(-1)^((v-1)/2)*Product(p1);
+for p in Difference(p2,p1) do 
+   if not Legendre(num,p)=1 then
+      # BRC condition does not hold
+      return false;
+   fi;
+od;
+return true;
+end);
+
+BindGlobal("IsPossiblyBIBD",function(v,k,lambda)
+#
+# This boolean function returns false only if there is no
+# (v,k,lambda)-BIBD.
+#
+local b,r;
+if not (IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: IsPossiblyBIBD( <Int>, <Int>, <Int> )");
+fi;
+if not (2<=k and k<v and lambda>0) then
+   Error("must have 2 <= <k> < <v>, and  <lambda> > 0"); 
+fi;
+if lambda*(v-1) mod (k-1) <> 0 then
+   return false;
+fi;
+r:=lambda*(v-1)/(k-1);
+if v*r mod k <> 0 then
+   return false;
+fi;
+b:=v*r/k;
+if b<v then 
+   # Fisher's inequality does not hold.
+   return false;
+fi; 
+if b=v then
+   return IsPossiblySBIBD(v,k,lambda);
+fi;
+if r=k+lambda and lambda<=2 then
+   # We are looking for embeddable quasiresidual BIBDs.
+   # If lambda=1 then we are looking for affine planes 
+   # (embeddable in projective planes), and if lambda=2 then
+   # embeddablity is by the Hall-Connor theorem. 
+   if not IsPossiblySBIBD(v+r,r,lambda) then
+      # no SBIBDs to embed the required designs.
+      return false;
+   fi;
+fi;
+return true;
+end);
+
+BindGlobal("TDesignLambdas",function(t,v,k,lambda)
+local lambdas;
+if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: TDesignLambdas( <Int>, <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 or lambda<=0 then
+   Error("must have <v>,<k>,<lambda> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k,lambda>0.
+#
+lambdas:=List([0..t],s->lambda*Binomial(v-s,t-s)/Binomial(k-s,t-s));
+if not ForAll(lambdas,IsInt) then
+   # parameters t-(v,k,lambda) are inadmissible
+   return fail;
+fi;
+return lambdas;
+end);
+
+BindGlobal("TDesignIntersectionTriangle",function(t,v,k,lambda)
+local lambdas,T,i,j;
+if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: TDesignIntersectionTriangle( <Int>, <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 or lambda<=0 then
+   Error("must have <v>,<k>,<lambda> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k,lambda>0.
+#
+lambdas:=TDesignLambdas(t,v,k,lambda);
+if lambdas=fail then
+   return fail;
+fi;
+# Make first column of T.
+T:=List(lambdas,x->[x]);
+# Make remaining columns of T.
+for j in [1..t] do
+   for i in [0..t-j] do
+      T[i+1][j+1]:=T[i+1][j]-T[i+2][j];
+   od;
+od;
+return T;
+end);
+
+BindGlobal("SteinerSystemIntersectionTriangle",function(t,v,k)
+local lambdas,T,i,j;
+if not (IsInt(t) and IsInt(v) and IsInt(k)) then
+   Error("usage: SteinerSystemIntersectionTriangle( <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 then
+   Error("must have <v>,<k> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k>0.
+#
+lambdas:=TDesignLambdas(t,v,k,1);
+if lambdas=fail then
+   return fail;
+fi;
+# Make first column of T.
+T:=List(lambdas,x->[x]);
+for i in [t+1..k] do
+   T[i+1]:=[1];
+od;
+# Make remaining columns of T.
+for j in [1..k] do
+   for i in [0..k-j] do
+      T[i+1][j+1]:=T[i+1][j]-T[i+2][j];
+   od;
+od;
+return T;
+end);
+
+BindGlobal("TDesignLambdaMin",function(t,v,k)
+#
+# Returns the minimum lambda such that TDesignLambdas(t,v,k,lambda)<>fail.
+#
+local s,numer,denom,lambdamin;
+if not (IsInt(t) and IsInt(v) and IsInt(k)) then
+   Error("usage: TDesignLambdaMin( <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 then
+   Error("must have <v>,<k> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k>0.
+#
+lambdamin:=1;
+for s in [0..t] do
+   numer:=lambdamin*Binomial(v-s,t-s);
+   denom:=Binomial(k-s,t-s);
+   lambdamin:=lambdamin*denom/Gcd(denom,numer);
+od;
+return lambdamin;
+end);
+
+BindGlobal("TDesignBlockMultiplicityBound",function(t,v,k,lambda)
+local blockmultiplicitybound;
+
+blockmultiplicitybound:=function(t,v,k,lambda)
+#
+# This function does most of the work.
+# It is assumed that t,v,k,lambda are integers, with
+# v,k,lambda>0 and 0<=t<=k<=v, but this is not checked.
+#
+local newlambda,lambdavec,multbound,m;
+if t=0 or k=v then
+   return lambda;
+elif k>v/2 and v-k>=t then
+   # consider the design with the blocks complemented
+   newlambda:=lambda*Binomial(v-k,t)/Binomial(k,t);
+   if not IsInt(newlambda) then
+      # no design
+      return 0;
+   else
+      return blockmultiplicitybound(t,v,v-k,newlambda);
+   fi;
+fi;
+lambdavec:=TDesignLambdas(t,v,k,lambda);
+if lambdavec=fail then
+   # parameters t-(v,k,lambda) inadmissible
+   return 0;
+elif t=1 then 
+   return lambda;
+fi;
+# Now 2<=t<=k<v.
+if t=2 then
+   if not IsPossiblyBIBD(v,k,lambda) then
+      return 0;
+   fi;
+   multbound:=lambda;
+else
+   # consider the derived design
+   multbound:=blockmultiplicitybound(t-1,v-1,k-1,lambda);
+fi;
+if t mod 2 <> 0 then
+   return multbound;
+fi;
+# Now t>=2 is even.
+# Apply bound of Cameron and Soicher.
+m:=ListWithIdenticalEntries(k+1,0);
+while m[k+1]<=multbound and BlockIntersectionPolynomialCheck(m,lambdavec) do
+   m[k+1]:=m[k+1]+1;
+od;
+if m[k+1]=0 then
+   return 0;
+fi;
+return m[k+1]-1;
+end;
+
+if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: TDesignBlockMultiplicityBound( <Int>, <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 or lambda<=0 then
+   Error("must have <v>,<k>,<lambda> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+return blockmultiplicitybound(t,v,k,lambda);
+end);
+
+BindGlobal("ResolvableTDesignBlockMultiplicityBound",function(t,v,k,lambda)
+local multbound,r,lambdavec,m;
+if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
+   Error("usage: ResolvableTDesignBlockMultiplicityBound( <Int>, <Int>, <Int>, <Int> )");
+fi;
+if v<=0 or k<=0 or lambda<=0 then
+   Error("must have <v>,<k>,<lambda> > 0");
+fi;
+if 0>t or t>k or k>v then
+   Error("must have 0 <= <t> <= <k> <= <v>");
+fi;
+#
+# Now 0<=t<=k<=v and v,k,lambda>0.
+#
+if (v mod k <> 0) then
+   # resolvable t-(v,k,lambda) design cannot exist
+   return 0;
+elif k=v then
+   # complete blocks
+   return lambda;
+fi;
+lambdavec:=TDesignLambdas(t,v,k,lambda);
+if lambdavec=fail then
+   # parameters t-(v,k,lambda) inadmissible
+   return 0;
+fi;
+if t=0 then 
+   r:=lambdavec[1]*k/v;
+   if not IsInt(r) then
+      # design cannot be resolvable
+      return 0;
+   else
+      return r;
+   fi;
+elif t=1 then
+   return lambda;
+fi;
+# Now 2<=t<=k<v. 
+if lambdavec[1]<v+lambdavec[2]-1 then
+   # Bose's inequality does not hold
+   return 0;
+fi;
+multbound:=TDesignBlockMultiplicityBound(t,v,k,lambda); # initialize
+if t mod 2 <> 0 then
+   return multbound;
+fi;
+# Now t>=2 is even.
+# Apply bound of Cameron and Soicher.
+m:=ListWithIdenticalEntries(k+1,0);
+m[k+1]:=1;
+m[1]:=v/k-1;
+while m[k+1]<=multbound and BlockIntersectionPolynomialCheck(m,lambdavec) do
+   m[k+1]:=m[k+1]+1;
+   m[1]:=m[k+1]*(v/k-1);
+od;
+return m[k+1]-1;
 end);
 
 BindGlobal("IncidenceGraphSupportBlockDesign",function(D)
@@ -337,17 +927,22 @@ BindGlobal("ReplicationNumber",function(D)
 # If the block design  D  is equireplicate, then this function
 # returns its replication number  r;  otherwise  fail  is returned.
 #
-local vec;
+local count,blocks,block,point;
 if not IsBlockDesign(D) then
    Error("usage: ReplicationNumber( <BlockDesign> )");
 fi;
 if IsBound(D.r) then
    return D.r;
 fi;   
-vec:=TSubsetLambdasVector(D,1);
-if ForAll(vec,x->x=vec[1]) then 
+count:=ListWithIdenticalEntries(D.v,0); 
+for block in D.blocks do
+   for point in block do
+      count[point]:=count[point]+1;
+   od;
+od;
+if ForAll(count,x->x=count[1]) then 
    # D is equireplicate
-   D.r:=vec[1];
+   D.r:=count[1];
    return D.r;
 else
    # D is not equireplicate 
@@ -358,7 +953,10 @@ end);
 BindGlobal("PairwiseBalancedLambda",function(D)
 local lambdas;
 if not IsBinaryBlockDesign(D) then
-   Error("<D> must be a binary block design");
+   Error("usage: PairwiseBalancedLambda( <BinaryBlockDesign> )");
+fi;
+if D.v<2 then
+   return fail;
 fi;
 lambdas:=TSubsetStructure(D,2).lambdas;
 if Length(lambdas)=1 and lambdas[1]>0 then 
@@ -514,6 +1112,9 @@ graphs:=List(designs,A->Graph(Group(()),[1..A.v+Length(A.blocks)],
                  end,true));
 for i in [1..Length(graphs)] do
    SetAutGroupCanonicalLabelling(graphs[i]);
+   if not IsBound(designs[i].autGroup) then
+      designs[i].autGroup:=Action(AutGroupGraph(graphs[i]),[1..designs[i].v]);
+   fi;
    graphs[i]:=DirectedEdges(
       GraphImage(graphs[i],graphs[i].canonicalLabelling^(-1)));
    # Now  graphs[i]  is the set of directed edges of the canonical 
@@ -532,6 +1133,17 @@ od;
 return reps;
 end); 
    
+BindGlobal("IsEqualBlockDesign",function(A,B)
+#
+# This boolean function returns true iff block designs  A  and  B 
+# are equal (i.e. A.v=B.v and A and B have equal block-multisets).  
+#
+if not IsBlockDesign(A) or not IsBlockDesign(B) then
+   Error("usage: IsEqualBlockDesign( <BlockDesign>, <BlockDesign> )");
+fi;
+return A.v=B.v and A.blocks=B.blocks;
+end); 
+
 BindGlobal("IsIsomorphicBlockDesign",function(A,B)
 #
 # This boolean function returns true iff block designs  A  and  B 
@@ -540,6 +1152,9 @@ BindGlobal("IsIsomorphicBlockDesign",function(A,B)
 #
 if not IsBlockDesign(A) or not IsBlockDesign(B) then
    Error("usage: IsIsomorphicBlockDesign( <BlockDesign>, <BlockDesign> )");
+fi;
+if IsEqualBlockDesign(A,B) then
+   return true;
 fi;
 if A.v<>B.v or BlockSizes(A)<>BlockSizes(B) or BlockNumbers(A)<>BlockNumbers(B) then 
    return false;
@@ -577,7 +1192,7 @@ od;
 if ForAny(dualblocks,x->Length(x)=0) then
    Error("each point of <D> must lie on at least one block");
 fi;
-dual:=BlockDesign(Length(D.blocks),AsSortedList(dualblocks));
+dual:=BlockDesign(Length(D.blocks),dualblocks);
 if IsBound(D.pointNames) then
    dual.pointNames:=Immutable(List(D.blocks,x->D.pointNames{x}));   
 else 
@@ -594,16 +1209,13 @@ BindGlobal("ComplementBlocksBlockDesign",function(D)
 # those of  D.
 #
 local newblocks,newdesign;
-if not IsBlockDesign(D) then
-   Error("usage: ComplementBlocksBlockDesign( <BlockDesign> )");
-fi;
 if not IsBinaryBlockDesign(D) then
-   Error("<D> must be a binary block design");
+   Error("usage: ComplementBlocksBlockDesign( <BinaryBlockDesign> )");
 fi;
 if ForAny(D.blocks,x->Length(x)=D.v) then
    Error("<D> must not contain a complete block");
 fi;
-newblocks:=AsSortedList(List(D.blocks,x->Difference([1..D.v],x)));
+newblocks:=List(D.blocks,x->Difference([1..D.v],x));
 newdesign:=BlockDesign(D.v,newblocks);
 if IsBound(D.pointNames) then
    newdesign.pointNames:=Immutable(D.pointNames);   
@@ -614,41 +1226,351 @@ fi;
 return newdesign;
 end); 
 
+BindGlobal("DeletedPointsBlockDesign",function(D,Y)
+#
+# Suppose  D  is a block design, and  Y  is a proper subset of the 
+# point-set of  D.
+# 
+# Then this function returns a block design  F  obtained from  D 
+# by deleting the points in  Y  from the point-set of  D,  and
+# removing the points in  Y  from each block of  D.
+# It is an error if  F  then contains an empty block. 
+# The points of  F  are relabelled with   [1..D.v-Length(Y)], 
+# preserving the order of the corresponding points in  D. 
+# The corresponding point-names of D become the point-names of F.
+#
+local newblocks,newpoints,newlabels,i,newdesign;
+if not (IsBlockDesign(D) and IsSet(Y)) then
+   Error("usage: DeletedPointsBlockDesign( <BlockDesign>, <Set> )");
+fi;
+if Y=[] then
+   # no points to delete
+   return StructuralCopy(D);
+fi;
+if not IsSubset([1..D.v],Y) or Length(Y)=D.v then 
+   Error("<Y> must be a proper subset of [1..<D>.v]");
+fi;
+newblocks:=List(D.blocks,x->Filtered(x,y->not (y in Y)));
+if ForAny(newblocks,x->x=[]) then
+   Error("cannot create a block design with empty blocks");
+fi;
+newpoints:=Difference([1..D.v],Y);
+newlabels:=[];
+for i in [1..Length(newpoints)] do
+   newlabels[newpoints[i]]:=i;
+od;
+# now relabel the points in the new blocks
+newblocks:=List(newblocks,x->newlabels{x});
+newdesign:=BlockDesign(Length(newpoints),newblocks);
+if not IsBound(D.pointNames) then 
+   newdesign.pointNames:=Immutable(newpoints);
+else
+   newdesign.pointNames:=Immutable(D.pointNames{newpoints});
+fi;
+return newdesign;
+end); 
+
+BindGlobal("DeletedBlocksBlockDesign",function(D,Y)
+#
+# Suppose  D  is a block design, and  Y  is a proper sublist of the 
+# block-list of  D.  Y  need not be sorted.
+# 
+# Then this function returns a block design  F  obtained from  D 
+# by deleting the blocks in  Y  (counting repeats) from the block-list 
+# of  D. 
+#
+local blocks,newblocks,i,j,jj,newdesign;
+if not (IsBlockDesign(D) and IsList(Y)) then
+   Error("usage: DeletedBlocksBlockDesign( <BlockDesign>, <List> )");
+fi;
+if Y=[] then 
+   # no blocks to delete
+   return StructuralCopy(D);
+fi;
+blocks:=D.blocks;
+if Length(Y)=Length(blocks) then 
+   Error("<Y> must be a proper sublist of <D>.blocks");
+fi;
+if not IsSortedList(Y) then
+   Y:=SortedList(Y);
+fi;
+newblocks:=[];
+i:=1;
+j:=1;
+while i<=Length(Y) and j<=Length(blocks) do
+   if Y[i]<blocks[j] then
+      Error("<Y> is not a sublist of <D>.blocks");
+   elif Y[i]=blocks[j] then
+      # deleted block
+      i:=i+1;
+      j:=j+1;
+   else
+      # blocks[j] is not deleted
+      Add(newblocks,blocks[j]);
+      j:=j+1;
+   fi;
+od;
+if i<=Length(Y) then
+   # not all elements of  Y  are in  blocks.
+   Error("<Y> is not a sublist of <D>.blocks");
+fi;
+for jj in [j..Length(blocks)] do
+   Add(newblocks,blocks[jj]);
+od;
+newdesign:=BlockDesign(D.v,newblocks);
+if IsBound(D.pointNames) then 
+   newdesign.pointNames:=Immutable(D.pointNames);
+fi;
+return newdesign;
+end); 
+
+BindGlobal("AddedPointBlockDesign",function(arg)
+#
+# Suppose  D=arg[1]  is a block design, and  Y=arg[2]  is a sublist 
+# of the block-list of  D.  Y  need not be sorted.
+# 
+# Then this function returns the block design  F  obtained from  D 
+# by adding the new point  D.v+1,  and adding this point (once) to each 
+# block in  Y  (including repeats).  
+#
+# The optional parameter  arg[3]  is used to specify a point-name for 
+# the new point.
+#
+local D,Y,newpoint,blocks,i,j,newdesign,pointname;
+D:=arg[1];
+Y:=arg[2];
+if not (IsBlockDesign(D) and IsList(Y)) then
+   Error("usage: AddedPointBlockDesign( <BlockDesign>, <List> [, <Obj> ] )");
+fi;
+if not IsSortedList(Y) then
+   Y:=SortedList(Y);
+fi;
+newpoint:=D.v+1;
+blocks:=ShallowCopy(D.blocks);
+i:=1;
+j:=1;
+while i<=Length(Y) and j<=Length(blocks) do
+   if Y[i]<blocks[j] then
+      Error("<Y> is not a sublist of <D>.blocks");
+   elif Y[i]=blocks[j] then
+      # add the new point to  blocks[j]
+      blocks[j]:=SortedList(Concatenation(blocks[j],[newpoint]));
+      i:=i+1;
+      j:=j+1;
+   else
+      # blocks[j] is not altered
+      j:=j+1;
+   fi;
+od;
+if i<=Length(Y) then
+   # not all elements of  Y  are in  blocks.
+   Error("<Y> is not a sublist of <D>.blocks");
+fi;
+newdesign:=BlockDesign(D.v+1,blocks);
+if IsBound(arg[3]) then
+   pointname:=arg[3];
+else
+   pointname:=newpoint;
+fi;
+if IsBound(D.pointNames) then 
+   newdesign.pointNames:=Immutable(Concatenation(D.pointNames,[pointname]));
+elif IsBound(arg[3]) then
+   newdesign.pointNames:=Immutable(Concatenation([1..D.v],[pointname]));
+fi;
+return newdesign;
+end); 
+
+BindGlobal("AddedBlocksBlockDesign",function(D,Y)
+#
+# Suppose  Y  is a list of multisets of points of the block design  D.
+# Then this function returns a new block design, whose point-set
+# is that of  D,  and whose block list is that of  D  with
+# the elements of  Y  (including repeats)  added.
+#
+local newdesign;
+if not (IsBlockDesign(D) and IsList(Y)) then
+   Error("usage: AddedBlocksBlockDesign( <BlockDesign>, <List> )");
+fi;
+if Y=[] then 
+   # no blocks to add
+   return StructuralCopy(D);
+fi;
+newdesign:=BlockDesign(D.v,Concatenation(D.blocks,Y));
+if IsBound(D.pointNames) then 
+   newdesign.pointNames:=Immutable(D.pointNames);
+fi;
+return newdesign;
+end); 
+
+BindGlobal("DerivedBlockDesign",function(D,x)
+#
+# Suppose  D  is a block design, and  x  is a point or block of  D.
+# Then this function returns the derived block design  DD  of  D,
+# with respect to  x.
+#
+# If  x  is a point then  DD  is the block design whose blocks 
+# are those of  D  containing  x,  but with  x  deleted from these
+# blocks, and the points of  DD  are those which occur in some block
+# of  DD.
+#
+# If  x  is a block, then the points of  DD  are the points in  x,  and 
+# the blocks of  DD  are the blocks of  D  other than  x  containing 
+# at least one point of  x,  but with all points not in  x  deleted from 
+# these blocks.  Note that any repeat of  x,  but not  x  itself, 
+# is a block of  DD.
+#
+# It is an error if the resulting block design  DD  has 
+# no blocks or an empty block.
+#
+# The points of  DD  are relabelled with  1,2,...,
+# preserving the order of the corresponding points in  D. 
+# The corresponding point-names of D become the point-names of DD.
+#
+local newpoints,newblocks,DD; 
+if not (IsBlockDesign(D) and (IsInt(x) or IsList(x))) then
+   Error("usage: DerivedBlockDesign( <BlockDesign>, <Int> or <List> )");
+fi;
+if not (x in BlockDesignPoints(D)) and not (x in BlockDesignBlocks(D)) then
+   Error("<x> must be a point or block of <D>");
+fi; 
+if IsInt(x) then
+   # x is a point
+   newblocks:=List(Filtered(D.blocks,A->x in A),A->Filtered(A,y->y<>x));
+   if newblocks=[] or ForAny(newblocks,x->x=[]) then
+      Error("cannot create a block design with no blocks or with empty blocks");
+   fi;
+   newpoints:=Union(newblocks); 
+else 
+   # x is a block
+   newpoints:=ShallowCopy(x);
+   newblocks:=ShallowCopy(D.blocks);
+   Remove(newblocks,PositionSorted(newblocks,x));
+   newblocks:=Filtered(List(newblocks,A->Filtered(A,y->y in x)),A->A<>[]); 
+   if newblocks=[] then
+      Error("cannot create a block design with no blocks");
+   fi;
+fi;
+DD:=BlockDesign(D.v,newblocks);
+if IsBound(D.pointNames) then 
+   DD.pointNames:=Immutable(D.pointNames);
+fi;
+# now strip out the points not in newpoints, and relabel the points
+DD:=DeletedPointsBlockDesign(DD,Difference(BlockDesignPoints(DD),newpoints));
+return DD;
+end); 
+
+BindGlobal("ResidualBlockDesign",function(D,x)
+#
+# Suppose  D  is a block design, and  x  is a point or block of  D.
+# Then this function returns the residual block design  RD  of  D,
+# with respect to  x.
+#
+# If  x  is a point then  RD  is the block design whose blocks 
+# are those of  D  not containing  x,  and the points of  RD  are those 
+# which occur in some block of  RD.
+#
+# If  x  is a block, then the points of  RD  are those of  D  not in  x,  
+# and the blocks of  RD  are the blocks of  D  (including repeats) 
+# containing at least one point not in  x,  but with all points in  x  
+# deleted from these blocks.  
+#
+# It is an error if the resulting block design  RD  has no blocks.
+#
+# The points of  RD  are relabelled with  1,2,...,
+# preserving the order of the corresponding points in  D. 
+# The corresponding point-names of D become the point-names of RD.
+#
+local newpoints,newblocks,RD; 
+if not (IsBlockDesign(D) and (IsInt(x) or IsList(x))) then
+   Error("usage: ResidualBlockDesign( <BlockDesign>, <Int> or <List> )");
+fi;
+if not (x in BlockDesignPoints(D)) and not (x in BlockDesignBlocks(D)) then
+   Error("<x> must be a point or block of <D>");
+fi; 
+if IsInt(x) then
+   # x is a point
+   newblocks:=Filtered(D.blocks,A->not(x in A));
+   if newblocks=[] then
+      Error("cannot create a block design with no blocks");
+   fi;
+   newpoints:=Union(newblocks); 
+else 
+   # x is a block
+   newpoints:=Difference(BlockDesignPoints(D),x);
+   newblocks:=Filtered(List(D.blocks,A->Filtered(A,y->not (y in x))),A->A<>[]);
+   if newblocks=[] then
+      Error("cannot create a block design with no blocks");
+   fi;
+fi;
+RD:=BlockDesign(D.v,newblocks);
+if IsBound(D.pointNames) then 
+   RD.pointNames:=Immutable(D.pointNames);
+fi;
+# now strip out the points not in newpoints, and relabel the points
+RD:=DeletedPointsBlockDesign(RD,Difference(BlockDesignPoints(RD),newpoints));
+return RD;
+end); 
+
 BindGlobal("TDesignFromTBD",function(D,t,K)
 #
-# Given that  D  is a  t-(v,K,lambda),  with 
-# 0 < t <= K[1] < K[2] < ... < K[Length(K)] <= v, this function returns the
-# t-(v,K[1],n*lambda) obtained by applying the McSorley-Soicher construction.
+# Let  D  be a  t-(v,K,lambda)  design, where  t  is a positive integer 
+# and  K  is a nonempty set of integers such that 
+# t <= K[1] < K[2] < ... < K[Length(K)] <= v, and let  k = K[1].  
+# Then this function returns a certain   t-(v,k,n*lambda)  design,
+# where  n = Lcm(Binomial(K[1]-t,k-t),...,Binomial(K[Length(K)]-t,k-t)). 
 #
-local newblocks,block,n,c,j,newdesign;
-if not IsBlockDesign(D) or not IsInt(t) or not IsSet(K) then
-   Error("usage: TDesignFromTBD( <BlockDesign>, <Int>, <Set> )");
-fi;
-if not IsBinaryBlockDesign(D) then 
-   Error("<D> must be binary");
+# If  K  is not a set, then it must be an integer,  k  say, such that 
+# t <= k <= Minimum(BlockSizes(D)),  and then this function returns 
+# TDesignFromTBD(D, t, Union([k],BlockSizes(D) ),  which is the
+# design  D*(t,k),  described and studied in
+# J.P. McSorley and L.H. Soicher, Constructing t-designs from t-wise 
+# balanced designs, European J. Combinatorics, to appear. 
+# 
+local k,lambdas,lambda,newblocks,block,n,c,j,newdesign;
+if not (IsBinaryBlockDesign(D) and IsInt(t) and (IsInt(K) or IsSet(K))) then
+   Error("usage: TDesignFromTBD( <BinaryBlockDesign>, <Int>, <Int> or <Set> )");
 fi;
 if t<=0 then 
    Error("<t> must be positive");
 fi;
-if K=[] or not ForAll(K,IsInt) or K[1]<t or K[Length(K)]>D.v 
+if IsInt(K) then 
+   k:=K;
+   if k<t or k>Minimum(BlockSizes(D)) then 
+      Error("must have <t> <= <k> <= Minimum(BlockSizes(<D>))");
+   fi;
+   K:=Union([k],BlockSizes(D));
+else
+   #  K  is a set.
+   if K=[] or not ForAll(K,IsInt) or K[1]<t or K[Length(K)]>D.v 
       or not IsSubset(K,BlockSizes(D)) then
-   Error("invalid <K>");
+      Error("invalid <K>");
+   fi;
+   k:=K[1];
 fi;
-if Length(Set(TSubsetLambdasVector(D,t))) > 1 then
-   Error("<D> is not t-wise balanced");
+lambdas:=TSubsetStructure(D,t).lambdas;
+if Length(lambdas) <> 1 then
+   Error("<D> is not <t>-wise balanced");
 fi;
-n:=Lcm(List(K,x->Binomial(x-t,K[1]-t)));
+lambda:=lambdas[1];
+n:=Lcm(List(K,x->Binomial(x-t,k-t)));
 newblocks:=[];
 for block in D.blocks do
-   for c in Combinations(block,K[1]) do
-      for j in [1..n/Binomial(Length(block)-t,K[1]-t)] do 
+   for c in Combinations(block,k) do
+      for j in [1..n/Binomial(Length(block)-t,k-t)] do 
          Add(newblocks,c);
       od;
    od;
 od;
-newdesign:=rec(isBlockDesign:=true,v:=D.v,blocks:=AsSortedList(newblocks));
+newdesign:=BlockDesign(D.v,newblocks);
 if IsBound(D.pointNames) then
    newdesign.pointNames:=Immutable(D.pointNames);
+fi;
+if lambda=1 and t<k and IsBound(D.autGroup) then
+   newdesign.autGroup:=D.autGroup;
+elif IsBound(D.autGroup) then
+   newdesign.autSubgroup:=D.autGroup;
+elif IsBound(D.autSubgroup) then
+   newdesign.autSubgroup:=D.autSubgroup;
 fi;
 return newdesign;
 end);
@@ -680,23 +1602,21 @@ end);
 
 BindGlobal("BlockDesigns",function(param)
 #
-# Function to classify (possibly resolved and simple) block designs 
-# with given properties. 
+# Function to classify block designs with given properties. 
 #
 # These block designs need not be simple and block sizes 
 # need not be constant.  These block designs need not even be
 # binary, although this is the default.
 #
-local t,v,blocksizes,k,lambda,blocknumbers,blockmaxmultiplicities,resolvesimple,
-      r,blockintersectionnumbers,isolevel,C,G,B,N,ntflags,
-      standardact,resolvesimpleact,act,standardrel,resolvesimplerel,rel,
-      standardweightvector,resolvesimpleweightvector,weightvector,
-      projection1,projection2,gamma,KK,L,S,s,hom,GG,CC,NN,leastreps,
-      clique,ans,blockbags,c,d,i,j,issimple,allbinary,tsubsetstructure,
-      blocks,blockdesign,A,kk,resolution,
-      tsubsets,maxlambda,targetvector,weightvectors;
+local t,v,b,blocksizes,k,lambda,blocknumbers,blockmaxmultiplicities,
+   r,blockintersectionnumbers,isolevel,C,G,B,N,ntflags,
+   act,rel,weightvector,gamma,KK,L,S,s,hom,GG,CC,NN,leastreps,
+   clique,ans,blockbags,c,d,i,j,issimple,allbinary,tsubsetstructure,
+   blocks,blockdesign,A,kk,AA,tsubsets,maxlambda,targetvector,weightvectors,
+   designinfo,lambdavec,lambdamat,m,T,bb,justone,isnormal,issylowtowergroup,
+   testfurther;
 
-standardact := function(x,g) 
+act := function(x,g) 
 # The boolean variable  allbinary  is global, and  allbinary=true 
 # iff all possible blocks are sets.
 if allbinary or IsSet(x.comb) then
@@ -706,8 +1626,8 @@ else
 fi;
 end;
              
-standardweightvector := function(x)
-# param, t, blocksizes, and tsubsets are global
+weightvector := function(x)
+# param, v, t, blocksizes, and tsubsets are global
 local wv,c,i,xx;
 wv:=ListWithIdenticalEntries(Length(tsubsets),0);
 xx:=ListWithIdenticalEntries(v,0);
@@ -729,12 +1649,15 @@ if IsBound(param.blockNumbers) then
       fi;
    od;
 fi;
+if IsBound(param.b) then
+   Add(wv,x.mult);
+fi;
 return wv;
 end;
 
-standardrel := function(x,y) 
-# v, blocksizes, targetvector, blockbags, weightvectors, and 
-# blockintersectionnumbers  are global.
+rel := function(x,y) 
+# v, blocksizes, targetvector, blockbags, weightvectors, 
+# and blockintersectionnumbers are global.
 # The parameters x and y are indices into blockbags (and weightvectors).
 local i,xx,yy,s;
 if blockbags[x].comb=blockbags[y].comb then
@@ -744,76 +1667,37 @@ s:=weightvectors[x]+weightvectors[y];
 if HasLargerEntry(s,targetvector) then
    return false;
 fi;
-xx:=ListWithIdenticalEntries(v,0);
-yy:=ListWithIdenticalEntries(v,0);
-for i in blockbags[x].comb do 
-   xx[i]:=xx[i]+1;
-od;
-for i in blockbags[y].comb do 
-   yy[i]:=yy[i]+1;
-od;
-s:=0;
-for i in [1..v] do
-   s:=s+Minimum(xx[i],yy[i]);
-od;
+if allbinary or (IsSet(x) and IsSet(y)) then
+   s:=Size(Intersection(blockbags[x].comb,blockbags[y].comb));
+else 
+   xx:=ListWithIdenticalEntries(v,0);
+   yy:=ListWithIdenticalEntries(v,0);
+   for i in blockbags[x].comb do 
+      xx[i]:=xx[i]+1;
+   od;
+   for i in blockbags[y].comb do 
+      yy[i]:=yy[i]+1;
+   od;
+   s:=0;
+   for i in [1..v] do
+      s:=s+Minimum(xx[i],yy[i]);
+   od;
+fi;
 return 
    s in blockintersectionnumbers[Position(blocksizes,Length(blockbags[x].comb))][Position(blocksizes,Length(blockbags[y].comb))]; 
 end;
 
-resolvesimpleact := function(x,g) 
-# projection1, projection2 are global
-return rec(comb:=OnSets(x.comb,Image(projection1,g)),
-           class:=x.class^Image(projection2,g));
-end;
-          
-resolvesimpleweightvector := function(x)
-# param, t, blocksizes, r, and tsubsets are global
-local wv,c,i;
-wv:=ListWithIdenticalEntries(Length(tsubsets)+r,0);
-for c in Combinations(x.comb,t) do
-   wv[PositionSorted(tsubsets,c)]:=1;
-od;
-wv[Length(tsubsets)+x.class]:=Length(x.comb);
-if IsBound(param.blockNumbers) then 
-   for i in [1..Length(blocksizes)] do
-      if Length(x.comb)=blocksizes[i] then
-         Add(wv,1);
-      else
-         Add(wv,0);
-      fi;
-   od;
-fi;
-return wv;
-end;
-
-resolvesimplerel := function(x,y) 
-# blocksizes, targetvector, blockbags, weightvectors, and
-# blockintersectionnumbers  are global.
-# The parameters x and y are indices into blockbags (and weightvectors).
-local s;
-if blockbags[x].comb=blockbags[y].comb then 
-   return false;
-fi;
-s:=weightvectors[x]+weightvectors[y];
-if HasLargerEntry(s,targetvector) then
-   return false;
-fi;
-if blockbags[x].class=blockbags[y].class then 
-   # same parallel class
-   return Intersection(blockbags[x].comb,blockbags[y].comb)=[];
-fi;
-return Size(Intersection(blockbags[x].comb,blockbags[y].comb)) in 
-         blockintersectionnumbers[Position(blocksizes,Length(blockbags[x].comb))][Position(blocksizes,Length(blockbags[y].comb))]; 
-end;
-   
+#
+# begin BlockDesigns
+# 
 if not IsRecord(param) then
    Error("usage: BlockDesigns( <Record> )");
 fi;
 param:=ShallowCopy(param);
 if not IsSubset(["v","blockSizes","tSubsetStructure","blockDesign",
                  "blockMaxMultiplicities","blockIntersectionNumbers",
-		 "blockNumbers","r","isoLevel","isoGroup",
-		 "requiredAutSubgroup","resolveSimple"], 
+		 "r","blockNumbers","b","isoLevel","isoGroup",
+		 "requiredAutSubgroup"], 
                 RecNames(param)) then
    Error("<param> contains an invalid component-name");
 fi;   
@@ -831,8 +1715,7 @@ fi;
 if Length(blocksizes)=1 then 
    k:=blocksizes[1];
 fi;
-if not IsBound(param.blockDesign) or 
-   IsBound(param.resolveSimple) and param.resolveSimple=true then
+if not IsBound(param.blockDesign) then
    allbinary:=true;
 else
    allbinary:=IsBinaryBlockDesign(param.blockDesign);
@@ -852,7 +1735,7 @@ if IsBound(tsubsetstructure.partition) then
    fi;
 elif Length(tsubsetstructure.lambdas)<>1 then
    Error("must have Length(<param>.tSubsetStructure.lambdas)=1\n",
-         "if <param>.tsubsetStructure.partition is unbound");
+         "if <param>.tSubsetStructure.partition is unbound");
 fi;
 t:=tsubsetstructure.t;
 if not (IsInt(t) and t>=0 and t<=v) then
@@ -920,9 +1803,6 @@ if IsBound(lambda) then
 else
    ntflags:=tsubsetstructure.lambdas*List(tsubsetstructure.partition,Length);
 fi;
-if IsBound(param.b) then
-   Error("<param>.b is not a valid parameter,\nUse <param>.blockNumbers");
-fi;
 if IsBound(param.blockNumbers) then
    blocknumbers:=ShallowCopy(param.blockNumbers);
    # We will require  blocknumbers[i]  blocks of size  blocksizes[i] 
@@ -933,7 +1813,8 @@ if IsBound(param.blockNumbers) then
    if Length(blocknumbers)<>Length(blocksizes) then
       Error("must have Length(<param>.blockNumbers)=Length(<param>.blockSizes)");
    fi;
-   if Sum(blocknumbers)=0 then
+   b:=Sum(blocknumbers);
+   if b=0 then
       Error("At least one element of <param>.blockNumbers must be positive");  
    fi;
    if allbinary and IsBound(ntflags) then 
@@ -948,9 +1829,25 @@ if IsBound(param.blockNumbers) then
        return [];
    fi;
 fi;
+if IsBound(param.b) then
+   # We will require exactly  param.b > 0 blocks.
+   if not IsPosInt(param.b) then
+      Error("<param>.b must be a positive integer");  
+   fi;
+   if IsBound(b) and b<>param.b then
+      # required block design cannot have  param.b  blocks. 
+      return [];
+   fi;
+   b:=param.b;
+   if IsBound(k) and allbinary and IsBound(ntflags) and
+      b<>ntflags/Binomial(k,t) then
+      # required block design cannot exist. 
+      return [];
+   fi;
+fi;
 if IsBound(param.r) then
    # We will require constant replication number = param.r > 0.
-   if not IsInt(param.r) or param.r < 1 then
+   if not IsPosInt(param.r) then
       Error("<param>.r must be a positive integer");
    fi;
    r:=param.r;
@@ -975,63 +1872,133 @@ if t=1 and IsBound(lambda) then
       r:=s;
    fi;
 fi;
-if IsBound(param.resolveSimple) and param.resolveSimple=true then 
-   resolvesimple:=true;
-   act:=resolvesimpleact;
-   rel:=resolvesimplerel;
-   weightvector:=resolvesimpleweightvector;
-   if IsBound(k) and v mod k <> 0 then
-      # no resolutions
-      return [];
-   fi; 
-   if not IsBound(r) then
-      Error("must give <param>.r");
-   fi;
-   blockmaxmultiplicities:=List(blockmaxmultiplicities,x->Minimum(x,1));
-else
-   resolvesimple:=false;
-   act:=standardact;
-   rel:=standardrel;
-   weightvector:=standardweightvector;
-fi;
 if allbinary and IsBound(k) and IsBound(lambda) then
-   #
-   # We are looking for t-designs. 
-   #
-   if v<k then
-      # no blocks, but the given parameters force at least one block
+   if k>v then
+      # requirements force at least one block, but this is impossible
       return [];
    fi;
-   s:=List([0..t],i->lambda*Binomial(v-i,t-i)/Binomial(k-i,t-i));
-   if not ForAll(s,IsInt) then
-      # parameters t-(v,k,lambda) are inadmissible
+   #
+   # We now have v,k,lambda>0, 0<=t<=k<=v, 
+   # and are looking for t-(v,k,lambda) designs. 
+   #
+   s:=TDesignLambdas(t,v,k,lambda);
+   if s=fail then
+      # parameters t-(v,k,lambda) inadmissible
       return [];
    fi;
-   if t>=2 and k<v then 
-      # We are looking for BIBDs.
-      if s[1]<v then 
-          # Fisher's inequality is not satisfied.
-          return [];
-      fi;
-      if s[1]=v then
-         # symmetric BIBD
-         if t>2 and k<>v-1 then
-            # no possible design
-            return [];
-         elif t=2 then
-            # Each pair of distinct blocks must meet in exactly lambda  points.
-            blockintersectionnumbers[1][1]:=
-               Intersection(blockintersectionnumbers[1][1],[lambda]);
-         fi;
-      fi;
+   blockmaxmultiplicities[1]:=Minimum(blockmaxmultiplicities[1],
+      TDesignBlockMultiplicityBound(t,v,k,lambda));
+   if blockmaxmultiplicities[1]<1 then
+      return [];
    fi;
-fi;  
+   if t>=2 then 
+      if k<v and s[1]=v then
+         # Possible SBIBD; each pair of distinct blocks must meet 
+         # in exactly  s[3]  points.
+         blockintersectionnumbers[1][1]:=
+            Intersection(blockintersectionnumbers[1][1],[s[3]]);
+      fi;
+      designinfo:=rec(lambdavec:=Immutable(s));
+      if lambda=1 then
+         # We are looking for Steiner systems, so we know how many blocks
+         # intersect a given block in a given number of points.
+         designinfo.blockmmat:=[];
+         T:=SteinerSystemIntersectionTriangle(t,v,k);
+         T:=List([1..k+1],i->Binomial(k,i-1)*T[i][k+2-i]);
+         designinfo.blockmmat[k]:=Immutable(T);
+      fi;
+   fi;   
+   if blockintersectionnumbers[1][1]=[] then
+      return [];
+   fi;
+elif allbinary and t=2 and IsBound(lambda) then
+   # We are looking for pairwise-balanced designs. 
+   if (lambda*(v-1)) mod Gcd(List(blocksizes,x->x-1)) <> 0 then
+      return [];
+   fi;
+   if (lambda*v*(v-1)) mod Gcd(List(blocksizes,x->x*(x-1))) <> 0 then
+      return [];
+   fi;
+   if IsBound(b) then
+      if b<lambda*Binomial(v,2)/Binomial(Maximum(blocksizes),2) 
+         # b is too small
+         or b>lambda*Binomial(v,2)/Binomial(Minimum(blocksizes),2) then
+         # or b is too big
+         return [];
+      fi;
+      if not (v in blocksizes) and b<v then
+         # Generalized Fisher inequality is not satisfied.
+         return [];
+      fi;
+   elif not (v in blocksizes) and 
+      lambda*Binomial(v,2)/Binomial(Minimum(blocksizes),2)<v then
+      # Generalized Fisher inequality is not satisfied.
+      return [];
+   fi;
+   if IsBound(r) and IsBound(b) then
+      designinfo:=rec(lambdavec:=Immutable([b,r,lambda]));
+   fi;
+elif allbinary and t=2 and IsBound(k) then
+   lambdamat:=NullMat(v,v,Rationals);
+   for i in [1..Length(tsubsetstructure.partition)] do
+      for c in tsubsetstructure.partition[i] do
+         lambdamat[c[1]][c[2]]:=tsubsetstructure.lambdas[i];
+         lambdamat[c[2]][c[1]]:=lambdamat[c[1]][c[2]];
+      od;
+   od;
+   for i in [1..v] do
+      lambdamat[i][i]:=Sum(lambdamat[i])/(k-1);
+      if not IsInt(lambdamat[i][i]) or 
+        (IsBound(r) and lambdamat[i][i]<>r) then
+         return [];
+      fi;
+   od; 
+   if ForAll([1..v],i->lambdamat[i][i]=lambdamat[1][1]) then
+      r:=lambdamat[1][1];
+   fi;
+   bb:=Sum(List([1..v],i->lambdamat[i][i]))/k;
+   if not IsInt(bb) or (IsBound(b) and b<>bb) then 
+      return [];
+   else
+      b:=bb;
+   fi;
+   if IsBound(r) then
+      designinfo:=
+         rec(lambdavec:=Immutable([b,r]),lambdamat:=Immutable(lambdamat));
+   else
+      designinfo:=
+         rec(lambdavec:=Immutable([b]),lambdamat:=Immutable(lambdamat));
+   fi;
+fi;
 for i in [1..Length(blockmaxmultiplicities)] do 
    if blockmaxmultiplicities[i]>1 and 
       not (blocksizes[i] in blockintersectionnumbers[i][i]) then 
       blockmaxmultiplicities[i]:=1;
    fi;
 od;
+if IsBound(designinfo) and Length(designinfo.lambdavec)>=3 then
+   # Apply bound of Cameron and Soicher to each block max-multiplicity. 
+   if Length(designinfo.lambdavec) mod 2 = 0 then
+      lambdavec:=designinfo.lambdavec{[1..Length(designinfo.lambdavec)-1]};
+   else
+      lambdavec:=designinfo.lambdavec;
+   fi;
+   for i in [1..Length(blockmaxmultiplicities)] do
+      m:=ListWithIdenticalEntries(blocksizes[i]+1,0);
+      while m[blocksizes[i]+1]<=blockmaxmultiplicities[i] and 
+         BlockIntersectionPolynomialCheck(m,lambdavec) do
+         m[blocksizes[i]+1]:=m[blocksizes[i]+1]+1;
+      od;
+      blockmaxmultiplicities[i]:=m[blocksizes[i]+1]-1;
+      if blockmaxmultiplicities[i]<0 then
+         return [];
+      fi;
+   od;
+fi;
+if ForAll(blockmaxmultiplicities,x->x=0) then
+   # no blocks, but the given parameters force at least one block
+   return [];
+fi;
 if IsBound(param.isoLevel) then 
    isolevel:=param.isoLevel;
 else
@@ -1091,13 +2058,6 @@ else
       G:=PreImage(hom,GG);
    fi;
 fi;
-if resolvesimple then
-   kk:=Size(G);
-   G:=DirectProduct(G,SymmetricGroup(r));
-   SetSize(G,kk*Factorial(r));
-   projection1:=Projection(G,1);
-   projection2:=Projection(G,2);
-fi;
 if IsBound(param.requiredAutSubgroup) then 
    if not IsSubgroup(G,param.requiredAutSubgroup) then
       Error("<param>.requiredAutSubgroup must be a subgroup of <G>");
@@ -1114,12 +2074,12 @@ if IsBound(param.blockDesign) then
       if IsSet(c[1]) then
          s:=c[1];
       else 
-          s:=Set(c[1]);
+         s:=Set(c[1]);
       fi;
       if Length(s)<t then
          Error("cannot give possible block with fewer than <t> distinct elements");
       fi;
-      if Length(c[1]) in blocksizes and (not resolvesimple or IsSet(c[1])) then
+      if Length(c[1]) in blocksizes then
          # cannot reject this possible block out of hand
          d:=blockmaxmultiplicities[Position(blocksizes,Length(c[1]))];
          for i in Reversed([1..Minimum(c[2],d)]) do 
@@ -1127,9 +2087,6 @@ if IsBound(param.blockDesign) then
          od;
       fi;
    od;
-   if resolvesimple then
-      blockbags:=List(Cartesian([1..r],blockbags),x->rec(class:=x[1],comb:=x[2].comb));
-   fi;
 else 
    for i in [1..Length(blocksizes)] do
       if blocksizes[i]>v then
@@ -1141,16 +2098,10 @@ else
       # no blocks, but the given parameters force at least one block
       return [];
    fi;
-   if resolvesimple then
-      blockbags:=Concatenation(List(Reversed([1..Length(blocksizes)]),i->
-            List(Cartesian([1..r],Combinations([1..v],blocksizes[i])),
-                  x->rec(class:=x[1],comb:=x[2]))));
-   else 
-      blockbags:=Concatenation(List(Reversed([1..Length(blocksizes)]),i->
-          List(Cartesian(Reversed([1..blockmaxmultiplicities[i]]),
-                  Combinations([1..v],blocksizes[i])),
-                  x->rec(mult:=x[1],comb:=x[2]))));
-   fi;
+   blockbags:=Concatenation(List(Reversed([1..Length(blocksizes)]),i->
+       List(Cartesian(Reversed([1..blockmaxmultiplicities[i]]),
+               Combinations([1..v],blocksizes[i])),
+               x->rec(mult:=x[1],comb:=x[2]))));
 fi;
 if IsBound(lambda) then 
    targetvector:=ListWithIdenticalEntries(Length(tsubsets),lambda);
@@ -1162,113 +2113,123 @@ else
       od;
    od;
 fi;
-if resolvesimple then
-   targetvector:=Concatenation(targetvector,ListWithIdenticalEntries(r,v));
-else
-   if IsBound(param.r) then 
-      targetvector:=Concatenation(targetvector,ListWithIdenticalEntries(v,r));
-   fi;
+if IsBound(param.r) then 
+   targetvector:=Concatenation(targetvector,ListWithIdenticalEntries(v,r));
 fi;
 if IsBound(param.blockNumbers) then 
    Append(targetvector,blocknumbers);
+fi;
+if IsBound(param.b) then 
+   Add(targetvector,b);
 fi;
 hom:=ActionHomomorphism(G,blockbags,act,"surjective");
 GG:=Image(hom);
 StabChainOp(GG,rec(limit:=Size(G)));
 weightvectors:=List(blockbags,weightvector); # needed for function  rel
-if IsTrivial(C) then
-   gamma:=Graph(GG,[1..Length(blockbags)],OnPoints,rel,true); 
-   gamma.names:=Immutable(List([1..gamma.order],x->[x]));
-   KK:=CompleteSubgraphsMain(gamma,targetvector,isolevel,false,false,
-         weightvectors,[1..Length(targetvector)]);
-else
-   # Determine the least C-orbit representatives for the action
-   # of C on the positions in weightvectors.
-   if resolvesimple then
-      L:=List(Orbits(Image(projection1,C),tsubsets,OnSets),Minimum);
-   else
-      L:=List(Orbits(C,tsubsets,OnSets),Minimum);
-   fi;
-   leastreps:=Set(List(L,x->PositionSorted(tsubsets,x)));
-   s:=Length(tsubsets);
-   if resolvesimple then
-      Append(leastreps,Set(List(Orbits(Image(projection2,C),[1..r]),
-                                 x->s+Minimum(x)))); 
-      s:=s+r;
-   elif IsBound(param.r) then
-      Append(leastreps,Set(List(Orbits(C,[1..v]),x->s+Minimum(x)))); 
-      s:=s+v;
-   fi;
-   if IsBound(param.blockNumbers) then
-      Append(leastreps,[s+1..s+Length(blocknumbers)]);
-   fi;
-   # Make graph on (appropriate) collapsed complete Image(hom,C)-orbits.
-   CC:=Image(hom,C);
-   StabChainOp(CC,rec(limit:=Size(C)));
-   N:=Normalizer(G,C);
-   NN:=Image(hom,N);
-   StabChainOp(NN,rec(limit:=Size(N)));
-   S:=Orbits(NN,[1..Length(blockbags)]);
-   L:=[]; # initialize list of appropriate CC-orbits
-   for s in S do
-      c:=Orbit(CC,s[1]);
-      # check if  c  is appropriate
-      if ForAll([2..Length(c)],x->rel(c[1],c[x])) then
-         #  c  is a complete orbit
-         if not HasLargerEntry(Sum(weightvectors{c}),targetvector) then
-            #  c  is appropriate 
-            Append(L,Orbit(NN,Set(c),OnSets));
-         fi;
-      fi; 
-   od;
-   gamma:=Graph(NN,L,OnSets,
-                function(x,y)
-                   return ForAll(y,z->rel(x[1],z)) and not HasLargerEntry(
-                      Sum(weightvectors{x})+Sum(weightvectors{y}),targetvector);
-                end,
-                true);     
-   KK:=CompleteSubgraphsMain(gamma,targetvector{leastreps},isolevel,
-         false,false,
-         List(gamma.names,x->Sum(weightvectors{x}){leastreps}),
-         [1..Length(leastreps)]);
+# Determine the least C-orbit representatives for the action
+# of C on the positions in weightvectors.
+L:=List(OrbitsDomain(C,tsubsets,OnSets),Minimum);
+leastreps:=Set(List(L,x->PositionSorted(tsubsets,x)));
+s:=Length(tsubsets);
+if IsBound(param.r) then
+   Append(leastreps,Set(List(OrbitsDomain(C,[1..v]),x->s+Minimum(x)))); 
+   s:=s+v;
 fi;
+if IsBound(param.blockNumbers) then
+   Append(leastreps,[s+1..s+Length(blocknumbers)]);
+   s:=s+Length(blocknumbers);
+fi;
+if IsBound(param.b) then
+   Add(leastreps,s+1);
+fi;
+# Make graph on "appropriate" collapsed Image(hom,C)-orbits.
+CC:=Image(hom,C);
+StabChainOp(CC,rec(limit:=Size(C)));
+N:=Normalizer(G,C);
+NN:=Image(hom,N);
+StabChainOp(NN,rec(limit:=Size(N)));
+S:=OrbitsDomain(NN,[1..Length(blockbags)]);
+L:=[]; # initialize list of appropriate CC-orbits
+for s in S do
+   c:=Orbit(CC,s[1]);
+   # check if  c  is appropriate
+   if (not IsBound(designinfo) or PartialDesignCheck(designinfo,blockbags[c[1]].comb,blockbags{c})) and
+      ForAll([2..Length(c)],x->rel(c[1],c[x])) and
+      not HasLargerEntry(Sum(weightvectors{c}),targetvector) then
+      #  c  is appropriate 
+      Append(L,Orbit(NN,Set(c),OnSets));
+   fi;
+od;
+testfurther:=IsBound(designinfo) and Size(NN)/Size(CC)>=Length(L); 
+gamma:=Graph(NN,L,OnSets,
+   function(x,y)
+   local c;
+   if not ForAll(y,z->rel(x[1],z)) or HasLargerEntry(
+      Sum(weightvectors{x})+Sum(weightvectors{y}),targetvector) then
+      return false;
+   fi;
+   if not testfurther then
+      return true;
+   fi;
+   c:=Concatenation(blockbags{x},blockbags{y});
+   return PartialDesignCheck(designinfo,blockbags[x[1]].comb,c) and 
+      PartialDesignCheck(designinfo,blockbags[y[1]].comb,c); 
+   end,
+  true);     
+KK:=CompleteSubgraphsMain(gamma,targetvector{leastreps},isolevel,
+      false,false,
+      List(gamma.names,x->Sum(weightvectors{x}){leastreps}),
+      [1..Length(leastreps)]);
 KK:=List(KK,x->rec(clique:=Union(List(x,y->gamma.names[y]))));
-if isolevel<>1 then
-   for kk in KK do 
-      kk.stab:=Stabilizer(GG,kk.clique,OnSets);
-      kk.stabpreim:=PreImage(hom,kk.stab);
-   od;
+if isolevel=0 and Length(KK)>0 then
+   # Compute the G-stabilizer of the single design.
+   KK[1].stabpreim:=PreImage(hom,Stabilizer(GG,KK[1].clique,OnSets));
 fi;
-if isolevel=2 and (not IsNormal(G,C)) then
-   # Must perform any GG-isomorph rejection which was not already
-   # performed by  Image(hom,Normalizer(G,C)).
+if isolevel=2 then
+   #
+   # Compute the G-stabilizers of the designs, and perform
+   # any GG-isomorph rejection which is not already known to 
+   # have been performed by  Image(hom,Normalizer(G,C)).
+   #
+   justone:=Length(KK)=1;
+   if not justone then
+      isnormal:=IsNormal(G,C);
+      if not isnormal then
+         issylowtowergroup:=IsSylowTowerGroupOfSomeComplexion(C);
+      fi;
+   fi;
    L:=[];
    S:=[];
    for kk in KK do
-      A:=kk.stabpreim;
-      if Size(C)=Size(A) or 
-         Gcd(Size(C),Size(A)/Size(C))=1 and (IsSupersolvableGroup(C) or IsSolvableGroup(A))
-         or IsCyclic(C) and IsNilpotentGroup(A) and 
+      AA:=Stabilizer(GG,kk.clique,OnSets);
+      A:=PreImage(hom,AA);
+      kk.stabpreim:=A;
+      if justone or isnormal or Size(C)=Size(A) or 
+         Gcd(Size(C),Size(A)/Size(C))=1 and (issylowtowergroup or IsSolvableGroup(A)) or
+         IsCyclic(C) and IsNilpotentGroup(A) and 
             ForAll(Set(FactorsInt(Size(C))),
-               p->Index(A,SubgroupNC(A,List(GeneratorsOfGroup(A),g->g^p)))=p)
+               p->Index(A,SubgroupNC(A,List(GeneratorsOfGroup(A),g->g^p)))=p) or
+         IsSimpleGroup(C) and IsNormal(A,C) and (Size(A) mod (Size(C)^2) <> 0) 
             then
-         # C=A or C is a supersolvable Hall pi-subgroup of A, 
-         # or A is solvable and  C is a Hall pi-subgroup of A, 
-         # or A is nilpotent and C is contained in a cyclic
-         # Hall pi(C)-subgroup of A.  Thus, if A* is a group, C<=A* and 
-         # theta:A->A* is an isomorphism, then the theta-image of 
-         # the conjugacy class of C is the conjugacy class of C in A*  
-         # (see P.Hall, Theorems like Sylow's, Proc. LMS 6, 1956).
+         # KK  has just one element  or  C is normal in G  or  
+         # C=A  or  C is a Hall subgroup of A and C has a Sylow tower  or
+         # A is solvable and C is a Hall subgroup of A  or
+         # A is nilpotent and C is contained in a cyclic
+         # Hall pi(C)-subgroup of A  or
+         # C is a simple normal subgroup of A and is the only
+         # subgroup of A of its isomorphism type. 
+         # Thus, Length(KK)=1  or  C is normal in G,  or
+         # C is a "friendly" subgroup of A
+         # (see L.H. Soicher, Computational group theory problems arising
+         # from computational design theory, Oberwolfach Reports,
+         # Computational Group Theory, 2006,  and 
+         # P. Hall, Theorems like Sylow's, Proc. LMS 6, 1956).
          # It follows that isomorph-rejection of GG-images of kk.clique 
          # has already been handled by  Image(hom,Normalizer(G,C)),  
          # and so no further isomorph-rejection (using GG) is needed.
          Add(L,kk);
-      elif Number(KK,x->Size(x.stabpreim)=Size(A))=1 then
-         # A is the unique stabilizer of its size in KK, and so no other 
-         # clique in KK is in the GG-orbit of kk.clique.
-         Add(L,kk);
       else
-         s:=SmallestImageSet(GG,kk.clique,kk.stab);
+         s:=SmallestImageSet(GG,kk.clique,AA);
          if not (s in S) then 
             Add(S,s);
             Add(L,kk);
@@ -1281,41 +2242,24 @@ ans:=[];
 for kk in KK do
    blocks:=[];
    issimple:=true;
-   if resolvesimple then 
-      # initialize
-      resolution:=List([1..r],x->[]);
-   fi;
    for c in kk.clique do
-      if not resolvesimple and blockbags[c].mult>1 then 
+      if blockbags[c].mult>1 then 
          issimple:=false;
       fi;
-      if resolvesimple then 
+      for d in [1..blockbags[c].mult] do
          Add(blocks,blockbags[c].comb);
-         Add(resolution[blockbags[c].class],blockbags[c].comb);
-      else 
-         for d in [1..blockbags[c].mult] do
-            Add(blocks,blockbags[c].comb);
-         od;
-      fi;
+      od;
    od;
    blockdesign:=rec(isBlockDesign:=true,v:=v,blocks:=AsSortedList(blocks),
       tSubsetStructure:=Immutable(tsubsetstructure),  
       isBinary:=allbinary or ForAll(blocks,IsSet),isSimple:=issimple);
    blockdesign.blockSizes:=BlockSizes(blockdesign); 
    blockdesign.blockNumbers:=BlockNumbers(blockdesign);
-   c:=TSubsetLambdasVector(blockdesign,1);
-   if ForAll(c,x->x=c[1]) then
-      blockdesign.r:=c[1];
+   c:=ReplicationNumber(blockdesign);
+   if c<>fail then
+      blockdesign.r:=c;
    fi;
-   if resolvesimple then 
-      for i in [1..r] do
-         Sort(resolution[i]);
-      od;
-      blockdesign.resolution:=AsSet(resolution); 
-      if isolevel<>1 then
-         blockdesign.autSubgroup:=Image(projection1,kk.stabpreim);
-      fi;
-   elif isolevel<>1 then
+   if isolevel<>1 then
       if not IsBound(param.isoGroup) and 
          ( not IsBound(param.blockDesign) or 
             IsBound(param.blockDesign.autGroup) and 
@@ -1334,9 +2278,9 @@ return ans;
 end);
 
 BindGlobal("PartitionsIntoBlockDesigns",function(param)
-local t,v,blocksizes,k,lambda,tvector,tsubsets,tsubsetstructure,
+local t,v,b,blocksizes,k,r,lambda,tvector,tsubsets,tsubsetstructure,s,bb,rr,
       isolevel,blocknumbers,G,CC,nparts,count,orbs,orb,
-      blockdesign,B,Belements,Bmults,Bsize,nblocks,D,BD,bd,BDind,bdc,m,
+      blockdesign,B,Belements,Bmults,D,BD,bd,BDind,bdc,m,
       KK,L,P,hom,BB,GG,ans,c,i,kk,partition,subdesignparam;
 #
 # Returns partitions of  param.blockDesign  into block designs with the given 
@@ -1350,9 +2294,8 @@ fi;
 param:=ShallowCopy(param);
 if not IsSubset(["v","blockSizes","tSubsetStructure","blockDesign",
                  "blockMaxMultiplicities","blockIntersectionNumbers",
-		 "blockNumbers","r","isoLevel","isoGroup",
-		 "requiredAutSubgroup","resolveSimple"], 
-                RecNames(param)) then
+		 "r","blockNumbers","b","isoLevel","isoGroup",
+		 "requiredAutSubgroup"], RecNames(param)) then
    Error("<param> contains an invalid component-name");
 fi;   
 if not IsSubset(RecNames(param),
@@ -1363,11 +2306,6 @@ blockdesign:=param.blockDesign;
 if not IsBlockDesign(blockdesign) then 
    Error("<param>.blockDesign must be a blockdesign");
 fi;
-if IsBound(param.isoGroup) then 
-   G:=param.isoGroup;
-else 
-   G:=AutGroupBlockDesign(blockdesign);
-fi;
 v:=param.v;
 if v<>blockdesign.v then
    Error("<param>.v must be equal to <param>.blockDesign.v");
@@ -1376,11 +2314,21 @@ blocksizes:=ShallowCopy(param.blockSizes);
 if not (IsSet(blocksizes) and blocksizes<>[] and ForAll(blocksizes,IsPosInt)) then
    Error("<param>.blockSizes must be a non-empty set of positive integers"); 
 fi;
+if not IsSubset(blocksizes,BlockSizes(blockdesign)) then
+   # no partition possible
+   return [];
+fi;
 if Length(blocksizes)=1 then 
    k:=blocksizes[1];
 fi;
 tsubsetstructure:=ShallowCopy(param.tSubsetStructure);
 t:=tsubsetstructure.t;
+if not IsInt(t) or t<0 or t>v or not ForAll(blocksizes,x->x>=t) then 
+   Error("must have <t> a non-negative integer <= <v>,\nand each element of <blocksizes> >= <t>");
+fi;
+if Maximum(tsubsetstructure.lambdas)<=0 then
+   Error("at least one of <param>.tSubsetStructure.lambdas must be > 0");
+fi;
 if Length(tsubsetstructure.lambdas)=1 then
    lambda:=tsubsetstructure.lambdas[1];
 fi;
@@ -1388,38 +2336,9 @@ B:=Collected(blockdesign.blocks);
 Belements:=List(B,x->x[1]);
 IsSet(Belements);
 Bmults:=List(B,x->x[2]);
-Bsize:=Sum(Bmults);
-if IsBound(param.blockNumbers) then
-   blocknumbers:=ShallowCopy(param.blockNumbers);
-   # We will require each subdesign to have blocknumbers[i] blocks 
-   # of size blocksizes[i] for i=1,...,Length(blocksizes).
-   nblocks:=Sum(blocknumbers);
-   if nblocks<=0 then
-      Error("Must have Sum( <param>.blockNumbers ) > 0");  
-   fi; 
-   nparts:=Bsize/nblocks;
-   if not IsInt(nparts) then
-      return [];
-   fi;
-fi;
-if IsBound(param.r) then 
-   if not IsInt(param.r) or param.r < 1 then
-      Error("<param>.r must be a positive integer");
-   fi;
-   count:=TSubsetLambdasVector(param.blockDesign,1); 
-   if IsBound(nparts) then
-      if count[1]/param.r <> nparts then
-         return [];
-      fi;
-   else
-      nparts:=count[1]/param.r;
-   fi;
-   if not IsInt(nparts) or nparts=0 or not ForAll(count,x->x=count[1]) then
-      return [];
-   fi;
-fi;
+bb:=Length(blockdesign.blocks); 
 tsubsets:=Combinations([1..v],t);
-count:=TSubsetLambdasVector(param.blockDesign,t);
+count:=TSubsetLambdasVector(blockdesign,t);
 if IsBound(lambda) then
    tvector:=ListWithIdenticalEntries(Length(tsubsets),lambda);
 else
@@ -1431,16 +2350,123 @@ else
    od;
 fi;
 i:=First([1..Length(tvector)],x->tvector[x]>0);
-if IsBound(nparts) then
-   if count[i]/tvector[i] <> nparts then
-      return [];
-   fi;
-else
-   nparts:=count[i]/tvector[i];
-fi;
+nparts:=count[i]/tvector[i];
 if not IsInt(nparts) or nparts=0 or 
    not ForAll([1..Length(tsubsets)],x->count[x]=nparts*tvector[x]) then
    return [];
+fi;
+if IsBound(param.b) then
+   b:=param.b;
+   # We will require each subdesign to have exactly  b  blocks. 
+   if not IsPosInt(b) then
+      Error("<param>.b must be a positive integer");  
+   fi; 
+   if nparts<>bb/b then
+      # no partition is possible
+      return [];
+   fi;
+fi;
+if IsBound(param.blockNumbers) then
+   blocknumbers:=ShallowCopy(param.blockNumbers);
+   # We will require each subdesign to have blocknumbers[i] blocks 
+   # of size  blocksizes[i],  for i=1,...,Length(blocksizes).
+   if IsBound(b) and b<>Sum(blocknumbers) then
+      # contradictory  b
+      return [];
+   else
+      b:=Sum(blocknumbers);
+   fi;
+   if b<=0 then
+      Error("Must have Sum( <param>.blockNumbers ) > 0");  
+   fi; 
+   blocksizes:=blocksizes{Filtered([1..Length(blocknumbers)],x->blocknumbers[x]<>0)};
+   blocknumbers:=Filtered(blocknumbers,x->x<>0); 
+   if blocksizes<>BlockSizes(blockdesign) or nparts*blocknumbers<>BlockNumbers(blockdesign) then
+      # no partition is possible
+      return [];
+   fi;
+fi;
+if IsBound(param.r) then 
+   if not IsPosInt(param.r) then
+      Error("<param>.r must be a positive integer");
+   fi;
+   r:=param.r;
+   rr:=ReplicationNumber(blockdesign); 
+   if rr=fail then
+      # param.blockDesign is not equireplicate, but required subdesigns are,
+      # so no partition.
+      return [];
+   fi;
+   if rr/r<>nparts then
+      return [];
+   fi;
+fi;
+if t=1 and IsBound(lambda) and lambda=1 then
+   # We are looking for resolutions.
+   if not IsBinaryBlockDesign(blockdesign) then
+      # no resolution
+      return [];
+   fi;
+   if IsBound(k) then
+      if v mod k <> 0 then 
+         # no parallel classes
+         return [];
+      fi;
+   fi;
+fi; 
+if IsBinaryBlockDesign(blockdesign) and IsBound(k) and IsBound(lambda) then
+   if k>v or TDesignBlockMultiplicityBound(t,v,k,lambda)<1 then
+      # no required subdesigns
+      return [];
+   fi;
+   s:=TDesignLambdas(t,v,k,lambda); 
+   if s=fail then
+      # parameters t-(v,k,lambda) inadmissible 
+      return [];
+   fi;
+   if IsBound(b) and b<>s[1] then
+      # contradictory  b 
+      return [];
+   elif nparts<>bb/s[1] then
+      # no partition
+      return [];
+   else
+      b:=s[1];
+   fi;
+   if t>=1 then
+      if IsBound(r) and r<>s[2] then
+         # contradictory  r 
+         return [];
+      else
+         r:=s[2];
+         if not IsBound(rr) then
+            rr:=ReplicationNumber(blockdesign);
+            if rr=fail then
+               # param.blockDesign is not equireplicate, but required 
+               # subdesigns are, so no partition.
+               return [];
+            fi;
+         fi;
+         if rr/r<>nparts then
+            return [];
+         fi;
+      fi;
+   fi;
+fi;
+if IsBound(r) 
+   # we are partitioning into  nparts  equireplicate designs
+   and IsBinaryBlockDesign(blockdesign) and not (v in BlockSizes(blockdesign)) 
+   and PairwiseBalancedLambda(blockdesign)<>fail  
+   # blockdesign is a pairwise balanced design with no complete blocks
+   and NrBlockDesignBlocks(blockdesign)-nparts+1 < v then
+   # Generalized Bose inequality for a PBD partitioned into  nparts
+   # equireplicate designs fails; no required partition exists.
+   return [];
+fi;  
+if IsBound(param.isoGroup) then 
+   G:=param.isoGroup;
+else 
+   G:=AutGroupBlockDesign(blockdesign);
 fi;
 subdesignparam:=ShallowCopy(param);
 subdesignparam.isoLevel:=1;
@@ -1519,18 +2545,7 @@ BindGlobal("SemiLatinSquareDuals",function(arg)
 # Function to classify the duals of (n x n)/k semi-Latin squares
 # with given properties.
 #
-local n,k,resolvesimple,maxmult,concurset,isolevel,C,G,B,W,S,s,i,
-      pointnames,ProductAction;
-
-ProductAction := function(x,g) 
-#
-# Product action of the standard imprimitive wreath product Sn wr C2.
-# n  is global.
-#
-local y;
-y:=OnSets([x[1],x[2]+n],g);
-return [y[1],y[2]-n];
-end; 
+local n,k,maxmult,concurset,isolevel,C,G,B,W,S,s,i,pointnames;
 
 n:=arg[1];
 if not IsInt(n) or n<2 then 
@@ -1540,14 +2555,9 @@ k:=arg[2];
 if not IsInt(k) or k<1 then 
    Error("<k> must be a positive integer");
 fi;
-if IsBound(arg[3]) and (arg[3]="resolvesimple" or arg[3]="resolveSimple") then 
-   resolvesimple:=true;
-   maxmult:=1;
-elif IsBound(arg[3]) and arg[3]<>"default" then
-   resolvesimple:=false;
+if IsBound(arg[3]) and arg[3]<>"default" then
    maxmult:=Minimum(arg[3],k);
 else 
-   resolvesimple:=false;
    maxmult:=k; 
 fi;
 if IsBound(arg[4]) and arg[4]<>"default" then
@@ -1574,15 +2584,25 @@ fi;
 pointnames:=Immutable(Cartesian([1..n],[1..n]));
 W:=Action(
       WreathProductImprimitiveAction(SymmetricGroup(n),SymmetricGroup(2)),
-      pointnames,ProductAction);
-SetSize(W,2*Factorial(n)^2);
+      pointnames,
+      function(x,g) 
+      #
+      # Product action of the standard imprimitive wreath product Sn wr C2.
+      # n  is global.
+      #
+      local y;
+      y:=OnSets([x[1],x[2]+n],g);
+      return [y[1],y[2]-n];
+      end); 
+SetSize(W,2*Factorial(n)^2); # (n>=2)
 if IsBound(arg[7]) and arg[7]<>"default" then
    G:=arg[7];
    # 
-   # G must preserve the point-set-structure of the required subdesign(s),
-   # as well as the multiset of possible blocks (if given in)  arg[8].
-   # This is not checked here.
+   # G must preserve the point-set-structure of the required subdesign(s).
    #
+   if not IsSubgroup(W,G) then
+      Error("the isogroup <G> must be a subgroup of <W>");
+   fi;
 else
    G:=W;
 fi;
@@ -1606,8 +2626,7 @@ S:=BlockDesigns(rec(v:=n^2,blockSizes:=[n],
       isoLevel:=isolevel,
       requiredAutSubgroup:=C,
       isoGroup:=G,
-      blockDesign:=rec(isBlockDesign:=true,v:=n^2,blocks:=B),
-      resolveSimple:=resolvesimple));
+      blockDesign:=rec(isBlockDesign:=true,v:=n^2,blocks:=B)));
 for s in S do
    s.pointNames:=pointnames;
 od;
@@ -1645,14 +2664,6 @@ fi;
 if not isolevel in [0,1,2] then
    Error("<isolevel> must be 0, 1, or 2");
 fi;   
-if not IsBinaryBlockDesign(D) or
-   Length(BlockSizes(D))=1 and (D.v mod BlockSizes(D)[1] <> 0) or
-   Length(Set(TSubsetLambdasVector(D,1)))<>1 then
-   # D  has no resolution
-   D.resolutions:=Immutable(rec(list:=[],
-      pairwiseNonisomorphic:=true,allClassesRepresented:=true));
-   return;   
-fi;   
 L := PartitionsIntoBlockDesigns(rec(
    blockDesign:=D, v:=D.v, blockSizes:=BlockSizes(D),
    tSubsetStructure:=rec(t:=1,lambdas:=[1]),
@@ -1660,7 +2671,8 @@ L := PartitionsIntoBlockDesigns(rec(
 resolutions:=rec(list:=L);
 if isolevel=0 then  
    resolutions.pairwiseNonisomorphic:=true;
-   if L=[] then 
+   if L=[] or BlockSizes(D)=[D.v/2] or AffineResolvableMu(D)<>fail then 
+      # D has at most one resolution
       resolutions.allClassesRepresented:=true;
    else	 
       resolutions.allClassesRepresented:="unknown";

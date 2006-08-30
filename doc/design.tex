@@ -12,25 +12,24 @@
 
 \Chapter{Design}
 
-This manual describes the {\DESIGN}~1.1 package for {\GAP}~4.4.
-The {\DESIGN} package is for generating, classifying and studying block
-designs.
+This manual describes the {\DESIGN}~1.2 package for {\GAP} (version at
+least 4.4).  The {\DESIGN} package is for constructing, classifying,
+partitioning and studying block designs.
 
 All {\DESIGN} functions are written entirely in the {\GAP} language.
-However, {\DESIGN} requires the {\GRAPE} package \cite{Grape} to be
-installed, and makes use of certain {\GRAPE} functions, some of which
-make use of B.~D.~McKay{\pif}s {\nauty} (Version~2.0b5) package
-\cite{Nauty}. These {\GRAPE} functions can only be used on a fully
-installed version of {\GRAPE} in a UNIX environment. {\DESIGN} also
-requires the {\GAPDoc} package \cite{GAPDoc}, if you want to read lists
-of designs in the \URL{http://designtheory.org} external representation
-format (see \cite{Extrep}).
+However, {\DESIGN} requires the {\GRAPE} package \cite{Grape} (version
+at least 4.2) to be installed, and makes use of certain {\GRAPE}
+functions, some of which make use of B.~D.~McKay{\pif}s {\nauty}
+package \cite{Nauty}. These {\GRAPE} functions can only be used on a
+fully installed version of {\GRAPE} in a UNIX environment. {\DESIGN} also
+requires the {\GAPDoc} package \cite{GAPDoc} (version at least 0.99),
+if you want to read lists of designs in the \URL{http://designtheory.org}
+external representation format (see \cite{Extrep}).
 
-Except for the function `SmallestImageSet', which is Copyright
-{\copyright} Steve Linton 2003, the {\DESIGN} package is Copyright
-{\copyright} Leonard H. Soicher 2003--2004.  {\DESIGN} is part of an EPSRC
-funded project to provide a web-based resource for design theory; see
-\URL{http://designtheory.org}.
+The {\DESIGN} package is Copyright {\copyright} Leonard H. Soicher
+2003--2006.  {\DESIGN} is part of a wider project, which received EPSRC
+funding under grant GR/R29659/01, to provide a web-based resource for
+design theory; see \URL{http://designtheory.org} and \cite{Dotw}.
 
 {\DESIGN} is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +41,7 @@ If you use {\DESIGN} to solve a problem then please send a short email
 about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
 package as follows:
 
-Leonard~H. Soicher, The {DESIGN} package for {GAP},
+L.~H. Soicher, The {DESIGN} package for {GAP}, Version~1.2, 2006,
 \URL{http://designtheory.org/software/gap_design/}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,19 +51,19 @@ The {\DESIGN} package only runs properly on a UNIX system. Before
 installing {\DESIGN} (on your UNIX system), you must make sure that the
 {\GRAPE} and {\GAPDoc} packages are fully installed.
 
-To install {\DESIGN}~1.1 (after installing {\GAP}, {\GRAPE} and
-{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r1.tar.gz',
+To install {\DESIGN}~1.2 (after installing {\GAP}, {\GRAPE} and
+{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r2.tar.gz',
 available from \URL{http://designtheory.org/software/gap_design/} and 
 then copy this archive file into the `pkg' directory of the {\GAP}
 root directory. Actually, it is possible to have several {\GAP} root
 directories, and so it is easy to install {\DESIGN} locally even if you
 have no permission to add files to the main {\GAP} installation (see
 "ref:GAP Root Directory").  Now go to the appropriate `pkg' directory
-containing `design1r1.tar.gz', and then run
+containing `design1r2.tar.gz', and then run
 
 \begintt
-gunzip design1r1.tar.gz
-tar -xf design1r1.tar
+gunzip design1r2.tar.gz
+tar -xf design1r2.tar
 \endtt
 
 That's all there is to do.
@@ -121,16 +120,16 @@ create block design records and their components.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Example of the use of DESIGN}
 
-To give you an idea of the capabilities of this package, we now give an
-extended example of an application of the {\DESIGN} package, in which
-a nearly resolvable non-simple 2-(21,4,3) is constructed (for Donald
-Preece) via a pairwise-balanced design. All the {\DESIGN} functions used
-here are described in this manual.
+To give you an idea of the capabilities of this package, we now give
+an extended example of an application of the {\DESIGN} package, in
+which a nearly resolvable non-simple 2-(21,4,3) design is constructed
+(for Donald Preece) via a pairwise-balanced design. All the {\DESIGN}
+functions used here are described in this manual.
 
 The program first discovers the unique (up to isomorphism)
-pairwise-balanced 2-(21,$\{4,5\}$,1) design $D$ invariant under
-$H=\langle (1,2,\ldots,20)\rangle$, and then applies the McSorley-Soicher
-construction to this design $D$ to obtain a non-simple 2-(21,4,3) design
+pairwise-balanced 2-(21,$\{4,5\}$,1) design $D$ invariant under $H=\langle
+(1,2,\ldots,20)\rangle$, and then applies the $\*$-construction of
+\cite{McSo} to this design $D$ to obtain a non-simple 2-(21,4,3) design
 $Dstar$ with automorphism group of order 80. The program then classifies
 the near-resolutions of $Dstar$ invariant under the subgroup of order 5
 of $H$, and finds exactly two such (up to the action of $\Aut(Dstar)$).
@@ -151,9 +150,11 @@ gap> BlockNumbers(D);
 [ 20, 9 ]
 gap> Size(AutGroupBlockDesign(D));
 80
-gap> Dstar:=TDesignFromTBD(D,2,BlockSizes(D));;
+gap> Dstar:=TDesignFromTBD(D,2,4);;
 gap> AllTDesignLambdas(Dstar);
 [ 105, 20, 3 ]
+gap> IsSimpleBlockDesign(Dstar);
+false
 gap> Size(AutGroupBlockDesign(Dstar));
 80
 gap> near_resolutions:=PartitionsIntoBlockDesigns(rec(
@@ -200,11 +201,11 @@ rec(
       [ 9, 15, 16, 18 ], [ 9, 15, 16, 18 ], [ 10, 15, 20, 21 ], 
       [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], 
       [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ] ],
+  autGroup := Group( [ ( 2,14,10,18)( 3, 7,19,15)( 4,20, 8,12)( 5,13,17, 9), 
+      ( 1,17, 5, 9)( 2,10,14, 6)( 4,16,12,20)( 7,15,19,11), 
+      ( 1,18,19,12)( 2,11, 8, 9)( 3, 4,17, 6)( 5,10,15,20)( 7,16,13,14) ] ),
   blockSizes := [ 4 ],
   isBinary := true,
   allTDesignLambdas := [ 105, 20, 3 ],
-  isSimple := false,
-  autGroup := 
-   Group( [ ( 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20), 
-      ( 2,18,10,14)( 3,15,19, 7)( 4,12, 8,20)( 5, 9,17,13) ] ) )
+  isSimple := false )
 \endexample

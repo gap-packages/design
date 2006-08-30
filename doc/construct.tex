@@ -8,6 +8,7 @@
 \def\GRAPE{\sf GRAPE}
 \def\nauty{\it nauty}
 \def\Aut{{\rm Aut}\,}
+\def\lcm{{\rm lcm}\,}
 \def\x{\times}
 \Chapter{Constructing block designs}
 
@@ -15,15 +16,32 @@
 \Section{Functions to construct block designs}
 
 \>BlockDesign( <v>, <B> )
+\>BlockDesign( <v>, <B>, <G> )
 
-Let <v> be a positive integer. Then this function  returns the block
-design with point-set $\{1,\ldots,<v>\}$ and block multiset <B>, which
-must be a non-empty sorted list of non-empty sorted lists of elements
-of $\{1,\ldots,<v>\}$.
+Let <v> be a positive integer and <B> a non-empty list of non-empty
+sorted lists of elements of $\{1,\ldots,<v>\}$.
+
+The first version of this function returns the block design with point-set
+$\{1,\ldots,<v>\}$ and block multiset <C>, where <C> is `SortedList(<B>)'
+(this is a backward compatible change to {\DESIGN}~1.1, where it was
+required that <B> be sorted).
+
+For the second version of this function, we require <G> to be a group
+of permutations of $\{1,\ldots,<v>\}$, and the function returns the
+block design with point-set $\{1,\ldots,<v>\}$ and block multiset <C>,
+where <C> is the sorted list of the concatenation of the <G>-orbits of
+the elements of <B>.
 
 \beginexample
-gap> BlockDesign( 2, [[1],[1,2],[1,2]] );
+gap> BlockDesign( 2, [[1,2],[1],[1,2]] );
 rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
+gap> D:=BlockDesign(7, [[1,2,4]], Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 5, 6 ], [ 2, 3, 5 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap> AllTDesignLambdas(D);
+[ 7, 3, 1 ]
 \endexample
 
 
@@ -73,41 +91,6 @@ rec(
       [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
 gap> Size(AutGroupBlockDesign(D));
 20160
-\endexample
-
-
-
-\>TDesignFromTBD( <D>, <t>, <K> )
-
-Assuming that <D> is a <t>-wise balanced <t>-$(v,<K>,\lambda)$ design,
-with <t> a positive integer and <K> a set contained in `[<t>..<D>.v]',
-this function returns the <t>-design obtained by applying the
-McSorley-Soicher construction to <D>.  The returned design is a
-<t>-$(v,<K>[1],n\lambda)$, where $n$ is the least common multiple of 
-$\{{k-t\choose <K>[1]-t} : k\in <K>\}$.
-
-\beginexample
-gap> D:=BlockDesigns(rec(v:=10,blockSizes:=[3,4],           
->          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
-rec( isBlockDesign := true, v := 10, 
-  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8 ], 
-      [ 2, 6, 9 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
-      [ 4, 5, 10 ], [ 4, 6, 8 ], [ 4, 7, 9 ] ], 
-  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
-  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
-  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,6)(8,10), (2,3,4)(8,9,10), 
-      (2,3,4)(5,8,7,9,6,10), (2,6,10)(3,7,9)(4,5,8) ]) )
-gap> Dstar:=TDesignFromTBD(D,2,[3,4]);                       
-rec( isBlockDesign := true, v := 10, 
-  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
-      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
-      [ 2, 3, 4 ], [ 2, 5, 8 ], [ 2, 5, 8 ], [ 2, 6, 9 ], [ 2, 6, 9 ], 
-      [ 2, 7, 10 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
-      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 10 ], [ 4, 5, 10 ], 
-      [ 4, 6, 8 ], [ 4, 6, 8 ], [ 4, 7, 9 ], [ 4, 7, 9 ], [ 5, 6, 7 ], 
-      [ 8, 9, 10 ] ] )
-gap> AllTDesignLambdas(Dstar);
-[ 30, 9, 2 ]
 \endexample
 
 
@@ -169,4 +152,284 @@ gap> AllTDesignLambdas(C);
 [ 7, 4, 2 ]
 \endexample
 
+
+
+\>DeletedPointsBlockDesign( <D>, <Y> )
+
+Suppose <D> is a block design and <Y> is a proper subset of the point-set
+of <D>.
+
+Then this function returns the block design $DP$ obtained from <D> by
+deleting the points in <Y> from the point-set, and from each block.
+It is an error if the resulting design contains an empty block.
+The points of $DP$ are relabelled $1,2,...$, preserving the order of
+the corresponding points of <D>; the point-names of $DP$ (listed in
+`$DP$.pointNames') are those of these corresponding points of <D>.
+
+
+\beginexample
+gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+>       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap> AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap> DP:=DeletedPointsBlockDesign(D,[5,8]);
+rec( isBlockDesign := true, v := 9, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 2, 7, 8, 9 ], [ 1, 3, 5, 6, 7 ], 
+      [ 1, 4, 6, 8 ], [ 1, 5, 9 ], [ 2, 3, 5, 8 ], [ 2, 4, 5, 6, 9 ], 
+      [ 2, 6, 7 ], [ 3, 4, 7, 9 ], [ 3, 6, 8, 9 ], [ 4, 5, 7, 8 ] ], 
+  pointNames := [ 1, 2, 3, 4, 6, 7, 9, 10, 11 ] )
+gap> PairwiseBalancedLambda(DP);
+2
+\endexample
+
+
+
+\>DeletedBlocksBlockDesign( <D>, <Y>)
+
+Suppose <D> is a block design, and <Y> is a proper sublist of the 
+block-list of <D> (<Y> need not be sorted).
+ 
+Then this function returns the block design obtained from <D> by deleting
+the blocks in <Y> (counting repeats) from the block-list of <D>.
+
+\beginexample
+gap> D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap> DeletedBlocksBlockDesign(D,[[2,3,5],[2,3,5],[4,5,7]]);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 6, 7 ], [ 2, 6, 7 ], [ 3, 4, 6 ], 
+      [ 3, 4, 6 ], [ 4, 5, 7 ] ] )
+\endexample
+
+
+
+\>AddedPointBlockDesign( <D>, <Y> )
+\>AddedPointBlockDesign( <D>, <Y>, <pointname> )
+
+Suppose <D> is a block design, and <Y> is a sublist of the block-list
+of <D> (<Y> need not be sorted).
+
+Then this function returns the block design obtained from <D> by adding
+the new point `<D>.v+1' to the point-set, and adding this new point
+(once) to each block of <Y> (where repeats count).
+
+The optional parameter <pointname> specifies a point-name for the
+new point.
+
+\beginexample
+gap> D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap> AddedPointBlockDesign(D,[[2,3,5],[2,3,5],[4,5,7]],"infinity");
+rec( isBlockDesign := true, v := 8, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5, 8 ], [ 2, 3, 5, 8 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7, 8 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 6, 7, "infinity" ] )
+\endexample
+
+
+
+\>AddedBlocksBlockDesign( <D>, <Y> )
+
+Suppose <Y> is a list of multisets of points of the block design <D>.
+Then this function returns a new block design, whose point-set is that
+of <D>, and whose block list is that of <D> with the elements of <Y>
+(including repeats) added.
+
+\beginexample
+gap> D:=BlockDesign(7,[[1,2,4]],Group((1,2,3,4,5,6,7)));           
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 5, 6 ], [ 2, 3, 5 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap> AddedBlocksBlockDesign(D,D.blocks);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ] )
+\endexample
+
+
+
+\>DerivedBlockDesign( <D>, <x> )
+
+Suppose <D> is a block design, and <x> is a point or block of <D>.
+Then this function returns the *derived design*\index{derived design}
+$DD$ of <D>, with respect to <x>.
+
+If <x> is a point then $DD$ is the block design whose blocks are those
+of <D> containing <x>, but with <x> deleted from these blocks, and the
+points of $DD$ are those which occur in some block of $DD$.
+
+If <x> is a block, then the points of $DD$ are the points in <x>, and
+the blocks of $DD$ are the blocks of <D> other than <x> containing at
+least one point of <x>, but with all points not in <x> deleted from
+these blocks.  Note that any repeat of <x>, but not <x> itself, is a
+block of $DD$.
+
+It is an error if the resulting block design $DD$ has no blocks or an
+empty block.
+
+The points of $DD$ are relabelled $1,2,...$, preserving the order of
+the corresponding points of <D>; the point-names of $DD$ (listed in
+`$DD$.pointNames') are those of these corresponding points of <D>.
+
+\beginexample
+gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+>       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap> AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap> DD:=DerivedBlockDesign(D,6);
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 3, 6, 8 ], [ 1, 5, 7, 10 ], [ 2, 3, 7, 9 ], 
+      [ 2, 4, 6, 10 ], [ 4, 5, 8, 9 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 7, 8, 9, 10, 11 ] )
+gap> AllTDesignLambdas(DD);
+[ 5, 2 ]
+gap> DD:=DerivedBlockDesign(D,D.blocks[6]);
+rec( isBlockDesign := true, v := 5, 
+  blocks := [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 4 ], 
+      [ 2, 5 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ], 
+  pointNames := [ 2, 3, 6, 8, 10 ] )
+gap> AllTDesignLambdas(DD);
+[ 10, 4, 1 ]
+\endexample 
+
+
+
+\>ResidualBlockDesign( <D>, <x> )
+
+Suppose <D> is a block design, and <x> is a point or block of <D>.
+Then this function returns the *residual design*\index{residual design}
+$RD$ of <D>, with respect to <x>.
+
+If <x> is a point then $RD$ is the block design whose blocks are those
+of <D> not containing <x>, and the points of $RD$ are those which occur
+in some block of $RD$.
+
+If <x> is a block, then the points of $RD$ are those of <D> not in
+<x>, and the blocks of $RD$ are the blocks of <D> (including repeats)
+containing at least one point not in <x>, but with all points in <x>
+deleted from these blocks.
+
+It is an error if the resulting block design $RD$ has no blocks.
+
+The points of $RD$ are relabelled $1,2,...$, preserving the order of
+the corresponding points of <D>; the point-names of $RD$ (listed in
+`$RD$.pointNames') are those of these corresponding points of <D>.
+
+\beginexample
+gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+>       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap> AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap> RD:=ResidualBlockDesign(D,6);
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 8, 9, 10 ], [ 1, 4, 6, 7, 9 ], 
+      [ 2, 5, 6, 7, 8 ], [ 3, 4, 7, 8, 10 ], [ 3, 5, 6, 9, 10 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 7, 8, 9, 10, 11 ] )
+gap> AllTDesignLambdas(RD);
+[ 6, 3 ]
+gap> RD:=ResidualBlockDesign(D,D.blocks[6]);
+rec( isBlockDesign := true, v := 6, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 6 ], [ 1, 4, 5 ], 
+      [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 4, 6 ], [ 2, 5, 6 ], [ 3, 4, 5 ], 
+      [ 3, 4, 6 ] ], pointNames := [ 1, 4, 5, 7, 9, 11 ] )
+gap> AllTDesignLambdas(RD);
+[ 10, 5, 2 ]
+\endexample 
+
+
+
+\>TDesignFromTBD( <D>, <t>, <k> )
+
+For $t$ a non-negative integer, $K$ a set of positive integers, and
+$v,\lambda$ positive integers with $t\le v$, a $t$-*wise balanced design*,
+or a $t$-$(v,K,\lambda)$ *design*, is a binary block design with exactly
+$v$ points, such that each block has size in $K$ and each $t$-subset of
+the points is contained in exactly $\lambda$ blocks.
+
+Now let <t> and <k> be positive integers, <D> be a <t>-$(v,K,\lambda)$
+design (for some set $K$), and $<t>\le <k>\le k_1$, where exactly $s$
+distinct block-sizes $k_1\< \cdots \< k_s$ occur in <D>. Then this
+function returns the <t>-design $D^{*}=D^{*}(t,k)$ described and studied
+in \cite{McSo}.
+
+The point set of $D^{*}$ is that of <D>, and the block multiset of $D^{*}$
+consists of, for each $i=1,\ldots,s$ and each block $B$ of <D> of size
+$k_i$ (including repeats), exactly $n/{k_i-t \choose k-t}$ copies of
+every $k$-subset of $B$, where $n:=\lcm({k_i-t \choose k-t}:1\le i\le s)$.
+
+It is shown in \cite{McSo} that $D^{*}$ is a $t$-$(v,k,n\lambda)$ design,
+that $\Aut(D)\subseteq\Aut(D^{*})$, and that if $\lambda=1$ and $t\<k$,
+then $\Aut(D)=\Aut(D^{*})$.
+
+Note: This is a change, mostly of notation, from version~1.1 of
+{\DESIGN}. For backward compatiblity, this function also performs as
+described in the version 1.1 documentation, but we discourage such use.
+
+\beginexample
+gap> D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       
+>          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 10 ], 
+      [ 2, 6, 8 ], [ 2, 7, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
+      [ 4, 5, 8 ], [ 4, 6, 9 ], [ 4, 7, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,7)(8,10), 
+      (2,3,4)(5,7,6)(8,9,10), (2,3,4)(5,9,6,8,7,10), (2,6,9,3,7,10)(4,5,8) ]) 
+ )
+gap> PairwiseBalancedLambda(D);                          
+1
+gap> Dstar:=TDesignFromTBD(D,2,3);   
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
+      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
+      [ 2, 3, 4 ], [ 2, 5, 10 ], [ 2, 5, 10 ], [ 2, 6, 8 ], [ 2, 6, 8 ], 
+      [ 2, 7, 9 ], [ 2, 7, 9 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
+      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 4, 5, 8 ], 
+      [ 4, 6, 9 ], [ 4, 6, 9 ], [ 4, 7, 10 ], [ 4, 7, 10 ], [ 5, 6, 7 ], 
+      [ 8, 9, 10 ] ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,7)(8,10), (2,3,4)(5,7,6)(8,9,
+        10), (2,3,4)(5,9,6,8,7,10), (2,6,9,3,7,10)(4,5,8) ]) )
+gap> AllTDesignLambdas(Dstar);
+[ 30, 9, 2 ]
+\endexample
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -32,7 +32,7 @@ The required components of <param> are `v', `blockSizes', and
 `tSubsetStructure'.
 
 `<param>.v' must be a positive integer, and specifies that for each block
-design in <DL>, the points are 1,...,`<param>.v'.
+design in the list <DL>, the points are 1,...,`<param>.v'.
 
 `<param>.blockSizes' must be a set of positive integers, and specifies
 that the block sizes of each block design in <DL> will be contained in
@@ -62,9 +62,9 @@ that is being specified is that each design in <DL> must have exactly
 
 The optional components of <param> are used to specify additional
 constraints on the designs in <DL> or to change default parameter
-values. These optional components are `blockDesign', `r', `blockNumbers',
-`blockIntersectionNumbers', `blockMaxMultiplicities', `isoGroup',
-`requiredAutSubgroup', and `isoLevel'.
+values. These optional components are `blockDesign', `r', `b',
+`blockNumbers', `blockIntersectionNumbers', `blockMaxMultiplicities',
+`isoGroup', `requiredAutSubgroup', and `isoLevel'.
 
 `<param>.blockDesign' must  be a block design with `<param>.blockDesign.v'
 equal to `<param>.v'. Then each block multiset of a design in <DL> will
@@ -78,6 +78,9 @@ useful for the computation of subdesigns, such as parallel classes.
 in <DL>, each point will occur exactly `<param>.r' times in the list of
 blocks. In other words, each design in <DL> will have replication number
 `<param>.r'.
+
+`<param>.b' must be a positive integer, and specifies that each design
+in <DL> will have exactly `<param>.b' blocks.
 
 `<param>.blockNumbers' must be a list of non-negative integers, the <i>-th
 element of which specifies the number of blocks whose size is equal
@@ -97,10 +100,10 @@ dimension of `<param>.blockIntersectionNumbers' must equal the length of
 `<param>.blockSizes'.
 
 `<param>.blockMaxMultiplicities' must be a list of non-negative integers,
-the <i>-th element of which specifies the maximum multiplicity of a block
-whose size is equal to `<param>.blockSizes[<i>]' (for each design in
-<DL>). The length of `<param>.blockMaxMultiplicities' must equal that of
-`<param>.blockSizes'.
+the <i>-th element of which specifies an upper bound on the multiplicity
+of a block whose size is equal to `<param>.blockSizes[<i>]' (for each
+design in <DL>). The length of `<param>.blockMaxMultiplicities' must
+equal that of `<param>.blockSizes'.
 
 Let <G> be the automorphism group of `<param>.blockDesign' if bound, and
 <G> be `SymmetricGroup(<param>.v)' otherwise. Let <H> be the subgroup of
@@ -112,8 +115,8 @@ consider two designs with the required properties to be *equivalent*
 if their block multisets are in the same orbit of `<param>.isoGroup'
 (in its action on multisets of multisets of `[1..<param>.v]'). The
 default for `<param>.isoGroup' is <H>. Thus, if `<param>.blockDesign'
-is unbound, equivalence is the same as block-design isomorphism for the
-required designs.
+and `<param>.isoGroup' are both unbound, equivalence is the same as
+block-design isomorphism for the required designs.
 
 `<param>.requiredAutSubgroup' must be a subgroup of `<param>.isoGroup',
 and specifies that each design in <DL> must be invariant under
@@ -124,8 +127,8 @@ trivial permutation group.
 `<param>.isoLevel' must be 0, 1, or 2 (the default is 2).  The value
 0 specifies that <DL> will contain at most one block design, and will
 contain one block design with the required properties if and only if
-such a block design exists; the value 1 specifies that <DL> will contain
-(perhaps properly) a list of `<param>.isoGroup' orbit-representatives of
+such a block design exists; the value~1 specifies that <DL> will contain
+(perhaps properly) a list of `<param>.isoGroup'-orbit representatives of
 the required designs; the value 2 specifies that <DL> will consist
 precisely of `<param>.isoGroup'-orbit representatives of the required
 designs.

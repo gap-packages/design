@@ -22,7 +22,7 @@ these functions to work.
 
 This function returns the automorphism group of the block design <D>.
 The *automorphism group* $\Aut(<D>)$ of <D> is the group consisting of
-all the permutations of the points $\{1,\ldots,`<D>.v'\}$ which preserve
+all the permutations of the points $\{1,\ldots,`<D>\.v'\}$ which preserve
 the block-multiset of <D>.
 
 This function is not yet implemented for non-binary block designs.
@@ -41,7 +41,9 @@ gap> Size(AutGroupBlockDesign(D));
 \>IsIsomorphicBlockDesign( <D1>, <D2> )
 
 This boolean function returns `true' if and only if block designs
-<D1> and <D2> are isomorphic. 
+<D1> and <D2> are *isomorphic*, that is, there is a bijection from the
+point-set of <D1> to that of <D2> which maps the block-multiset of <D1>
+to that of <D2>.
 
 This function is not yet implemented for non-binary block designs.
 

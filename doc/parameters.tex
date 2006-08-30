@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  parameters.tex        DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+\def\x{\times}
+\Chapter{Information from block design parameters}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Information from $t$-design parameters}
+
+For $t$ a non-negative integer and $v,k,\lambda$ positive integers with
+$t\le k\le v$, a $t$-*design* with *parameters* $t,v,k,\lambda$, or a
+$t$-$(v,k,\lambda)$ *design*, is a binary block design with exactly $v$
+points, such that each block has size $k$ and each $t$-subset of the
+points is contained in exactly $\lambda$ blocks.
+
+\>TDesignLambdas( <t>, <v>, <k>, <lambda> )
+
+A $t$-$(v,k,\lambda)$ design is also an $s$-$(v,k,\lambda_s)$ design
+for $0\le s\le t$, where $\lambda_s=\lambda{v-s \choose t-s}/{k-s
+\choose t-s}$.
+
+Given a non-negative integer <t>, and positive integers <v>, <k>,
+<lambda>, with $<t>\le <k>\le <v>$, this function returns a length
+$<t>+1$ list whose $(s+1)$-st element is $\lambda_s$ as defined above,
+if all the $\lambda_s$ are integers. Otherwise, `fail' is returned.
+
+\beginexample
+gap> TDesignLambdas(5,24,8,1);
+[ 759, 253, 77, 21, 5, 1 ]
+\endexample
+
+
+
+\>TDesignLambdaMin( <t>, <v>, <k> )
+
+Given a non-negative integer <t>, and positive integers <v> and <k>, with
+$<t>\le <k>\le <v>$, this function returns the minimum positive <lambda>
+such that `TDesignLambdas( <t>, <v>, <k>, <lambda> )' does not return
+`fail'.
+
+See "TDesignLambdas". 
+
+\beginexample
+gap> TDesignLambdaMin(5,24,8);  
+1
+gap> TDesignLambdaMin(2,12,4);
+3
+\endexample
+
+
+
+\>TDesignIntersectionTriangle( <t>, <v>, <k>, <lambda> )
+
+Suppose $D$ is a <t>-(<v>,<k>,<lambda>) design, let $i$ and $j$
+be non-negative integers with $i+j\le t$, and suppose $X$ and $Y$
+are disjoint subsets of the points of $D$, such that $X$ and $Y$ have
+respective sizes $i$ and $j$. The $(i,j)$-*intersection number* is
+the number of blocks of $D$ that contain $X$ and are disjoint from $Y$
+(this number depends only on <t>, <v>, <k>, <lambda>, $i$ and $j$).
+
+Given a non-negative integer <t>, and positive integers <v>, <k>
+and <lambda>, with $<t>\le <k>\le <v>$, this function returns the
+*<t>-design intersection triangle*, which is a two dimensional array
+whose $(i+1,j+1)$-entry is the $(i,j)$-intersection number for
+a <t>-(<v>,<k>,<lambda>) design (assuming such a design exists),
+such that $i,j\ge 0$, $i+j\le t$. This function returns `fail' if
+`TDesignLambdas(<t>,<v>,<k>,<lambda>)' does. When $<lambda>=1$, then more
+information can be obtained using "SteinerSystemIntersectionTriangle".
+
+\beginexample
+gap> TDesignLambdas(2,12,4,3);             
+[ 33, 11, 3 ]
+gap> TDesignIntersectionTriangle(2,12,4,3);
+[ [ 33, 22, 14 ], [ 11, 8 ], [ 3 ] ]
+gap> TDesignLambdas(2,12,4,2);             
+fail
+gap> TDesignIntersectionTriangle(2,12,4,2);
+fail
+\endexample
+
+
+
+\>SteinerSystemIntersectionTriangle( <t>, <v>, <k> )
+
+A *Steiner system* is a <t>-(<v>,<k>,1) design, and in this case it
+is possible to extend the notion of intersection triangle defined in
+"TDesignIntersectionTriangle".
+
+Suppose $D$ is a <t>-(<v>,<k>,1) design, with $B$ a block of $D$,
+let $i$ and $j$ be non-negative integers with $i+j\le k$, and suppose
+$X$ and $Y$ are disjoint subsets of $B$, such that $X$ and $Y$ have
+respective sizes $i$ and $j$. The $(i,j)$-*intersection number* is the
+number of blocks of $D$ that contain $X$ and are disjoint from $Y$
+(this number depends only on <t>, <v>, <k>, $i$ and $j$). Note that
+when $i+j\le t$, this intersection number is the same as that defined in
+"TDesignIntersectionTriangle" for the general <t>-design case.
+
+Given a non-negative integer <t>, and positive integers <v> and
+<k>, with $<t>\le <k>\le <v>$, this function returns the *Steiner
+system intersection triangle*, which is a two dimensional array whose
+$(i+1,j+1)$-entry is the $(i,j)$-intersection number for a <t>-(<v>,<k>,1)
+design (assuming such a design exists), such that $i,j\ge 0$, $i+j\le
+k$. This function returns `fail' if `TDesignLambdas(<t>,<v>,<k>,1)' does.
+
+See also "TDesignIntersectionTriangle".
+
+\beginexample
+gap> SteinerSystemIntersectionTriangle(5,24,8);
+[ [ 759, 506, 330, 210, 130, 78, 46, 30, 30 ], 
+  [ 253, 176, 120, 80, 52, 32, 16, 0 ], [ 77, 56, 40, 28, 20, 16, 16 ], 
+  [ 21, 16, 12, 8, 4, 0 ], [ 5, 4, 4, 4, 4 ], [ 1, 0, 0, 0 ], [ 1, 0, 0 ], 
+  [ 1, 0 ], [ 1 ] ]
+gap> TDesignIntersectionTriangle(5,24,8,1);    
+[ [ 759, 506, 330, 210, 130, 78 ], [ 253, 176, 120, 80, 52 ], 
+  [ 77, 56, 40, 28 ], [ 21, 16, 12 ], [ 5, 4 ], [ 1 ] ]
+\endexample
+
+
+
+\>TDesignBlockMultiplicityBound( <t>, <v>, <k>, <lambda> )
+
+Given a non-negative integer <t>, and positive integers <v>, <k> and
+<lambda>, with $<t>\le <k>\le <v>$, this function returns a non-negative
+integer which is an upper bound on the multiplicity of any block in
+any <t>-(<v>,<k>,<lambda>) design (the *multiplicity* of a block in
+a block design is the number of times that block occurs in the block
+list). In particular, if the value $0$ is returned, then this implies
+that a <t>-(<v>,<k>,<lambda>) design does not exist.
+
+Although our bounds are reasonably good, we do not claim that the
+returned bound $m$ is always achieved; that is, there may not exist a
+<t>-(<v>,<k>,<lambda>) design having a block with multiplicity $m$.
+
+See also "ResolvableTDesignBlockMultiplicityBound".
+
+\beginexample
+gap> TDesignBlockMultiplicityBound(5,16,7,5);
+2
+gap> TDesignBlockMultiplicityBound(2,36,6,1);
+0
+gap> TDesignBlockMultiplicityBound(2,36,6,2);
+2
+gap> TDesignBlockMultiplicityBound(2,15,5,2);
+0
+gap> TDesignBlockMultiplicityBound(2,15,5,4);
+2
+gap> TDesignBlockMultiplicityBound(2,11,4,6);
+3
+\endexample
+
+
+
+\>ResolvableTDesignBlockMultiplicityBound( <t>, <v>, <k>, <lambda> )
+ 
+A *resolution* of a block design is a partition of the blocks into
+subsets, each of which forms a partition of the point set, and a block
+design is *resolvable* if it has a resolution.
+
+Given a non-negative integer <t>, and positive integers <v>, <k> and
+<lambda>, with $<t>\le <k>\le <v>$, this function returns a non-negative
+integer which is an upper bound on the multiplicity of any block in any
+resolvable <t>-(<v>,<k>,<lambda>) design (the *multiplicity* of a block
+in a block design is the number of times that block occurs in the block
+list). In particular, if the value $0$ is returned, then this implies
+that a resolvable <t>-(<v>,<k>,<lambda>) design does not exist.
+
+Although our bounds are reasonably good, we do not claim that the returned
+bound $m$ is always achieved; that is, there may not exist a resolvable
+<t>-(<v>,<k>,<lambda>) design having a block with multiplicity $m$.
+
+See also "TDesignBlockMultiplicityBound".
+
+\beginexample
+gap> ResolvableTDesignBlockMultiplicityBound(5,12,6,1);
+1
+gap> ResolvableTDesignBlockMultiplicityBound(2,21,7,3);
+0
+gap> TDesignBlockMultiplicityBound(2,21,7,3);          
+1
+gap> ResolvableTDesignBlockMultiplicityBound(2,12,4,3);
+1
+gap> TDesignBlockMultiplicityBound(2,12,4,3);          
+2
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Block intersection polynomials}
+
+In \cite{CaSo}, Cameron and Soicher introduce block intersection
+polynomials and their applications to the study of block designs.
+Here we give functions to construct and analyze block intersection 
+polynomials. 
+
+\>BlockIntersectionPolynomial(<x>, <m>, <lambdavec> )
+
+For $k$ a non-negative integer, define the polynomial
+$P(x,k)=x(x-1)\cdots(x-k+1)$. Let $s$ and $t$ be non-negative
+integers, with $s\ge t$, and let $m_0,\ldots,m_s$ and
+$\lambda_0,\ldots,\lambda_t$ be rational numbers. Then the *block
+intersection polynomial* for the sequences $[m_0,\ldots,m_s]$,
+$[\lambda_0,\ldots,\lambda_t]$ is defined to be 
+$$\sum_{j=0}^t{t\choose j}P(-x,t-j)[P(s,j)\lambda_j-\sum_{i=j}^s P(i,j)m_i],$$ 
+and is denoted by $B(x,[m_0,\ldots,m_s],[\lambda_0,\ldots,\lambda_t]).$
+
+Now suppose <x> is an indeterminate over the rationals, and <m> and
+<lambdavec> are non-empty lists of rational numbers, such that the length
+of <lambdavec> is not greater than that of <m>.  Then this function
+returns the block intersection polynomial $B(<x>,<m>,<lambdavec>)$.
+
+The importance of a block intersection polynomial is as follows.
+Let $D=(V,{\cal B})$ be a block design, let $S\subseteq V$, with $s=|S|$,
+and for $i=0,\ldots,s$, suppose that $m_i$ is a non-negative integer
+with $m_i\le n_i$, where $n_i$ is the number of blocks intersecting $S$
+in exactly $i$ points. Let $t$ be a non-negative *even* integer with $t\le
+s$, and suppose that, for $j=0\ldots,t$, we have $\lambda_j=1/{s\choose
+j}\sum_{T\subseteq S,|T|=j}\lambda_T$, where $\lambda_T$ is the
+number of blocks of $D$ containing $T$.  Then the block intersection
+polynomial $B(x)=B(x,[m_0,\ldots,m_s],[\lambda_0,\ldots,\lambda_t])$
+is a polynomial with integer coefficients, and $B(n)\ge 0$ for every
+integer $n$. (These conditions can be checked using the function
+"BlockIntersectionPolynomialCheck".) In addition, if $B(n)=0$ for some
+integer $n$, then $m_i=n_i$ for $i\not\in\{n,n+1,\ldots,n+t-1\}$.
+
+For more information on block intersection polynomials and their
+applications, see \cite{CaSo}.
+
+\beginexample
+gap> x:=Indeterminate(Rationals,1);
+x_1
+gap> m:=[0,0,0,0,0,0,0,1];;
+gap> lambdavec:=TDesignLambdas(6,14,7,4);
+[ 1716, 858, 396, 165, 60, 18, 4 ]
+gap> B:=BlockIntersectionPolynomial(x,m,lambdavec);
+1715*x_1^6-10269*x_1^5+34685*x_1^4-69615*x_1^3+84560*x_1^2-56196*x_1+15120
+gap> Factors(B);
+[ 1715*x_1-1715,
+  x_1^5-1222/245*x_1^4+3733/245*x_1^3-6212/245*x_1^2+5868/245*x_1-432/49 ]
+gap> Value(B,1);
+0
+\endexample
+
+
+
+\>BlockIntersectionPolynomialCheck(<m>, <lambdavec>)
+
+Suppose <m> is a list of non-negative integers, and <lambdavec> is a
+list of non-negative rational numbers, with the length of <lambdavec>
+odd and not greater than the length of <m>.
+
+Then, for <x> an indeterminate over the rationals, this function
+checks whether `BlockIntersectionPolynomial(<x>,<m>,<lambdavec>)' is a
+polynomial over the integers and has a non-negative value at each integer.
+The function returns `true' if this is so; else `false' is returned.
+
+See also "BlockIntersectionPolynomial".
+
+\beginexample
+gap> m:=[0,0,0,0,0,0,0,1];;
+gap> lambdavec:=TDesignLambdas(6,14,7,4);
+[ 1716, 858, 396, 165, 60, 18, 4 ]
+gap> BlockIntersectionPolynomialCheck(m,lambdavec);
+true
+gap> m:=[1,0,0,0,0,0,0,1];;
+gap> BlockIntersectionPolynomialCheck(m,lambdavec);
+false
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

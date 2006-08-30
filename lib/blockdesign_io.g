@@ -1,6 +1,6 @@
 #############################################################################
 ##
-##    blockdesign_io.g          Design 1.1 Package          Leonard Soicher
+##    blockdesign_io.g          Design 1.2 Package          Leonard Soicher
 ##
 ##    
 # The "GAP Expander/Writer" to expand the information about 
@@ -11,7 +11,7 @@
 # DTRS external representation XML-format, and to convert these 
 # block designs into GAP-format.
 #
-# Copyright (C) 2003-2004 Leonard H. Soicher
+# Copyright (C) 2003-2006 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -582,8 +582,9 @@ return aut;
 end);
 
 BindGlobal("resolutionsXML",function(D,include)
-local res,R,S,s,extrep_blocks,A,aut,g,Rlist,allrep;
-if not ("resolvable" in include) and not ("resolutions" in include) then
+local res,R,S,s,extrep_blocks,A,aut,g,Rlist,allrep,noniso;
+if not ("resolvable" in include) and not ("available_resolutions" in include) 
+   and not ("resolutions" in include) then
    return "";
 fi;
 if "resolutions" in include then 
@@ -592,18 +593,31 @@ if "resolutions" in include then
       not (D.resolutions.pairwiseNonisomorphic in [true,"true"]) then
       MakeResolutionsComponent(D,2);
    fi;
-else # "resolvable" is in include, but "resolutions" is not
+elif "resolvable" in include then
    if not IsBound(D.resolutions) or (D.resolutions.list=[] 
          and not (D.resolutions.allClassesRepresented in [true,"true"])) then
       MakeResolutionsComponent(D,0);
    fi;
 fi;
-if D.resolutions.list=[] then
+if not IsBound(D.resolutions) or D.resolutions.list=[] then
    return "";
 fi;
 if "resolutions" in include then
    Rlist:=D.resolutions.list;
    allrep:=true;
+   noniso:=true;
+elif "available_resolutions" in include then
+   Rlist:=D.resolutions.list;
+   if D.resolutions.allClassesRepresented in [true,"true"] then
+      allrep:=true;      
+   else
+      allrep:="unknown";
+   fi;   
+   if D.resolutions.pairwiseNonisomorphic in [true,"true"] then
+      noniso:=true;      
+   else
+      noniso:="unknown";
+   fi;   
 else
    # we shall write out just one resolution
    Rlist:=[D.resolutions.list[1]];
@@ -613,8 +627,9 @@ else
    else
       allrep:="unknown";
    fi;   
+   noniso:=true;
 fi;   
-res:=Concatenation("<resolutions\n pairwise_nonisomorphic=\"true\"",
+res:=Concatenation("<resolutions\n pairwise_nonisomorphic=\"",String(noniso),"\"",
    "\n all_classes_represented=\"",String(allrep),"\">\n");
 for R in Rlist do 
    Append(res,"<resolution>\n");
@@ -759,9 +774,9 @@ BindGlobal("BlockDesignsToXMLFile",function(arg)
 # The information output for each design depends on  include = arg[3],  
 # which should be the string "all" or a list containing zero or more of 
 # the strings "indicators", "resolvable", "combinatorial_properties", 
-# "automorphism_group", and "resolutions".  A shorthand for the
-# list containing all these strings is "all". The default for  
-# include  is  []. 
+# "automorphism_group", "resolutions",  and "available_resolutions".
+# A shorthand for a list implying all these strings 
+# is "all". The default for  include  is  [].
 #
 # If  list_id = arg[4]  is bound, then the id's of the output designs
 # will be  "list_id-0", "list_id-1", "list_id-2", ...
@@ -800,6 +815,11 @@ if IsBound(arg[3]) then
                 "automorphism_group","resolutions"]; 
    else
       include:=arg[3];
+   fi;
+   if not IsSubset(["indicators","resolvable","combinatorial_properties", 
+             "automorphism_group","resolutions","available_resolutions"], 
+             include) then
+      Error("<include> contains an invalid option");
    fi;
 else
    include:=[];

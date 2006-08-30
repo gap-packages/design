@@ -65,8 +65,8 @@ We require that <t> is less than or equal to each element of
 contains at least <t> distinct elements.
 
 The optional components of <param> are used to specify additional
-constraints on the partitions in <PL>, or to change default
-parameter values. These optional components are `r', `blockNumbers',
+constraints on the partitions in <PL>, or to change default parameter
+values. These optional components are `r', `b', `blockNumbers',
 `blockIntersectionNumbers', `blockMaxMultiplicities', `isoGroup',
 `requiredAutSubgroup', and `isoLevel'. Note that the last three of these
 optional components refer to the partitions and not to the block designs
@@ -75,6 +75,9 @@ in a partition.
 `<param>.r' must be a positive integer, and specifies that in each design
 in each partition in <PL>, each point must occur exactly `<param>.r'
 times in the list of blocks.
+
+`<param>.b' must be a positive integer, and specifies that each design
+in each partition in <PL> has exactly `<param>.b' blocks.
 
 `<param>.blockNumbers' must be a list of non-negative integers, the <i>-th
 element of which specifies the number of blocks whose size is equal to
@@ -93,11 +96,11 @@ the intersection of `[1,1,1,2,2,3]' with `[1,1,2,2,2,4]' is `[1,1,2,2]',
 having size 4.  The dimension of `<param>.blockIntersectionNumbers'
 must equal the length of `<param>.blockSizes'.
 
-`<param>.blockMaxMultiplicities' must be a list of non-negative integers,
-the <i>-th element of which specifies the maximum multiplicity of a block
-whose whose size is equal to `<param>.blockSizes[<i>]' (for each design
-in each partition in <PL>). The length of `<param>.blockMaxMultiplicities'
-must equal that of `<param>.blockSizes'.
+`<param>.blockMaxMultiplicities' must be a list of non-negative
+integers, the <i>-th element of which specifies an upper bound on the
+multiplicity of a block whose size is equal to `<param>.blockSizes[<i>]'
+(for each design in each partition in <PL>). The length of
+`<param>.blockMaxMultiplicities' must equal that of `<param>.blockSizes'.
 
 `<param>.isoGroup' must be a subgroup of the automorphism group of
 `<param>.blockDesign'. We consider two elements of <PL> to be
@@ -109,7 +112,7 @@ must equal that of `<param>.blockSizes'.
 and specifies that each partition in <PL> must be invariant under
 `<param>.requiredAutSubgroup' (in its action on multisets of block
 multisets). The default for `<param>.requiredAutSubgroup' is the trivial
-premutation group.
+permutation group.
 
 `<param>.isoLevel' must be 0, 1, or 2 (the default is 2).  The value 0
 specifies that <PL> will contain at most one partition, and will contain
