@@ -10,16 +10,16 @@ PackageName := "DESIGN",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.2",
+Version := "1.3",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "30/08/2006",
+Date := "08/11/2006",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
-ArchiveURL := "http://designtheory.org/software/gap_design/design1r2",
+ArchiveURL := "http://designtheory.org/software/gap_design/design1r3",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.

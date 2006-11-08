@@ -1,6 +1,6 @@
 ############################################################################
 ##
-##    blockdesign.g             Design 1.2 Package          Leonard Soicher
+##    blockdesign.g             Design 1.3 Package          Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 
@@ -244,11 +244,11 @@ if Length(lambdavec)<3 then
       lambdavec[3]:=lambdavec[3]/Binomial(s,2);
    fi;
 fi;
+if Length(lambdavec)>s+1 then
+   lambdavec:=lambdavec{[1..s+1]};
+fi;
 if Length(lambdavec) mod 2 = 0 then
    lambdavec:=lambdavec{[1..Length(lambdavec)-1]};
-fi;
-if Length(lambdavec)>s then
-   lambdavec:=lambdavec{[1..s]};
 fi;
 m:=ListWithIdenticalEntries(s+1,0);
 for bag in blockbags do    
@@ -1600,6 +1600,42 @@ return rec(isBlockDesign:=true,v:=Length(points),
            pointNames:=points,blocks:=blocks);
 end);
 
+BindGlobal("WittDesign",function(n)
+local M12,M24,W12,W24,W,i;
+if not IsInt(n) then
+   Error("usage: WittDesign( <Int> )");
+fi;
+if not (n in [9,10,11,12,21,22,23,24]) then
+   Error("must have <n> in [9,10,11,12,21,22,23,24]");
+fi;
+if n<=12 then
+   M12:=Group( [ (1,2,3,4,5,6,7,8,9,10,11), 
+      (3,7,11,8)(4,10,5,6), (1,12)(2,11)(3,6)(4,8)(5,9)(7,10) ] );
+   W12:=BlockDesign(12,[[1,2,3,4,5,7]],M12);
+   W12.autGroup:=M12;
+   Unbind(W12.autSubgroup);
+   W12.allTDesignLambdas:=Immutable(TDesignLambdas(5,12,6,1));
+   W:=W12;
+   for i in Reversed([n+1..12]) do
+      W:=DerivedBlockDesign(W,i);
+   od;
+else
+   M24:=Group([ (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23), 
+      (3,17,10,7,9)(4,13,14,19,5)(8,18,11,12,23)(15,20,22,21,16), 
+      (1,24)(2,23)(3,12)(4,16)(5,18)(6,10)(7,20)(8,14)(9,21)(11,17)(13,22)
+      (15,19) ]);
+   W24:=BlockDesign(24,[[1,2,3,4,5,8,11,13]],M24);
+   W24.autGroup:=M24;
+   Unbind(W24.autSubgroup);
+   W24.allTDesignLambdas:=Immutable(TDesignLambdas(5,24,8,1));
+   W:=W24;
+   for i in Reversed([n+1..24]) do
+      W:=DerivedBlockDesign(W,i);
+   od;
+fi;
+return W;
+end);
+
 BindGlobal("BlockDesigns",function(param)
 #
 # Function to classify block designs with given properties. 
@@ -1611,7 +1647,7 @@ BindGlobal("BlockDesigns",function(param)
 local t,v,b,blocksizes,k,lambda,blocknumbers,blockmaxmultiplicities,
    r,blockintersectionnumbers,isolevel,C,G,B,N,ntflags,
    act,rel,weightvector,gamma,KK,L,S,s,hom,GG,CC,NN,leastreps,
-   clique,ans,blockbags,c,d,i,j,issimple,allbinary,tsubsetstructure,
+   clique,ans,blockbags,c,d,i,j,jj,issimple,allbinary,tsubsetstructure,
    blocks,blockdesign,A,kk,AA,tsubsets,maxlambda,targetvector,weightvectors,
    designinfo,lambdavec,lambdamat,m,T,bb,justone,isnormal,issylowtowergroup,
    testfurther;
@@ -1906,9 +1942,14 @@ if allbinary and IsBound(k) and IsBound(lambda) then
          T:=SteinerSystemIntersectionTriangle(t,v,k);
          T:=List([1..k+1],i->Binomial(k,i-1)*T[i][k+2-i]);
          designinfo.blockmmat[k]:=Immutable(T);
+         for i in [0..k-1] do
+            if T[i+1]=0 then
+               RemoveSet(blockintersectionnumbers[1][1],i);
+            fi;
+         od;
       fi;
    fi;   
-   if blockintersectionnumbers[1][1]=[] then
+   if blockintersectionnumbers[1][1]=[] and s[1]>1 then
       return [];
    fi;
 elif allbinary and t=2 and IsBound(lambda) then
@@ -1977,7 +2018,8 @@ for i in [1..Length(blockmaxmultiplicities)] do
    fi;
 od;
 if IsBound(designinfo) and Length(designinfo.lambdavec)>=3 then
-   # Apply bound of Cameron and Soicher to each block max-multiplicity. 
+   # Apply bound of Cameron and Soicher to each block max-multiplicity, 
+   # and each block intersection size. 
    if Length(designinfo.lambdavec) mod 2 = 0 then
       lambdavec:=designinfo.lambdavec{[1..Length(designinfo.lambdavec)-1]};
    else
@@ -1993,6 +2035,16 @@ if IsBound(designinfo) and Length(designinfo.lambdavec)>=3 then
       if blockmaxmultiplicities[i]<0 then
          return [];
       fi;
+      for jj in [0..blocksizes[i]] do
+         m:=ListWithIdenticalEntries(blocksizes[i]+1,0);
+         m[blocksizes[i]+1]:=1;
+         m[jj+1]:=m[jj+1]+1;
+         if not BlockIntersectionPolynomialCheck(m,lambdavec) then
+            for j in [1..Length(blockmaxmultiplicities)] do
+               RemoveSet(blockintersectionnumbers[i][j],jj);
+            od;
+         fi;
+      od;
    od;
 fi;
 if ForAll(blockmaxmultiplicities,x->x=0) then
@@ -2545,39 +2597,55 @@ BindGlobal("SemiLatinSquareDuals",function(arg)
 # Function to classify the duals of (n x n)/k semi-Latin squares
 # with given properties.
 #
-local n,k,maxmult,concurset,isolevel,C,G,B,W,S,s,i,pointnames;
+local n,k,blockmaxmultiplicity,blockintersectionnumbers,isolevel,
+   C,G,W,B,S,s,i,blockdesign,pointnames;
 
 n:=arg[1];
 if not IsInt(n) or n<2 then 
    Error("<n> must be an integer >=2");
 fi;
 k:=arg[2];
-if not IsInt(k) or k<1 then 
+if not IsPosInt(k) then 
    Error("<k> must be a positive integer");
 fi;
 if IsBound(arg[3]) and arg[3]<>"default" then
-   maxmult:=Minimum(arg[3],k);
+   blockmaxmultiplicity:=arg[3];
+   if not IsPosInt(blockmaxmultiplicity) then
+      Error("<blockmaxmultiplicity> must be a positive integer");
+   fi;
+   blockmaxmultiplicity:=Minimum(blockmaxmultiplicity,k);
 else 
-   maxmult:=k; 
+   blockmaxmultiplicity:=k; 
 fi;
 if IsBound(arg[4]) and arg[4]<>"default" then
-   concurset:=Intersection(Set(arg[4]),[0..n]);
+   blockintersectionnumbers:=arg[4];
+   if not (IsList(blockintersectionnumbers) and 
+      ForAll(blockintersectionnumbers,IsInt)) then
+      Error("<blockintersectionnumbers> must be a list of integers");
+   fi;
+   blockintersectionnumbers:=Intersection(blockintersectionnumbers,[0..n]);
 else
-   concurset:=[0..n];
+   blockintersectionnumbers:=[0..n];
 fi;
-if k>=n and IsSubset([0,1],concurset) then
+if k>=n and IsSubset([0,1],blockintersectionnumbers) then
    return [];
 fi;
-if maxmult>1 and not (n in concurset) then
-   maxmult:=1;
+if blockmaxmultiplicity>1 and not (n in blockintersectionnumbers) then
+   blockmaxmultiplicity:=1;
 fi;
 if IsBound(arg[5]) and arg[5]<>"default" then 
    isolevel:=arg[5];
+   if not (isolevel in [0,1,2]) then
+      Error("must have <isolevel> in [0,1,2]");
+   fi;
 else
    isolevel:=2;
 fi;
 if IsBound(arg[6]) and arg[6]<>"default" then 
    C:=arg[6];
+   if not IsPermGroup(C) then
+      Error("the requiredautsubgroup <C> must be a permutation group");
+   fi;
 else
    C:=Group(());
 fi;
@@ -2600,33 +2668,37 @@ if IsBound(arg[7]) and arg[7]<>"default" then
    # 
    # G must preserve the point-set-structure of the required subdesign(s).
    #
-   if not IsSubgroup(W,G) then
+   if not (IsPermGroup(G) and IsSubgroup(W,G)) then
       Error("the isogroup <G> must be a subgroup of <W>");
    fi;
 else
    G:=W;
 fi;
+if not IsSubgroup(G,C) then
+   Error("the requiredautsubgroup <C> must be a subgroup of the isogroup <G>");
+fi;
 if IsBound(arg[8]) and arg[8]<>"default" then
    # arg[8] contains the multiset of possible blocks 
    # (in the sorted list of sorted lists format).  
-   B:=arg[8];
+   blockdesign:=BlockDesign(n^2,arg[8]); # provides checks
 else
    B:=[];
    S:=Set(Orbit(W,List([1..n],i->(i-1)*n+i),OnSets));
    for s in S do 
-      for i in [1..maxmult] do 
+      for i in [1..blockmaxmultiplicity] do 
          Add(B,s);
       od;
    od;
+   blockdesign:=rec(isBlockDesign:=true,v:=n^2,blocks:=Immutable(B));
 fi;
 S:=BlockDesigns(rec(v:=n^2,blockSizes:=[n],
       tSubsetStructure:=rec(t:=1,lambdas:=[k]),
-      blockMaxMultiplicities:=[maxmult],
-      blockIntersectionNumbers:=[[concurset]],
+      blockMaxMultiplicities:=[blockmaxmultiplicity],
+      blockIntersectionNumbers:=[[blockintersectionnumbers]],
       isoLevel:=isolevel,
       requiredAutSubgroup:=C,
       isoGroup:=G,
-      blockDesign:=rec(isBlockDesign:=true,v:=n^2,blocks:=B)));
+      blockDesign:=blockdesign));
 for s in S do
    s.pointNames:=pointnames;
 od;

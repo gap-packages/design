@@ -1,6 +1,6 @@
                         The DESIGN Package for GAP
 
-This README describes the {\DESIGN}~1.2 package for {\GAP}.  The {\DESIGN}
+This README describes the {\DESIGN}~1.3 package for {\GAP}.  The {\DESIGN}
 package is for constructing, classifying, partitioning and studying
 block designs.
 
@@ -27,7 +27,7 @@ If you use {\DESIGN} to solve a problem then please send a short email
 about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
 package as follows:
 
-L.H. Soicher, The DESIGN package for GAP, Version 1.2, 2006,
+L.H. Soicher, The DESIGN package for GAP, Version 1.3, 2006,
 http://designtheory.org/software/gap_design/.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,18 +38,18 @@ installing {\DESIGN} (on your UNIX system), you must make sure that
 {\GAP} (version at least 4.4) is installed as well as its {\GRAPE}
 (version at least 4.2) and {\GAPDoc} (version at least 0.99) packages.
 
-To install {\DESIGN} 1.2 (after installing {\GAP}, {\GRAPE} and
-{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r2.tar.gz',
+To install {\DESIGN} 1.3 (after installing {\GAP}, {\GRAPE} and
+{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r3.tar.gz',
 available from \URL{http://designtheory.org/software/gap_design/}
 and then copy this archive file into the `pkg' directory of the {\GAP}
 root directory. Actually, it is possible to have several {\GAP} root
 directories and so it is easy to install {\DESIGN} locally even if you
 have no permission to add files to the main {\GAP} installation (see
 "ref:GAP Root Directory").  Now go to the appropriate `pkg' directory
-containing `design1r2.tar.gz', and then run
+containing `design1r3.tar.gz', and then run
 
-gunzip design1r2.tar.gz
-tar -xf design1r2.tar
+gunzip design1r3.tar.gz
+tar -xf design1r3.tar
 
 That's all there is to do.
 
@@ -62,6 +62,21 @@ If you install {\DESIGN}, then please tell
 or bug reports.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Main changes from DESIGN 1.2 to DESIGN 1.3
+------------------------------------------
+
+(1) Added function: WittDesign.
+
+(2) Fixed a bug which caused a break loop to be entered in certain cases
+in function BlockDesigns when the least element of blockSizes was equal
+to tSubsetStructure.t.
+
+(3) Fixed a rarely occurring bug which caused no designs to be returned
+in function BlockDesigns in certain cases when the designs had just one
+block each.
+
+(4) Small improvements made to the documentation and the code.
 
 Main changes from DESIGN 1.1 to DESIGN 1.2
 ------------------------------------------
@@ -96,6 +111,14 @@ of blocks given to BlockDesign need no longer be sorted.
 the parameters (in a backward compatible way) to match the description
 of the "*-construction" in the McSorley-Soicher paper.
 
+(4) The (undocumented) resolveSimple option removed from functions
+BlockDesigns and PartitionsIntoBlockDesigns, and the option b added
+to these functions (to specify the number of blocks in a required block
+design or partition part). 
+
+(5) Improvements made to the use of store (and time?) by the function 
+BlockDesigns.
+
 Main changes from DESIGN 1.0 to DESIGN 1.1
 ------------------------------------------
 
@@ -122,4 +145,4 @@ minimal expansion and writing out, which is a *change* from DESIGN 1.0.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Leonard Soicher
 Queen Mary, University of London
-August 2006
+November 2006
