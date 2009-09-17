@@ -1,6 +1,6 @@
 ############################################################################
 ##
-##    blockdesign.g             Design 1.3 Package          Leonard Soicher
+##    blockdesign.g             Design 1.4 Package          Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 
@@ -8,7 +8,7 @@
 # block designs with given properties.
 # At present there is limited support for non-binary block designs.
 # 
-# Copyright (C) 2003-2006 Leonard H. Soicher
+# Copyright (C) 2003-2009 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +39,10 @@ BindGlobal("IsSylowTowerGroupOfSomeComplexion",function(G)
 #
 # This function returns  true  if G is a Sylow tower group of some complexion; 
 # else  false  is returned. 
+#
+# See: L.H. Soicher, On classifying objects with specified groups of 
+# automorphisms, friendly subgroups, and Sylow tower groups, 
+# Research report, 2008, http://designtheory.org/library/preprints/ 
 #
 local P,T,U,indices,usedindices,found,i;
 if not IsGroup(G) or not IsFinite(G) then
@@ -120,8 +124,9 @@ BindGlobal("BlockIntersectionPolynomial",function(x,m,lambdavec)
 # Length(lambdavec)<=Length(m). 
 # 
 # Then this function returns the block intersection polynomial 
-# B(x) = B(x,m,lambdavec), defined in  Cameron and Soicher, 
-# Block intersection polynomials, http://designtheory.org/library/preprints/ . 
+# B(x) = B(x,m,lambdavec),  defined in:
+# P.J. Cameron and L.H. Soicher, Block intersection polynomials, 
+# Bull. London Math. Soc. 39 (2007), 559-564.
 # 
 local P,s,t,s1,s2,i,j;
 
@@ -180,7 +185,7 @@ fi;
 if not ForAll(m,x->IsInt(x) and x>=0) then
    Error("elements of <m> must be non-negative integers");
 fi;
-if not ForAll(m,x->IsRat(x) and x>=0) then
+if not ForAll(lambdavec,x->IsRat(x) and x>=0) then
    Error("elements of <lambdavec> must be non-negative rationals");
 fi;
 x:=DESIGN_INDETERMINATE_RATIONALS_1;
@@ -199,8 +204,9 @@ elif Length(c)=1 then
    return true;
 fi;
 # Now apply the bound in [Soicher, MCompSci Thesis] to the absolute
-# values of the zeros of B.  See also  Cameron and Soicher, 
-# Block intersection polynomials, http://designtheory.org/library/preprints/ . 
+# values of the zeros of B.  See also:  
+# P.J. Cameron and L.H. Soicher, Block intersection polynomials, 
+# Bull. London Math. Soc. 39 (2007), 559-564.
 for i in [1..Length(c)-1] do
    c[i]:=-AbsoluteValue(c[i]);
 od;
@@ -453,23 +459,32 @@ return Immutable(D.blockNumbers);
 end); 
 
 BindGlobal("TSubsetLambdasVector",function(D,t)
-local tvector,c,i,j,xx,tsubsets,block;
+local c,i,j,ii,xx,tsubsets,tvector,block;
 if not IsBlockDesign(D) or not IsInt(t) then
    Error("usage: TSubsetLambdasVector( <BlockDesign>, <Int> )");
 fi;
 if t<0 then
    Error("<t> must be non-negative");
+elif t>D.v then
+   return [];
 fi;
 tsubsets:=Combinations([1..D.v],t);
 tvector:=ListWithIdenticalEntries(Length(tsubsets),0); # initialization
-for block in D.blocks do 
-   xx:=ListWithIdenticalEntries(D.v,0);
-   for i in block do 
-      xx[i]:=xx[i]+1;
-   od;
+for block in D.blocks do
+   if not IsSet(block) then
+      xx:=ListWithIdenticalEntries(D.v,0);
+      for i in block do 
+         xx[i]:=xx[i]+1;
+      od;
+   fi;
    for c in Combinations(Set(block),t) do
+      if IsSet(block) then
+         ii:=1;
+      else
+         ii:=Product(xx{c});
+      fi;
       j:=PositionSorted(tsubsets,c);
-      tvector[j]:=tvector[j]+Product(xx{c});
+      tvector[j]:=tvector[j]+ii; 
    od;
 od;
 return tvector;
@@ -511,22 +526,37 @@ fi;
 end);
 
 BindGlobal("AllTDesignLambdas",function(D)
-local all,t,v,k,lambda,b,T;
-if not IsBlockDesign(D) then
-   Error("usage: AllTDesignLambdas( <BlockDesign> )");
+local b,k,m,alltdesignlambdas;
+
+alltdesignlambdas:=function(D)
+# This function does all the real work.
+# It is assumed that D is a binary block design with 
+# constant block size.
+local all,t,v,k,lambda,b,T,G,DD;
+v:=D.v;
+k:=Length(D.blocks[1]);
+b:=Length(D.blocks);
+if IsBound(D.autGroup) then
+   G:=D.autGroup;
+elif IsBound(D.autSubgroup) then
+   G:=D.autSubgroup;
+else
+   G:=Group(());
 fi;
-if IsBound(D.allTDesignLambdas) then
-   return Immutable(D.allTDesignLambdas);
-fi;
-if Length(BlockSizes(D))<>1 or not IsBinaryBlockDesign(D) then
-   D.allTDesignLambdas:=Immutable([]); 
+if IsTransitive(G,[1..v]) then
+   if k=1 then 
+      D.allTDesignLambdas:=Immutable([b,b/v]); 
+      return D.allTDesignLambdas;
+   fi;
+   DD:=BlockDesign(v-1,List(Filtered(D.blocks,x->x[k]=v),y->y{[1..k-1]}));
+   # DD is the derived design of D wrt the point v.
+   DD.autSubgroup:=Stabilizer(G,v);
+   D.allTDesignLambdas:=Immutable(Concatenation([b],alltdesignlambdas(DD)));
    return D.allTDesignLambdas;
 fi;
-all:=[];
-v:=D.v;
-b:=Length(D.blocks);
-k:=BlockSizes(D)[1];
-for t in [0..k] do
+# Now handle the case where G is not point-transitive.
+all:=[b];
+for t in [1..k] do
    lambda:=b*Binomial(k,t)/Binomial(v,t);
    if not IsInt(lambda) then
       D.allTDesignLambdas:=Immutable(all);
@@ -537,11 +567,35 @@ for t in [0..k] do
       D.allTDesignLambdas:=Immutable(all);
       return D.allTDesignLambdas;
    fi;      
-   # If we get here then we know that  D  is a  t-(v,k,lambda).
+   # If we get here then we know that D is a t-(v,k,lambda) design.
    Add(all,lambda);
 od;    
 D.allTDesignLambdas:=Immutable(all);
 return D.allTDesignLambdas;
+end;
+
+if not IsBlockDesign(D) then
+   Error("usage: AllTDesignLambdas( <BlockDesign> )");
+fi;
+if IsBound(D.allTDesignLambdas) then
+   return Immutable(D.allTDesignLambdas);
+fi;
+if Length(BlockSizes(D))>1 or not IsBinaryBlockDesign(D) then
+   # D is not a t-design for any t.
+   D.allTDesignLambdas:=Immutable([]); 
+   return D.allTDesignLambdas;
+fi;
+b:=Length(D.blocks);
+k:=BlockSizes(D)[1];
+m:=b/Binomial(D.v,k);
+if IsInt(m) and ForAll(Collected(D.blocks),x->x[2]=m) then
+   # D is m times the trivial design.
+   D.allTDesignLambdas:=Immutable(List([0..k],
+      i->b*Binomial(k,i)/Binomial(D.v,i))); 
+   return D.allTDesignLambdas;
+else 
+   return alltdesignlambdas(D);
+fi;
 end); 
    
 BindGlobal("PossibleTDesignLambdasFromParameters",function(t,v,k,lambda)
@@ -578,29 +632,41 @@ if lambda*(v-1)/(k-1) <> k then
    return false;
 fi;
 # Parameters are admissible, and  r=k, b=v.
-# Now partially check BRC.
+# Now check the Bruck-Ryser-Chowla condition.
 n:=k-lambda;
 if v mod 2 = 0 then
    # return true iff  n  is the square of an integer.
    return n=RootInt(n,2)^2; 
 fi;
-# For v odd, partially test BRC, applying Theorem 2.24 of
-# D.R. Stinson, Combinatorial Designs: Constructions and Analysis,
-# Springer, 2004.
+# For v odd, we test BRC by applying Theorem 2.5 in 
+# E.S. Lander, Symmetric Designs: An Algebraic Approach, CUP, 1983. 
 p1:=List(Filtered(Collected(FactorsInt(lambda)),x->x[2] mod 2 <> 0),y->y[1]);
 # now p1 is a list of the distinct primes dividing the 
 # squarefree part of  lambda.
-p2:=List(Filtered(Collected(FactorsInt(n)),
-                      x->x[1]<>2 and x[2] mod 2 <> 0),y->y[1]);
-# now p2 is a list of the distinct *odd* primes dividing the 
+p2:=List(Filtered(Collected(FactorsInt(n)),x->x[2] mod 2 <> 0),y->y[1]);
+# now p2 is a list of the distinct primes dividing the 
 # squarefree part of  n.
+for p in Difference(p1,Union([2],p2)) do 
+   if not Legendre(n,p)=1 then
+      # BRC condition does not hold
+      return false;
+   fi;
+od;
 num:=(-1)^((v-1)/2)*Product(p1);
-for p in Difference(p2,p1) do 
+for p in Difference(p2,Union([2],p1)) do 
    if not Legendre(num,p)=1 then
       # BRC condition does not hold
       return false;
    fi;
 od;
+num:=(-1)^((v+1)/2)*Product(p1)*Product(p2);
+for p in Difference(Intersection(p1,p2),[2]) do 
+   if not Legendre(num/p^2,p)=1 then
+      # BRC condition does not hold
+      return false;
+   fi;
+od;
+# BRC condition holds.
 return true;
 end);
 
@@ -754,6 +820,7 @@ return lambdamin;
 end);
 
 BindGlobal("TDesignBlockMultiplicityBound",function(t,v,k,lambda)
+
 local blockmultiplicitybound;
 
 blockmultiplicitybound:=function(t,v,k,lambda)
@@ -762,7 +829,7 @@ blockmultiplicitybound:=function(t,v,k,lambda)
 # It is assumed that t,v,k,lambda are integers, with
 # v,k,lambda>0 and 0<=t<=k<=v, but this is not checked.
 #
-local newlambda,lambdavec,multbound,m;
+local newlambda,lambdavec,multbound,m,lower,upper,mid;
 if t=0 or k=v then
    return lambda;
 elif k>v/2 and v-k>=t then
@@ -792,19 +859,25 @@ else
    # consider the derived design
    multbound:=blockmultiplicitybound(t-1,v-1,k-1,lambda);
 fi;
-if t mod 2 <> 0 then
+if t mod 2 <> 0 or multbound=0 then
    return multbound;
 fi;
 # Now t>=2 is even.
-# Apply bound of Cameron and Soicher.
+# Refine bound using block intersection polynomials and binary search.
 m:=ListWithIdenticalEntries(k+1,0);
-while m[k+1]<=multbound and BlockIntersectionPolynomialCheck(m,lambdavec) do
-   m[k+1]:=m[k+1]+1;
+lower:=0;
+upper:=multbound+1;
+# The bound on the multiplicity of a block is  >= lower  and  < upper.
+while upper-lower>1 do
+   mid:=Int((lower+upper)/2); 
+   m[k+1]:=mid;
+   if BlockIntersectionPolynomialCheck(m,lambdavec) then
+      lower:=mid;
+   else
+      upper:=mid;
+   fi;
 od;
-if m[k+1]=0 then
-   return 0;
-fi;
-return m[k+1]-1;
+return lower;
 end;
 
 if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
@@ -820,7 +893,8 @@ return blockmultiplicitybound(t,v,k,lambda);
 end);
 
 BindGlobal("ResolvableTDesignBlockMultiplicityBound",function(t,v,k,lambda)
-local multbound,r,lambdavec,m;
+
+local multbound,r,lambdavec,m,lower,upper,mid;
 if not (IsInt(t) and IsInt(v) and IsInt(k) and IsInt(lambda)) then
    Error("usage: ResolvableTDesignBlockMultiplicityBound( <Int>, <Int>, <Int>, <Int> )");
 fi;
@@ -862,19 +936,26 @@ if lambdavec[1]<v+lambdavec[2]-1 then
    return 0;
 fi;
 multbound:=TDesignBlockMultiplicityBound(t,v,k,lambda); # initialize
-if t mod 2 <> 0 then
+if t mod 2 <> 0 or multbound=0 then
    return multbound;
 fi;
 # Now t>=2 is even.
-# Apply bound of Cameron and Soicher.
+# Refine bound using block intersection polynomials and binary search.
 m:=ListWithIdenticalEntries(k+1,0);
-m[k+1]:=1;
-m[1]:=v/k-1;
-while m[k+1]<=multbound and BlockIntersectionPolynomialCheck(m,lambdavec) do
-   m[k+1]:=m[k+1]+1;
-   m[1]:=m[k+1]*(v/k-1);
+lower:=0;
+upper:=multbound+1;
+# The bound on the multiplicity of a block is  >= lower  and  < upper.
+while upper-lower>1 do
+   mid:=Int((lower+upper)/2); 
+   m[k+1]:=mid;
+   m[1]:=mid*(v/k-1);
+   if BlockIntersectionPolynomialCheck(m,lambdavec) then
+      lower:=mid;
+   else
+      upper:=mid;
+   fi;
 od;
-return m[k+1]-1;
+return lower;
 end);
 
 BindGlobal("IncidenceGraphSupportBlockDesign",function(D)
@@ -1581,23 +1662,90 @@ BindGlobal("PGPointFlatBlockDesign",function(n,q,d)
 # of  PG(n,q)  and whose blocks are the  d-flats  of  PG(n,q) 
 # (i.e. the subspaces of projective dimension d). 
 # 
-local V,points,flats,blocks;
+local F,V,points,i,flat,block,normedpoints,gens,frobaut,zerovec,
+      flatbasis,G,D;
 if not IsInt(n) or not IsInt(q) or not IsInt(d) then
    Error("usage: PGPointFlatBlockDesign( <Int>, <Int>, <Int> )");
 fi;
 if n<0 then 
    Error("<n> must be non-negative");
-fi;
-if d<0 or d>n then
+elif d<0 or d>n then
    Error("<d> must be in [0..<n>]");
 fi;
-V:=GaloisField(q)^(n+1);
+F:=GaloisField(q);
+V:=F^(n+1);
 points:=AsSet(Subspaces(V,1));
-flats:=AsSet(Subspaces(V,d+1));
-blocks:=AsSortedList(
-   List(flats,f->Filtered([1..Length(points)],i->IsSubset(f,points[i]))));
-return rec(isBlockDesign:=true,v:=Length(points),
-           pointNames:=points,blocks:=blocks);
+normedpoints:=List(points,x->NormedRowVectors(x)[1]);
+# Now calculate a block-transitive group  G  of automorphisms of the design.
+gens:=ShallowCopy(GeneratorsOfGroup(Action(GL(n+1,q),normedpoints,OnLines)));
+if not IsPrimeInt(q) then
+   # Add to  gens  the Frobenius automorphism of  F,  acting on the
+   # (indices of the) points.
+   frobaut:=FrobeniusAutomorphism(F);
+   Add(gens,PermList(List(normedpoints,x->
+      PositionSorted(points,SubspaceNC(V,[List(x,y->y^frobaut)],"basis"))))); 
+fi;
+G:=Group(gens);
+# Now make one block of the design.
+zerovec:=ListWithIdenticalEntries(n+1,Zero(F));
+flatbasis:=[];
+for i in [1..d+1] do
+   flatbasis[i]:=ShallowCopy(zerovec);
+   flatbasis[i][i]:=One(F);
+od;
+flat:=Subspace(V,flatbasis,"basis");
+block:=Filtered([1..Length(points)],i->normedpoints[i] in flat); 
+D:=BlockDesign(Length(points),[block],G); 
+D.pointNames:=points;
+return D;
+end);
+
+BindGlobal("AGPointFlatBlockDesign",function(n,q,d)
+#
+# Returns the block design whose points are the points
+# of  AG(n,q)  and whose blocks are the  d-flats  of  AG(n,q) 
+# (i.e. the cosets of the subspaces of dimension d). 
+# 
+local F,V,G,points,zerovec,flatbasis,flat,i,block,gens,translation,
+      frobaut,vec,D;
+if not IsInt(n) or not IsInt(q) or not IsInt(d) then
+   Error("usage: AGPointFlatBlockDesign( <Int>, <Int>, <Int> )");
+fi;
+if n<1 then 
+   Error("<n> must be positive");
+elif d<0 or d>n then
+   Error("<d> must be in [0..<n>]");
+fi;
+F:=GaloisField(q);
+V:=F^n;
+points:=AsSet(Elements(V)); 
+# Now calculate a block-transitive group  G  of automorphisms of the design.
+gens:=ShallowCopy(GeneratorsOfGroup(Action(GL(n,q),points)));
+# Now add to  gens  the translation by  [1,0,0,...,0]. 
+vec:=ListWithIdenticalEntries(n,Zero(F));
+vec[1]:=One(F); 
+translation:=PermList(List(points,x->PositionSorted(points,x+vec)));
+Add(gens,translation);
+if not IsPrimeInt(q) then
+   # Add to  gens  the Frobenius automorphism of  F,  acting on the
+   # (indices of the) points.
+   frobaut:=FrobeniusAutomorphism(F);
+   Add(gens,PermList(List(points,x->
+               PositionSorted(points,List(x,y->y^frobaut))))); 
+fi;
+G:=Group(gens);
+# Now make one block of the design.
+zerovec:=ListWithIdenticalEntries(n,Zero(F));
+flatbasis:=[];
+for i in [1..d] do
+   flatbasis[i]:=ShallowCopy(zerovec);
+   flatbasis[i][i]:=One(F);
+od;
+flat:=Subspace(V,flatbasis,"basis");
+block:=Filtered([1..Length(points)],i->points[i] in flat); 
+D:=BlockDesign(Length(points),[block],G); 
+D.pointNames:=points;
+return D;
 end);
 
 BindGlobal("WittDesign",function(n)
@@ -2272,9 +2420,10 @@ if isolevel=2 then
          # subgroup of A of its isomorphism type. 
          # Thus, Length(KK)=1  or  C is normal in G,  or
          # C is a "friendly" subgroup of A
-         # (see L.H. Soicher, Computational group theory problems arising
-         # from computational design theory, Oberwolfach Reports,
-         # Computational Group Theory, 2006,  and 
+         # (see: L.H. Soicher, Computational group theory problems arising 
+         # from computational design theory, Oberwolfach Rep. 3 (2006), 
+         # Report 30/2006: Computational group theory, 1809-1811,  
+         # (preprint at: http://designtheory.org/library/preprints/ ), and
          # P. Hall, Theorems like Sylow's, Proc. LMS 6, 1956).
          # It follows that isomorph-rejection of GG-images of kk.clique 
          # has already been handled by  Image(hom,Normalizer(G,C)),  
@@ -2594,15 +2743,16 @@ end);
 
 BindGlobal("SemiLatinSquareDuals",function(arg)
 #
-# Function to classify the duals of (n x n)/k semi-Latin squares
-# with given properties.
+# Function to classify the (n x n)/k semi-Latin squares
+# with given properties. Returns a list of the duals 
+# of these squares.
 #
-local n,k,blockmaxmultiplicity,blockintersectionnumbers,isolevel,
-   C,G,W,B,S,s,i,blockdesign,pointnames;
+local n,k,blockmaxmultiplicity,blockintersectionsizes,isolevel,
+   C,G,W,B,S,s,i,blockdesign,pointnames,WW;
 
 n:=arg[1];
-if not IsInt(n) or n<2 then 
-   Error("<n> must be an integer >=2");
+if not IsPosInt(n) then 
+   Error("<n> must be a positive integer");
 fi;
 k:=arg[2];
 if not IsPosInt(k) then 
@@ -2618,41 +2768,38 @@ else
    blockmaxmultiplicity:=k; 
 fi;
 if IsBound(arg[4]) and arg[4]<>"default" then
-   blockintersectionnumbers:=arg[4];
-   if not (IsList(blockintersectionnumbers) and 
-      ForAll(blockintersectionnumbers,IsInt)) then
-      Error("<blockintersectionnumbers> must be a list of integers");
+   blockintersectionsizes:=arg[4];
+   if not (IsList(blockintersectionsizes) and 
+      ForAll(blockintersectionsizes,IsInt)) then
+      Error("<blockintersectionsizes> must be a list of integers");
    fi;
-   blockintersectionnumbers:=Intersection(blockintersectionnumbers,[0..n]);
+   blockintersectionsizes:=Intersection(blockintersectionsizes,[0..n]);
 else
-   blockintersectionnumbers:=[0..n];
+   blockintersectionsizes:=[0..n];
 fi;
-if k>=n and IsSubset([0,1],blockintersectionnumbers) then
+if n>=2 and k>=n and IsSubset([0,1],blockintersectionsizes) then
    return [];
 fi;
-if blockmaxmultiplicity>1 and not (n in blockintersectionnumbers) then
+if blockmaxmultiplicity>1 and not (n in blockintersectionsizes) then
    blockmaxmultiplicity:=1;
 fi;
 if IsBound(arg[5]) and arg[5]<>"default" then 
    isolevel:=arg[5];
-   if not (isolevel in [0,1,2]) then
-      Error("must have <isolevel> in [0,1,2]");
+   if not (isolevel in [0,1,2,3,4]) then
+      Error("must have <isolevel> in [0,1,2,3,4]");
    fi;
 else
    isolevel:=2;
 fi;
-if IsBound(arg[6]) and arg[6]<>"default" then 
-   C:=arg[6];
-   if not IsPermGroup(C) then
-      Error("the requiredautsubgroup <C> must be a permutation group");
-   fi;
-else
-   C:=Group(());
-fi;
 pointnames:=Immutable(Cartesian([1..n],[1..n]));
-W:=Action(
-      WreathProductImprimitiveAction(SymmetricGroup(n),SymmetricGroup(2)),
-      pointnames,
+if isolevel in [0,1,2] then
+   # for weak isomorphism
+   WW:=WreathProductImprimitiveAction(SymmetricGroup(n),SymmetricGroup(2));
+else
+   # for strong isomorphism
+   WW:=DirectProduct(SymmetricGroup(n),SymmetricGroup(n));
+fi;
+W:=Action(WW,pointnames,
       function(x,g) 
       #
       # Product action of the standard imprimitive wreath product Sn wr C2.
@@ -2662,12 +2809,27 @@ W:=Action(
       y:=OnSets([x[1],x[2]+n],g);
       return [y[1],y[2]-n];
       end); 
-SetSize(W,2*Factorial(n)^2); # (n>=2)
+if isolevel in [0,1,2] and n>1 then
+   SetSize(W,2*Factorial(n)^2); 
+fi;
+if isolevel in [3,4] then
+   # W has been set up so that isomorphism means strong
+   # isomorphism, and we now reset isolevel to its usual meaning.
+   # Note that the concept of isomorphism may be further refined
+   # by the use of an isogroup.
+   SetSize(W,Factorial(n)^2); 
+   isolevel:=isolevel-2;
+fi;
+if IsBound(arg[6]) and arg[6]<>"default" then 
+   C:=arg[6];
+   if not IsPermGroup(C) then
+      Error("the requiredautsubgroup <C> must be a permutation group");
+   fi;
+else
+   C:=Group(());
+fi;
 if IsBound(arg[7]) and arg[7]<>"default" then
    G:=arg[7];
-   # 
-   # G must preserve the point-set-structure of the required subdesign(s).
-   #
    if not (IsPermGroup(G) and IsSubgroup(W,G)) then
       Error("the isogroup <G> must be a subgroup of <W>");
    fi;
@@ -2694,7 +2856,7 @@ fi;
 S:=BlockDesigns(rec(v:=n^2,blockSizes:=[n],
       tSubsetStructure:=rec(t:=1,lambdas:=[k]),
       blockMaxMultiplicities:=[blockmaxmultiplicity],
-      blockIntersectionNumbers:=[[blockintersectionnumbers]],
+      blockIntersectionNumbers:=[[blockintersectionsizes]],
       isoLevel:=isolevel,
       requiredAutSubgroup:=C,
       isoGroup:=G,

@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  sls.tex        DESIGN documentation           Leonard Soicher
+%
+%
+%
+\def\GRAPE{\sf GRAPE}
+\def\DESIGN{\sf DESIGN}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,} 
+
+\Chapter{Classifying semi-Latin squares}
+
+This chapter describes the function `SemiLatinSquareDuals' which can
+classify semi-Latin squares with certain given properties, and return
+a list of their duals as block designs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Semi-Latin squares and SOMAs}
+
+Let $n$ and $k$ be positive integers. An $(n\times n)/k$ *semi-Latin
+square*\index{semi-Latin square} is an $n$ by $n$ array $A$, whose
+entries are $k$-subsets of a $kn$-set $X$ (the *symbol-set*), such that
+each element of $X$ occurs exactly once in each row and exactly once in
+each column of $A$. (Thus an $(n\times n)/1$ semi-Latin square is the same
+thing as a Latin square of order $n$.) For extensive useful information on
+semi-Latin squares, see \URL{http://www.maths.qmul.ac.uk/~rab/sls.html}.
+
+A SOMA$(k,n)$\index{SOMA} is an $(n\times n)/k$ semi-Latin square $A$,
+with $n\ge2$, in which no 2-subset of the symbol-set is contained in
+more than one entry of $A$.  For extensive useful information on SOMAs,
+see \URL{http://www.maths.qmul.ac.uk/~leonard/soma/}.
+
+Let $A$ and $B$ be $(n\times n)/k$ semi-Latin squares.  We say that
+$B$ is *(weakly) isomorphic* to $A$ if $B$ can be obtained from $A$
+by applying one or more of: a row permutation; a column permutation;
+transposing; renaming the symbols. If transposing is not allowed then we
+get the concept of strong isomorphism. More formally, $B$ is *strongly
+isomorphic* to $A$ if $B$ can be obtained from $A$ by applying one or
+more of: a row permutation; a column permutation; renaming the symbols.
+
+Let $A$ be an $(n\times n)/k$  semi-Latin square.  Then the dual of $A$
+can be represented as a binary block design as follows. The point-set of
+$D$ is taken to be the Cartesian square of $\{1,\ldots,n\}$, with $[x,y]$
+representing the $[x,y]$-entry of $A$. The blocks of $D$ are in one-to-one
+correspondance with the symbols of $A$, with the $i$-th block of $D$
+consisting of the ordered pairs $[x,y]$ such that the $i$-th symbol of
+$A$ is contained in the $[x,y]$-entry of $A$. Given $D$, the semi-Latin
+square $A$ can be recovered, up to the naming of its symbols.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{The function SemiLatinSquareDuals}
+
+\>SemiLatinSquareDuals( <n>, <k> )
+\>SemiLatinSquareDuals( <n>, <k>, <maxmult> )
+\>SemiLatinSquareDuals( <n>, <k>, <maxmult>, <blockintsizes> )
+\>SemiLatinSquareDuals( <n>, <k>, <maxmult>, <blockintsizes>, <isolevel> )
+
+Let <n> and <k> be positive integers. Then this function (which makes
+heavy use of the function `BlockDesigns') returns a list <DL> of block
+designs which are the duals of the $(<n>\times <n>)/<k>$ semi-Latin
+squares whose properties are specified by the given parameters, described
+below. In practice, depending on the specified properties, this function
+can be useful for <n> up to about $6$ or $7$.
+
+The parameter <maxmult>, if given, must be a positive integer or
+the string `"default"'. If it is a positive integer, then <maxmult>
+specifies an upper bound on the multiplicity of each block in each
+semi-Latin square dual in <DL>. The default value for <maxmult> (if
+omitted or if given as `"default"') is <k>, which poses no constraint
+on the block multiplicities.
+
+The parameter <blockintsizes>, if given, must be a set of non-negative
+integers or the string `"default"'.  If it is given as a set, then
+<blockintsizes> specifies, for each semi-Latin square dual in <DL>,
+the set of possible sizes for the intersection of a block $B$ with a
+different block (but possibly a repeat of $B$).  The default value for
+<blockintsizes> (if omitted or if given as `"default"') is `[0..<n>]',
+which poses no constraint on the block intersection sizes. Note that
+block intersection sizes in the dual of a semi-Latin square correspond
+to concurrencies of points in the semi-Latin square itself. Also note
+that if $<n>\ge2$ and <blockintsizes> is specified to be `[0,1]' then
+the $(n\times n)/k$ semi-Latin squares being considered are SOMA$(k,n)$s.
+
+The parameter <isolevel>, if given, must be 0, 1, 2, 3, 4 or the string
+`"default"' (the default value is 2).  The value 0 specifies that <DL>
+will contain at most one (semi-Latin square dual given as a) block design,
+and will contain one such block design if and only if a semi-Latin square
+with the required properties exists. The value~1 specifies that <DL>
+will contain a list of duals representing all weak isomorphism classes
+of semi-Latin squares with the required properties (possibly with some
+classes represented more than once) and the value 2 specifies that <DL>
+will contain precisely one dual semi-Latin square representative for
+each weak isomorphism class of semi-Latin squares with the required
+properties. The values 3 and 4 for <isolevel> play the roles of 1 and 2,
+respectively, but with weak isomorphism replaced by strong isomorphism.
+Thus, $<isolevel>=3$ specifies that <DL> will contain a list of duals
+representing all strong isomorphism classes of semi-Latin squares with
+the required properties (possibly with some classes represented more than
+once) and $<isolevel>=4$ specifies that <DL> will contain precisely one
+dual semi-Latin square representative for each strong isomorphism class
+of semi-Latin squares with the required properties.
+
+For example, we determine the numbers of weak and strong isomorphism
+classes of $(4\times 4)/k$ semi-Latin squares for $k=1,\ldots,6$. (These
+numbers disagree with P.~E.~Chigbu's classification for the cases $k=3,4$
+\cite{BaCh}.)
+
+\beginexample
+gap> List([1..6],k->Length(SemiLatinSquareDuals(4,k))); # weak
+[ 2, 10, 40, 164, 621, 2298 ]
+gap> List([1..6],k->Length(SemiLatinSquareDuals(4,k,"default","default",4))); # strong
+[ 2, 11, 46, 201, 829, 3343 ]
+\endexample
+
+Next, we determine one SOMA$(3,6)$. 
+
+\beginexample
+gap> SemiLatinSquareDuals(6,3,"default",[0,1],0);
+[ rec( isBlockDesign := true, v := 36, 
+      blocks := [ [ 1, 8, 15, 22, 29, 36 ], [ 1, 9, 16, 23, 30, 32 ], 
+          [ 1, 12, 14, 21, 28, 35 ], [ 2, 9, 17, 24, 25, 34 ], 
+          [ 2, 11, 18, 22, 27, 31 ], [ 2, 12, 16, 19, 29, 33 ], 
+          [ 3, 10, 14, 24, 29, 31 ], [ 3, 11, 16, 20, 25, 36 ], 
+          [ 3, 12, 13, 23, 26, 34 ], [ 4, 7, 14, 23, 27, 36 ], 
+          [ 4, 8, 17, 21, 30, 31 ], [ 4, 9, 18, 19, 26, 35 ], 
+          [ 5, 7, 15, 20, 30, 34 ], [ 5, 8, 13, 24, 28, 33 ], 
+          [ 5, 10, 18, 21, 25, 32 ], [ 6, 7, 17, 22, 26, 33 ], 
+          [ 6, 10, 13, 20, 27, 35 ], [ 6, 11, 15, 19, 28, 32 ] ], 
+      tSubsetStructure := rec( t := 1, lambdas := [ 3 ] ), isBinary := true, 
+      isSimple := true, blockSizes := [ 6 ], blockNumbers := [ 18 ], r := 3, 
+      autSubgroup := <permutation group of size 72 with 3 generators>, 
+      pointNames := [ [ 1, 1 ], [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], 
+          [ 1, 6 ], [ 2, 1 ], [ 2, 2 ], [ 2, 3 ], [ 2, 4 ], [ 2, 5 ], 
+          [ 2, 6 ], [ 3, 1 ], [ 3, 2 ], [ 3, 3 ], [ 3, 4 ], [ 3, 5 ], 
+          [ 3, 6 ], [ 4, 1 ], [ 4, 2 ], [ 4, 3 ], [ 4, 4 ], [ 4, 5 ], 
+          [ 4, 6 ], [ 5, 1 ], [ 5, 2 ], [ 5, 3 ], [ 5, 4 ], [ 5, 5 ], 
+          [ 5, 6 ], [ 6, 1 ], [ 6, 2 ], [ 6, 3 ], [ 6, 4 ], [ 6, 5 ], 
+          [ 6, 6 ] ] ) ]
+\endexample

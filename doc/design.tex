@@ -12,7 +12,7 @@
 
 \Chapter{Design}
 
-This manual describes the {\DESIGN}~1.3 package for {\GAP} (version at
+This manual describes the {\DESIGN}~1.4 package for {\GAP} (version at
 least 4.4).  The {\DESIGN} package is for constructing, classifying,
 partitioning and studying block designs.
 
@@ -24,10 +24,10 @@ package \cite{Nauty}. These {\GRAPE} functions can only be used on a
 fully installed version of {\GRAPE} in a UNIX environment. {\DESIGN} also
 requires the {\GAPDoc} package \cite{GAPDoc} (version at least 0.99),
 if you want to read lists of designs in the \URL{http://designtheory.org}
-external representation format (see \cite{Extrep}).
+external representation XML format (see \cite{Extrep}).
 
 The {\DESIGN} package is Copyright {\copyright} Leonard H. Soicher
-2003--2006.  {\DESIGN} is part of a wider project, which received EPSRC
+2003--2009.  {\DESIGN} is part of a wider project, which received EPSRC
 funding under grant GR/R29659/01, to provide a web-based resource for
 design theory; see \URL{http://designtheory.org} and \cite{Dotw}.
 
@@ -41,7 +41,7 @@ If you use {\DESIGN} to solve a problem then please send a short email
 about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
 package as follows:
 
-L.~H. Soicher, The {DESIGN} package for {GAP}, Version~1.3, 2006,
+L.~H. Soicher, The {DESIGN} package for {GAP}, Version~1.4, 2009,
 \URL{http://designtheory.org/software/gap_design/}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,20 +51,20 @@ The {\DESIGN} package has complete functionality only in a UNIX
 environment in which the {\GRAPE} and {\GAPDoc} packages are fully
 installed.
 
-To install {\DESIGN}~1.3 (on a UNIX system, after
+To install {\DESIGN}~1.4 (on a UNIX system, after
 installing {\GAP}, {\GRAPE} and {\GAPDoc}), first obtain
-the {\DESIGN} archive file `design1r3.tar.gz', available from
+the {\DESIGN} archive file `design1r4.tar.gz', available from
 \URL{http://designtheory.org/software/gap_design/} and then copy
 this archive file into the `pkg' directory of the {\GAP} root
 directory. Actually, it is possible to have several {\GAP} root
 directories, and so it is easy to install {\DESIGN} locally even if you
 have no permission to add files to the main {\GAP} installation (see the
 {\GAP} reference manual section "ref:GAP Root Directory").  Now go to the
-appropriate `pkg' directory containing `design1r3.tar.gz', and then run
+appropriate `pkg' directory containing `design1r4.tar.gz', and then run
 
 \begintt
-gunzip design1r3.tar.gz
-tar -xf design1r3.tar
+gunzip design1r4.tar.gz
+tar -xf design1r4.tar
 \endtt
 
 That's all there is to do.
@@ -91,15 +91,16 @@ true
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{The structure of a block design in DESIGN}
 
-A *block design* is a pair $(X,B)$, where $X$ is a non-empty finite
-set whose elements are called *points*, and $B$ is a non-empty finite
-multiset whose elements are called *blocks*, such that each block   
-is a non-empty finite multiset of points.
-  
-{\DESIGN} deals with arbitrary block designs. However, at present,  
-some {\DESIGN} functions only work for *binary* block designs 
-(i.e. those with no repeated element in any block of the design),
-but these functions will check if an input block design is binary.
+A *block design*\index{block design} is an ordered pair $(X,B)$, where
+$X$ is a non-empty finite set whose elements are called *points*, and
+$B$ is a non-empty finite multiset whose elements are called *blocks*,
+such that each block is a non-empty finite multiset of points.
+
+{\DESIGN} deals with arbitrary block designs. However, at present, some
+{\DESIGN} functions only work for *binary* block designs\index{binary
+block design} (i.e. those with no repeated element in any block of
+the design), but these functions will check if an input block design
+is binary.
 
 In {\DESIGN}, a block design <D> is stored as a record, with mandatory
 components `isBlockDesign', `v', and `blocks'.  The points of a block
