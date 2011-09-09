@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  efficiency.tex            DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+\def\x{\times}
+\Chapter{Matrices and efficiency measures for block designs}
+
+In this chapter we describe functions to calculate certain matrices
+associated with a block design, and the function `BlockDesignEfficiency'
+which determines certain statistical efficiency measures of a 1-design.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Matrices associated with a block design}
+
+\>PointBlockIncidenceMatrix( <D> )
+
+This function returns the point-block incidence matrix <N> of the
+block design <D>.  This matrix has rows indexed by the points of <D>
+and columns by the blocks of <D>, with the $(i,j)$-entry of <N> being
+the number of times point $i$ occurs in `<D>.blocks[<j>]'.
+
+The returned matrix <N> is immutable. 
+
+\beginexample
+gap> D:=DualBlockDesign(AGPointFlatBlockDesign(2,3,1));;
+gap> BlockDesignBlocks(D);
+[ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8, 11 ], 
+  [ 2, 7, 9, 12 ], [ 3, 5, 10, 12 ], [ 3, 6, 9, 11 ], [ 4, 6, 8, 12 ], 
+  [ 4, 7, 10, 11 ] ]
+gap> PointBlockIncidenceMatrix(D);
+[ [ 1, 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 0, 0, 1, 1, 0, 0, 0, 0 ], 
+  [ 1, 0, 0, 0, 0, 1, 1, 0, 0 ], [ 1, 0, 0, 0, 0, 0, 0, 1, 1 ], 
+  [ 0, 1, 0, 1, 0, 1, 0, 0, 0 ], [ 0, 1, 0, 0, 0, 0, 1, 1, 0 ], 
+  [ 0, 1, 0, 0, 1, 0, 0, 0, 1 ], [ 0, 0, 1, 1, 0, 0, 0, 1, 0 ], 
+  [ 0, 0, 1, 0, 1, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0, 1, 0, 0, 1 ], 
+  [ 0, 0, 0, 1, 0, 0, 1, 0, 1 ], [ 0, 0, 0, 0, 1, 1, 0, 1, 0 ] ]
+\endexample
+
+\>ConcurrenceMatrix( <D> )
+
+This function returns the concurrence matrix <L> of the block design <D>.
+This matrix is equal to $NN^{\rm T}$, where $N$ is the point-block
+incidence matrix of <D> (see "PointBlockIncidenceMatrix") and 
+$N^{\rm T}$ is the transpose of $N$. If <D> is a binary block design
+then the $(i,j)$-entry of its concurrence matrix is the number of blocks
+containing points $i$ and $j$.
+
+The returned matrix <L> is immutable.
+
+\beginexample
+gap> D:=DualBlockDesign(AGPointFlatBlockDesign(2,3,1));;
+gap> BlockDesignBlocks(D);
+[ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8, 11 ], 
+  [ 2, 7, 9, 12 ], [ 3, 5, 10, 12 ], [ 3, 6, 9, 11 ], [ 4, 6, 8, 12 ], 
+  [ 4, 7, 10, 11 ] ]
+gap> ConcurrenceMatrix(D);
+[ [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0 ], 
+  [ 1, 3, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1 ], 
+  [ 1, 1, 3, 1, 1, 1, 0, 0, 1, 1, 1, 1 ], 
+  [ 1, 1, 1, 3, 0, 1, 1, 1, 0, 1, 1, 1 ], 
+  [ 1, 1, 1, 0, 3, 1, 1, 1, 0, 1, 1, 1 ], 
+  [ 1, 0, 1, 1, 1, 3, 1, 1, 1, 0, 1, 1 ], 
+  [ 1, 1, 0, 1, 1, 1, 3, 0, 1, 1, 1, 1 ], 
+  [ 1, 1, 0, 1, 1, 1, 0, 3, 1, 1, 1, 1 ], 
+  [ 1, 1, 1, 0, 0, 1, 1, 1, 3, 1, 1, 1 ], 
+  [ 1, 0, 1, 1, 1, 0, 1, 1, 1, 3, 1, 1 ], 
+  [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0 ], 
+  [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3 ] ]
+\endexample
+
+\>InformationMatrix( <D> )
+
+This function returns the information matrix <C> of the block design <D>.
+
+This matrix is defined as follows. Suppose <D> has $v$ points and $b$
+blocks, let $R$ be the $v\times v$ diagonal matrix whose $(i,i)$-entry
+is the replication number of the point $i$, let $N$ be the point-block
+incidence matrix of <D> (see "PointBlockIncidenceMatrix"), and let $K$
+be the $b\times b$ diagonal matrix whose $(j,j)$-entry is the length of
+`<D>.blocks[<j>]'. Then the *information matrix* of <D> is 
+$C:=R-NK^{-1}N^{\rm T}$. If <D> is a 1-$(v,k,r)$ design then this expression
+for <C> simplifies to $rI-k^{-1}L$, where $I$ is the $v\times v$ identity
+matrix and $L$ is the concurrence matrix of <D> (see "ConcurrenceMatrix").
+
+The returned matrix <C> is immutable.
+
+\beginexample
+gap> D:=DualBlockDesign(AGPointFlatBlockDesign(2,3,1));;
+gap> BlockDesignBlocks(D);
+[ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8, 11 ], 
+  [ 2, 7, 9, 12 ], [ 3, 5, 10, 12 ], [ 3, 6, 9, 11 ], [ 4, 6, 8, 12 ], 
+  [ 4, 7, 10, 11 ] ]
+gap> InformationMatrix(D);
+[ [ 9/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, 0, 0 ], 
+  [ -1/4, 9/4, -1/4, -1/4, -1/4, 0, -1/4, -1/4, -1/4, 0, -1/4, -1/4 ], 
+  [ -1/4, -1/4, 9/4, -1/4, -1/4, -1/4, 0, 0, -1/4, -1/4, -1/4, -1/4 ], 
+  [ -1/4, -1/4, -1/4, 9/4, 0, -1/4, -1/4, -1/4, 0, -1/4, -1/4, -1/4 ], 
+  [ -1/4, -1/4, -1/4, 0, 9/4, -1/4, -1/4, -1/4, 0, -1/4, -1/4, -1/4 ], 
+  [ -1/4, 0, -1/4, -1/4, -1/4, 9/4, -1/4, -1/4, -1/4, 0, -1/4, -1/4 ], 
+  [ -1/4, -1/4, 0, -1/4, -1/4, -1/4, 9/4, 0, -1/4, -1/4, -1/4, -1/4 ], 
+  [ -1/4, -1/4, 0, -1/4, -1/4, -1/4, 0, 9/4, -1/4, -1/4, -1/4, -1/4 ], 
+  [ -1/4, -1/4, -1/4, 0, 0, -1/4, -1/4, -1/4, 9/4, -1/4, -1/4, -1/4 ], 
+  [ -1/4, 0, -1/4, -1/4, -1/4, 0, -1/4, -1/4, -1/4, 9/4, -1/4, -1/4 ], 
+  [ 0, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, 9/4, 0 ], 
+  [ 0, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, -1/4, 0, 9/4 ] ]
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{The function BlockDesignEfficiency}
+
+\>BlockDesignEfficiency( <D> )
+\>BlockDesignEfficiency( <D>, <eps> )
+\>BlockDesignEfficiency( <D>, <eps>, <includeMV> )
+
+Let <D> be a 1-$(v,k,r)$ design with $v>1$, let <eps> be a positive
+rational number (default: $10^{-6}$), and let <includeMV> be a boolean
+(default: `false').  Then this function returns a record <eff> containing
+information on statistical efficiency measures of <D>. These measures
+are defined below.  See \cite{Extrep}, \cite{BaCa} and \cite{BaRo}
+for further details.  All returned results are computed using exact
+algebraic computation.
+
+The component `<eff>.A' contains the A-efficiency measure for <D>,
+`<eff>.Dpowered' contains the D-efficiency measure of <D> raised to the
+power $v-1$, and `<eff>.Einterval' is a list $[a,b]$ of non-negative
+rational numbers such that if $x$ is the E-efficiency measure of <D>
+then $a\le x\le b$, $b-a\le$<eps>, and if $x$ is rational then $a=x=b$.
+Moreover `<eff>.CEFpolynomial' contains the monic polynomial over the
+rationals whose zeros (counting multiplicities) are the canonical
+efficiency factors of the design <D>.  If `<includeMV>=true' then
+additional work is done to compute the MV (also called E$'$) efficiency
+measure, and then `<eff>.MV' contains the value of this measure. (This
+component may be set even if `<includeMV>=false', as a byproduct of
+other computation.)
+
+We now define the canonical efficiency factors and the A-, D-, E-,
+and MV-efficiency measures of a 1-design. 
+
+Let $D$ be a 1-$(v,k,r)$ design with $v\ge 2$, let $C$ be the information
+matrix of $D$ (see "InformationMatrix"), and let $F:=r^{-1}C$.
+The eigenvalues of $F$ are all real and lie in the interval $[0,1]$.
+At least one of these eigenvalues is zero: an associated eigenvector is
+the all-$1$ vector. The remaining eigenvalues $\delta_1\le \delta_2\le
+\cdots \le \delta_{v-1}$ of $F$ are called the *canonical efficiency
+factors* of $D$. These are all non-zero if and only if $D$ is connected
+(that is, the point-block incidence graph of $D$ is a connected graph).
+
+If $D$ is not connected, then the A-, D-, E-, and MV-efficiency
+measures of $D$ are all defined to be zero.  Otherwise, the
+*A-measure* is $(v-1)/\sum_{i=1}^{v-1}1/\delta_i$ (the harmonic
+mean of the canonical efficiency factors), the *D-measure* is
+$(\prod_{i=1}^{v-1}\delta_i)^{1/(v-1)}$ (the geometric mean of the
+canonical efficiency factors), and the *E-measure* is $\delta_1$ (the
+minimum of the canonical efficiency factors).
+
+If $D$ is connected, and the MV-efficiency measure is required,
+then it is computed as follows. Let $F:=r^{-1}C$ be as before,
+and let $P:=v^{-1}J$, where $J$ is the $v\times v$ all-1 matrix. Set
+$M:=(F+P)^{-1}-P$, making $M$ the ``Moore-Penrose inverse'' of $F$ (see
+\cite{BaCa}). Then the *MV-measure* of $D$ is the minimum
+value (over all $i,j\in \{1,\ldots,v\}$, $i\not=j$) of
+$2/(M_{ii}+M_{jj}-M_{ij}-M_{ji})$.
+
+\beginexample
+gap> D:=DualBlockDesign(AGPointFlatBlockDesign(2,3,1));;
+gap> BlockDesignBlocks(D);
+[ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8, 11 ], 
+  [ 2, 7, 9, 12 ], [ 3, 5, 10, 12 ], [ 3, 6, 9, 11 ], [ 4, 6, 8, 12 ], 
+  [ 4, 7, 10, 11 ] ]
+gap> BlockDesignEfficiency(D);
+rec( A := 33/41, 
+  CEFpolynomial := x_1^11-9*x_1^10+147/4*x_1^9-719/8*x_1^8+18723/128*x_1^7-106\
+47/64*x_1^6+138159/1024*x_1^5-159813/2048*x_1^4+2067201/65536*x_1^3-556227/655\
+36*x_1^2+89667/65536*x_1-6561/65536, Dpowered := 6561/65536, 
+  Einterval := [ 3/4, 3/4 ] )
+gap> BlockDesignEfficiency(D,10^(-4),true);
+rec( A := 33/41, 
+  CEFpolynomial := x_1^11-9*x_1^10+147/4*x_1^9-719/8*x_1^8+18723/128*x_1^7-106\
+47/64*x_1^6+138159/1024*x_1^5-159813/2048*x_1^4+2067201/65536*x_1^3-556227/655\
+36*x_1^2+89667/65536*x_1-6561/65536, Dpowered := 6561/65536, MV := 3/4, 
+  Einterval := [ 3/4, 3/4 ] )
+\endexample
+
+
