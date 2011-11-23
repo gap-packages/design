@@ -12,14 +12,14 @@
 
 \Chapter{Design}
 
-This manual describes the {\DESIGN}~1.5 package for {\GAP} (version at
+This manual describes the {\DESIGN}~1.6 package for {\GAP} (version at
 least 4.5).  The {\DESIGN} package is for constructing, classifying,
 partitioning and studying block designs.
 
 All {\DESIGN} functions are written entirely in the {\GAP} language.
 However, {\DESIGN} requires the {\GRAPE} package \cite{Grape} (version
-at least 4.3) to be installed, and makes use of certain {\GRAPE}
-functions, some of which make use of B.~D.~McKay{\pif}s {\nauty} package
+at least 4.4) to be installed, and makes use of certain {\GRAPE}
+functions, some of which make use of B.D.~McKay{\pif}s {\nauty} package
 \cite{Nauty}. These {\GRAPE} functions can only be used on a fully
 installed version of {\GRAPE}. 
 
@@ -38,16 +38,30 @@ If you use {\DESIGN} to solve a problem then please send a short email
 about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
 package as follows:
 
-L.~H. Soicher, The {DESIGN} package for {GAP}, Version~1.5, 2011,
+L.H. Soicher, The {DESIGN} package for {GAP}, Version~1.6, 2011,
 \URL{http://designtheory.org/software/gap_design/}.
+
+Any comments or bug reports should also go to
+\Mailto{L.H.Soicher@qmul.ac.uk}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Installing the DESIGN Package}
 
-The {\DESIGN} package is included in the main {\GAP} distribution, is
-written entirely in {\GAP} code, and requires no further installation.
-However, the {\DESIGN} package has complete functionality only in an
-environment in which the {\GRAPE} package is fully installed.
+The {\DESIGN} package is included in the standard {\GAP}~4.5
+distribution. You only need to download and install {\DESIGN} if you need
+to install the package locally or are installing an upgrade of {\DESIGN}
+to an existing installation of {\GAP} (see the main {\GAP} reference
+section "Reference: Installing a GAP Package").  If you do need to download
+{\DESIGN}, you can find archive files for the package in various formats
+at \URL{http://www.gap-system.org/Packages/design.html}, and then your
+archive file of choice should be downloaded and unpacked in the `pkg'
+subdirectory of an appropriate GAP root directory (see the main {\GAP}
+reference section "Reference: GAP Root Directory").
+
+The {\DESIGN} package is written entirely in {\GAP} code, and requires
+no further installation.  However, the {\DESIGN} package has complete
+functionality only in an environment in which the {\GRAPE} package is
+fully installed.  Usually this will be on a Unix system.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Loading DESIGN}
