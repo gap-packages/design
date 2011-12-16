@@ -1,170 +1,273 @@
-<html><head><title>[Design] 2 Constructing block designs</title></head>
+<html><head><title>[design] 2 Information from block design parameters</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
-<h1>2 Constructing block designs</h1><p>
+<h1>2 Information from block design parameters</h1><p>
 <P>
 <H3>Sections</H3>
 <oL>
-<li> <A HREF="CHAP002.htm#SECT001">Functions to construct block designs</a>
+<li> <A HREF="CHAP002.htm#SECT001">Information from $t$-design parameters</a>
+<li> <A HREF="CHAP002.htm#SECT002">Block intersection polynomials</a>
 </ol><p>
 <p>
 <p>
-<h2><a name="SECT001">2.1 Functions to construct block designs</a></h2>
+<h2><a name="SECT001">2.1 Information from $t$-design parameters</a></h2>
 <p><p>
-<a name = "SSEC001.1"></a>
-<li><code>BlockDesign( </code><var>v</var><code>, </code><var>B</var><code> )</code>
+For <var>t</var> a non-negative integer and <var>v,k,lambda</var> positive integers with
+<var>tleklev</var>, a <var>t</var>-<strong>design</strong> with <strong>parameters</strong> <var>t,v,k,lambda</var>, or a
+<var>t</var>-<var>(v,k,lambda)</var> <strong>design</strong>, is a binary block design with exactly <var>v</var>
+points, such that each block has size <var>k</var> and each <var>t</var>-subset of the
+points is contained in exactly <var>lambda</var> blocks.
 <p>
-Let <var>v</var> be a positive integer. Then this function  returns the block
-design with point-set <var>{1,...,<var>v</var>}</var> and block multiset <var>B</var>, which
-must be a non-empty sorted list of non-empty sorted lists of elements
-of <var>{1,...,<var>v</var>}</var>.
+<a name = "SSEC001.1"></a>
+<li><code>TDesignLambdas( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
+<p>
+A <var>t</var>-<var>(v,k,lambda)</var> design is also an <var>s</var>-<var>(v,k,lambda<sub>s</sub>)</var> design
+for <var>0leslet</var>, where <var>lambda<sub>s</sub>=lambdav-s chooset-s/k-s
+chooset-s</var>.
+<p>
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var>,
+<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a length
+<var><var>t</var>+1</var> list whose <var>(s+1)</var>-st element is <var>lambda<sub>s</sub></var> as defined above,
+if all the <var>lambda<sub>s</sub></var> are integers. Otherwise, <code>fail</code> is returned.
 <p>
 <pre>
-gap&gt; BlockDesign( 2, [[1],[1,2],[1,2]] );
-rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
+gap&gt; TDesignLambdas(5,24,8,1);
+[ 759, 253, 77, 21, 5, 1 ]
 </pre>
 <p>
 <a name = "SSEC001.2"></a>
-<li><code>PGPointFlatBlockDesign( </code><var>n</var><code>, </code><var>q</var><code>, </code><var>d</var><code> )</code>
+<li><code>TDesignLambdaMin( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code> )</code>
 <p>
-Let <var>n</var> be a non-negative integer, <var>q</var> a prime-power, and <var>d</var> a
-non-negative integer less than or equal to <var>n</var>. Then this function
-returns the block design whose points are the (projective) points of
-the projective space <var>PG(<var>n</var>,<var>q</var>)</var>, and whose blocks are the <var><var>d</var></var>-flats
-of <var>PG(<var>n</var>,<var>q</var>)</var>, considering a <var>d</var>-flat as a set of projective points.
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var> and <var>k</var>, with
+<var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the minimum positive <var>lambda</var>
+such that <code>TDesignLambdas( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code> does not return
+<code>fail</code>.
 <p>
-Note that the <strong>projective space</strong> <var>PG(<var>n</var>,<var>q</var>)</var> consists of all the
-subspaces of the vector space <var>V(<var>n</var>+1,<var>q</var>)</var>, with the <strong>projective
-points</strong> being the 1-dimensional subspaces and the <strong><var><var>d</var></var>-flats</strong> being
-the <var>(<var>d</var>+1)</var>-dimensional subspaces.
+See <a href="CHAP002.htm#SSEC001.1">TDesignLambdas</a>. 
 <p>
 <pre>
-gap&gt; D:=PGPointFlatBlockDesign(3,2,1);;
-gap&gt; Print(D,"\n");
-rec(
-  isBlockDesign := true,
-  v := 15,
-  pointNames := 
-   [ VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ] ] ) ],
-  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
-      [ 1, 10, 11 ], [ 1, 12, 13 ], [ 1, 14, 15 ], [ 2, 4, 6 ], [ 2, 5, 7 ], 
-      [ 2, 8, 10 ], [ 2, 9, 11 ], [ 2, 12, 14 ], [ 2, 13, 15 ], [ 3, 4, 7 ], 
-      [ 3, 5, 6 ], [ 3, 8, 11 ], [ 3, 9, 10 ], [ 3, 12, 15 ], [ 3, 13, 14 ], 
-      [ 4, 8, 12 ], [ 4, 9, 13 ], [ 4, 10, 14 ], [ 4, 11, 15 ], [ 5, 8, 13 ], 
-      [ 5, 9, 12 ], [ 5, 10, 15 ], [ 5, 11, 14 ], [ 6, 8, 14 ], [ 6, 9, 15 ], 
-      [ 6, 10, 12 ], [ 6, 11, 13 ], [ 7, 8, 15 ], [ 7, 9, 14 ], 
-      [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
-gap&gt; Size(AutGroupBlockDesign(D));
-20160
+gap&gt; TDesignLambdaMin(5,24,8);  
+1
+gap&gt; TDesignLambdaMin(2,12,4);
+3
 </pre>
 <p>
 <a name = "SSEC001.3"></a>
-<li><code>TDesignFromTBD( </code><var>D</var><code>, </code><var>t</var><code>, </code><var>K</var><code> )</code>
+<li><code>TDesignIntersectionTriangle( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
 <p>
-Assuming that <var>D</var> is a <var>t</var>-wise balanced <var>t</var>-<var>(v,<var>K</var>,lambda)</var> design,
-with <var>t</var> a positive integer and <var>K</var> a set contained in <code>[</code><var>t</var><code>..</code><var>D</var><code>.v]</code>,
-this function returns the <var>t</var>-design obtained by applying the
-McSorley-Soicher construction to <var>D</var>.  The returned design is a
-<var>t</var>-<var>(v,<var>K</var>[1],nlambda)</var>, where <var>n</var> is the least common multiple of 
-<var>{k-tchoose<var>K</var>[1]-t : kin<var>K</var>}</var>.
+Suppose <var>D</var> is a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design, let <var>i</var> and <var>j</var>
+be non-negative integers with <var>i+jlet</var>, and suppose <var>X</var> and <var>Y</var>
+are disjoint subsets of the points of <var>D</var>, such that <var>X</var> and <var>Y</var> have
+respective sizes <var>i</var> and <var>j</var>. The <var>(i,j)</var>-<strong>intersection number</strong> is
+the number of blocks of <var>D</var> that contain <var>X</var> and are disjoint from <var>Y</var>
+(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <var>lambda</var>, <var>i</var> and <var>j</var>).
+<p>
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var>
+and <var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the
+<strong><var>t</var>-design intersection triangle</strong>, which is a two dimensional array
+whose <var>(i+1,j+1)</var>-entry is the <var>(i,j)</var>-intersection number for
+a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (assuming such a design exists),
+such that <var>i,jge0</var>, <var>i+jlet</var>. This function returns <code>fail</code> if
+<code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,</code><var>lambda</var><code>)</code> does. When <var><var>lambda</var>=1</var>, then more
+information can be obtained using <a href="CHAP002.htm#SSEC001.4">SteinerSystemIntersectionTriangle</a>.
 <p>
 <pre>
-gap&gt; D:=BlockDesigns(rec(v:=10,blockSizes:=[3,4],           
-&gt;          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
-rec( isBlockDesign := true, v := 10, 
-  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8 ], 
-      [ 2, 6, 9 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
-      [ 4, 5, 10 ], [ 4, 6, 8 ], [ 4, 7, 9 ] ], 
-  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
-  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
-  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,6)(8,10), (2,3,4)(8,9,10), 
-      (2,3,4)(5,8,7,9,6,10), (2,6,10)(3,7,9)(4,5,8) ]) )
-gap&gt; Dstar:=TDesignFromTBD(D,2,[3,4]);                       
-rec( isBlockDesign := true, v := 10, 
-  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
-      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
-      [ 2, 3, 4 ], [ 2, 5, 8 ], [ 2, 5, 8 ], [ 2, 6, 9 ], [ 2, 6, 9 ], 
-      [ 2, 7, 10 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
-      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 10 ], [ 4, 5, 10 ], 
-      [ 4, 6, 8 ], [ 4, 6, 8 ], [ 4, 7, 9 ], [ 4, 7, 9 ], [ 5, 6, 7 ], 
-      [ 8, 9, 10 ] ] )
-gap&gt; AllTDesignLambdas(Dstar);
-[ 30, 9, 2 ]
+gap&gt; TDesignLambdas(2,12,4,3);             
+[ 33, 11, 3 ]
+gap&gt; TDesignIntersectionTriangle(2,12,4,3);
+[ [ 33, 22, 14 ], [ 11, 8 ], [ 3 ] ]
+gap&gt; TDesignLambdas(2,12,4,2);             
+fail
+gap&gt; TDesignIntersectionTriangle(2,12,4,2);
+fail
 </pre>
 <p>
 <a name = "SSEC001.4"></a>
-<li><code>DualBlockDesign( </code><var>D</var><code> )</code>
+<li><code>SteinerSystemIntersectionTriangle( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code> )</code>
 <p>
-Suppose <var>D</var> is a block design for which every point lies on at least
-one block.  Then this function returns the dual of <var>D</var>, the block design
-in which the roles of points and blocks are interchanged, but incidence
-(including repeated incidence) stays the same.  Note that, since the
-list of blocks of a block design is always sorted, the block list of
-the dual of the dual of <var>D</var> may not be equal to the block list of <var>D</var>.
+A <strong>Steiner system</strong> is a <var>t</var>-(<var>v</var>,<var>k</var>,1) design, and in this case it
+is possible to extend the notion of intersection triangle defined in
+<a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a>.
+<p>
+Suppose <var>D</var> is a <var>t</var>-(<var>v</var>,<var>k</var>,1) design, with <var>B</var> a block of <var>D</var>,
+let <var>i</var> and <var>j</var> be non-negative integers with <var>i+jlek</var>, and suppose
+<var>X</var> and <var>Y</var> are disjoint subsets of <var>B</var>, such that <var>X</var> and <var>Y</var> have
+respective sizes <var>i</var> and <var>j</var>. The <var>(i,j)</var>-<strong>intersection number</strong> is the
+number of blocks of <var>D</var> that contain <var>X</var> and are disjoint from <var>Y</var>
+(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <var>i</var> and <var>j</var>). Note that
+when <var>i+jlet</var>, this intersection number is the same as that defined in
+<a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a> for the general <var>t</var>-design case.
+<p>
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var> and
+<var>k</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the <strong>Steiner
+system intersection triangle</strong>, which is a two dimensional array whose
+<var>(i+1,j+1)</var>-entry is the <var>(i,j)</var>-intersection number for a <var>t</var>-(<var>v</var>,<var>k</var>,1)
+design (assuming such a design exists), such that <var>i,jge0</var>, <var>i+jle
+k</var>. This function returns <code>fail</code> if <code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,1)</code> does.
+<p>
+See also <a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a>.
 <p>
 <pre>
-gap&gt; D:=BlockDesign(4,[[1,3],[2,3,4],[3,4]]);;
-gap&gt; dualD:=DualBlockDesign(D);
-rec( isBlockDesign := true, v := 3, 
-  blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ], [ 2, 3 ] ], 
-  pointNames := [ [ 1, 3 ], [ 2, 3, 4 ], [ 3, 4 ] ] )
-gap&gt; DualBlockDesign(dualD).blocks;           
-[ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
+gap&gt; SteinerSystemIntersectionTriangle(5,24,8);
+[ [ 759, 506, 330, 210, 130, 78, 46, 30, 30 ], 
+  [ 253, 176, 120, 80, 52, 32, 16, 0 ], [ 77, 56, 40, 28, 20, 16, 16 ], 
+  [ 21, 16, 12, 8, 4, 0 ], [ 5, 4, 4, 4, 4 ], [ 1, 0, 0, 0 ], [ 1, 0, 0 ], 
+  [ 1, 0 ], [ 1 ] ]
+gap&gt; TDesignIntersectionTriangle(5,24,8,1);    
+[ [ 759, 506, 330, 210, 130, 78 ], [ 253, 176, 120, 80, 52 ], 
+  [ 77, 56, 40, 28 ], [ 21, 16, 12 ], [ 5, 4 ], [ 1 ] ]
 </pre>
 <p>
 <a name = "SSEC001.5"></a>
-<li><code>ComplementBlocksBlockDesign( </code><var>D</var><code> )</code>
+<li><code>TDesignBlockMultiplicityBound( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
 <p>
-Suppose <var>D</var> is a binary incomplete-block design.
-Then this function returns the block design on the same
-point-set as <var>D</var>, whose blocks are the complements of
-those of <var>D</var> (complemented with respect to the point-set).
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var> and
+<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a non-negative
+integer which is an upper bound on the multiplicity of any block in
+any <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (the <strong>multiplicity</strong> of a block in
+a block design is the number of times that block occurs in the block
+list). In particular, if the value <var>0</var> is returned, then this implies
+that a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design does not exist.
+<p>
+Although our bounds are reasonably good, we do not claim that the
+returned bound <var>m</var> is always achieved; that is, there may not exist a
+<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <var>m</var>.
+<p>
+See also <a href="CHAP002.htm#SSEC001.6">ResolvableTDesignBlockMultiplicityBound</a>.
 <p>
 <pre>
-gap&gt; D:=PGPointFlatBlockDesign(2,2,1);
-rec( isBlockDesign := true, v := 7, 
-  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt; ], 
-  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 2, 4, 6 ], 
-      [ 2, 5, 7 ], [ 3, 4, 7 ], [ 3, 5, 6 ] ] )
-gap&gt; AllTDesignLambdas(D);
-[ 7, 3, 1 ]
-gap&gt; C:=ComplementBlocksBlockDesign(D);
-rec( isBlockDesign := true, v := 7, 
-  blocks := [ [ 1, 2, 4, 7 ], [ 1, 2, 5, 6 ], [ 1, 3, 4, 6 ], [ 1, 3, 5, 7 ], 
-      [ 2, 3, 4, 5 ], [ 2, 3, 6, 7 ], [ 4, 5, 6, 7 ] ], 
-  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt;, 
-      &lt;vector space of dimension 1 over GF(2)&gt; ] )
-gap&gt; AllTDesignLambdas(C);
-[ 7, 4, 2 ]
+gap&gt; TDesignBlockMultiplicityBound(5,16,7,5);
+2
+gap&gt; TDesignBlockMultiplicityBound(2,36,6,1);
+0
+gap&gt; TDesignBlockMultiplicityBound(2,36,6,2);
+2
+gap&gt; TDesignBlockMultiplicityBound(2,15,5,2);
+0
+gap&gt; TDesignBlockMultiplicityBound(2,15,5,4);
+2
+gap&gt; TDesignBlockMultiplicityBound(2,11,4,6);
+3
+</pre>
+<p>
+<a name = "SSEC001.6"></a>
+<li><code>ResolvableTDesignBlockMultiplicityBound( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
+<p>
+A <strong>resolution</strong> of a block design is a partition of the blocks into
+subsets, each of which forms a partition of the point set, and a block
+design is <strong>resolvable</strong> if it has a resolution.
+<p>
+Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var> and
+<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a non-negative
+integer which is an upper bound on the multiplicity of any block in any
+resolvable <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (the <strong>multiplicity</strong> of a block
+in a block design is the number of times that block occurs in the block
+list). In particular, if the value <var>0</var> is returned, then this implies
+that a resolvable <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design does not exist.
+<p>
+Although our bounds are reasonably good, we do not claim that the returned
+bound <var>m</var> is always achieved; that is, there may not exist a resolvable
+<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <var>m</var>.
+<p>
+See also <a href="CHAP002.htm#SSEC001.5">TDesignBlockMultiplicityBound</a>.
+<p>
+<pre>
+gap&gt; ResolvableTDesignBlockMultiplicityBound(5,12,6,1);
+1
+gap&gt; ResolvableTDesignBlockMultiplicityBound(2,21,7,3);
+0
+gap&gt; TDesignBlockMultiplicityBound(2,21,7,3);          
+1
+gap&gt; ResolvableTDesignBlockMultiplicityBound(2,12,4,3);
+1
+gap&gt; TDesignBlockMultiplicityBound(2,12,4,3);          
+2
+</pre>
+<p>
+<p>
+<h2><a name="SECT002">2.2 Block intersection polynomials</a></h2>
+<p><p>
+In <a href="biblio.htm#CaSo"><cite>CaSo</cite></a>, Cameron and Soicher introduce block intersection
+polynomials and their applications to the study of block designs.
+Here we give functions to construct and analyze block intersection 
+polynomials. 
+<p>
+<a name = "SSEC002.1"></a>
+<li><code>BlockIntersectionPolynomial(</code><var>x</var><code>, </code><var>m</var><code>, </code><var>lambdavec</var><code> )</code>
+<p>
+For <var>k</var> a non-negative integer, define the polynomial
+<var>P(x,k)=x(x-1)cdots(x-k+1)</var>. Let <var>s</var> and <var>t</var> be non-negative
+integers, with <var>sget</var>, and let <var>m<sub>0</sub>,...,m<sub>s</sub></var> and
+<var>lambda<sub>0</sub>,...,lambda<sub>t</sub></var> be rational numbers. Then the <strong>block
+intersection polynomial</strong> for the sequences <var>[m<sub>0</sub>,...,m<sub>s</sub>]</var>,
+<var>[lambda<sub>0</sub>,...,lambda<sub>t</sub>]</var> is defined to be 
+<p><var>sum<sub>j=0</sub><sup>t</sup>tchoosejP(-x,t-j)[P(s,j)lambda<sub>j</sub>-sum<sub>i=j</sub><sup>s</sup> P(i,j)m<sub>i</sub>],<p></var> 
+and is denoted by <var>B(x,[m<sub>0</sub>,...,m<sub>s</sub>],[lambda<sub>0</sub>,...,lambda<sub>t</sub>]).</var>
+<p>
+Now suppose <var>x</var> is an indeterminate over the rationals, and <var>m</var> and
+<var>lambdavec</var> are non-empty lists of rational numbers, such that the length
+of <var>lambdavec</var> is not greater than that of <var>m</var>.  Then this function
+returns the block intersection polynomial <var>B(<var>x</var>,<var>m</var>,<var>lambdavec</var>)</var>.
+<p>
+The importance of a block intersection polynomial is as follows.
+Let <var>D=(V,calB)</var> be a block design, let <var>SsubseteqV</var>, with <var>s=|S|</var>,
+and for <var>i=0,...,s</var>, suppose that <var>m<sub>i</sub></var> is a non-negative integer
+with <var>m<sub>i</sub>len<sub>i</sub></var>, where <var>n<sub>i</sub></var> is the number of blocks intersecting <var>S</var>
+in exactly <var>i</var> points. Let <var>t</var> be a non-negative <strong>even</strong> integer with <var>tle
+s</var>, and suppose that, for <var>j=0...,t</var>, we have <var>lambda<sub>j</sub>=1/schoose
+jsum<sub>TsubseteqS,|T|=j</sub>lambda<sub>T</sub></var>, where <var>lambda<sub>T</sub></var> is the
+number of blocks of <var>D</var> containing <var>T</var>.  Then the block intersection
+polynomial <var>B(x)=B(x,[m<sub>0</sub>,...,m<sub>s</sub>],[lambda<sub>0</sub>,...,lambda<sub>t</sub>])</var>
+is a polynomial with integer coefficients, and <var>B(n)ge0</var> for every
+integer <var>n</var>. (These conditions can be checked using the function
+<a href="CHAP002.htm#SSEC002.2">BlockIntersectionPolynomialCheck</a>.) In addition, if <var>B(n)=0</var> for some
+integer <var>n</var>, then <var>m<sub>i</sub>=n<sub>i</sub></var> for <var>inotin{n,n+1,...,n+t-1}</var>.
+<p>
+For more information on block intersection polynomials and their
+applications, see <a href="biblio.htm#CaSo"><cite>CaSo</cite></a>.
+<p>
+<pre>
+gap&gt; x:=Indeterminate(Rationals,1);
+x_1
+gap&gt; m:=[0,0,0,0,0,0,0,1];;
+gap&gt; lambdavec:=TDesignLambdas(6,14,7,4);
+[ 1716, 858, 396, 165, 60, 18, 4 ]
+gap&gt; B:=BlockIntersectionPolynomial(x,m,lambdavec);
+1715*x_1^6-10269*x_1^5+34685*x_1^4-69615*x_1^3+84560*x_1^2-56196*x_1+15120
+gap&gt; Factors(B);
+[ 1715*x_1-1715,
+  x_1^5-1222/245*x_1^4+3733/245*x_1^3-6212/245*x_1^2+5868/245*x_1-432/49 ]
+gap&gt; Value(B,1);
+0
+</pre>
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>BlockIntersectionPolynomialCheck(</code><var>m</var><code>, </code><var>lambdavec</var><code>)</code>
+<p>
+Suppose <var>m</var> is a list of non-negative integers, and <var>lambdavec</var> is a
+list of non-negative rational numbers, with the length of <var>lambdavec</var>
+odd and not greater than the length of <var>m</var>.
+<p>
+Then, for <var>x</var> an indeterminate over the rationals, this function
+checks whether <code>BlockIntersectionPolynomial(</code><var>x</var><code>,</code><var>m</var><code>,</code><var>lambdavec</var><code>)</code> is a
+polynomial over the integers and has a non-negative value at each integer.
+The function returns <code>true</code> if this is so; else <code>false</code> is returned.
+<p>
+See also <a href="CHAP002.htm#SSEC002.1">BlockIntersectionPolynomial</a>.
+<p>
+<pre>
+gap&gt; m:=[0,0,0,0,0,0,0,1];;
+gap&gt; lambdavec:=TDesignLambdas(6,14,7,4);
+[ 1716, 858, 396, 165, 60, 18, 4 ]
+gap&gt; BlockIntersectionPolynomialCheck(m,lambdavec);
+true
+gap&gt; m:=[1,0,0,0,0,0,0,1];;
+gap&gt; BlockIntersectionPolynomialCheck(m,lambdavec);
+false
 </pre>
 <p>
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>Design manual<br>June 2004
+<address>design manual<br>August 2006
 </address></body></html>

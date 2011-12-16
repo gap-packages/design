@@ -1,4 +1,4 @@
-<html><head><title>[Design] 1 Design</title></head>
+<html><head><title>[design] 1 Design</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <h1>1 Design</h1><p>
@@ -11,25 +11,24 @@
 <li> <A HREF="CHAP001.htm#SECT004">Example of the use of DESIGN</a>
 </ol><p>
 <p>
-This manual describes the DESIGN&nbsp;1.1 package for <font face="Gill Sans,Helvetica,Arial">GAP</font>&nbsp;4.4.
-The DESIGN package is for generating, classifying and studying block
-designs.
+This manual describes the DESIGN&nbsp;1.2 package for <font face="Gill Sans,Helvetica,Arial">GAP</font> (version at
+least 4.4).  The DESIGN package is for constructing, classifying,
+partitioning and studying block designs.
 <p>
 All DESIGN functions are written entirely in the <font face="Gill Sans,Helvetica,Arial">GAP</font> language.
-However, DESIGN requires the GRAPE package <a href="biblio.htm#Grape"><cite>Grape</cite></a> to be
-installed, and makes use of certain GRAPE functions, some of which
-make use of B.&nbsp;D.&nbsp;McKay's nauty (Version&nbsp;2.0b5) package
-<a href="biblio.htm#Nauty"><cite>Nauty</cite></a>. These GRAPE functions can only be used on a fully
-installed version of GRAPE in a UNIX environment. DESIGN also
-requires the GAPDoc package <a href="biblio.htm#GAPDoc"><cite>GAPDoc</cite></a>, if you want to read lists
-of designs in the <a href="http://designtheory.org">http://designtheory.org</a> external representation
-format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
+However, DESIGN requires the GRAPE package <a href="biblio.htm#Grape"><cite>Grape</cite></a> (version
+at least 4.2) to be installed, and makes use of certain GRAPE
+functions, some of which make use of B.&nbsp;D.&nbsp;McKay's nauty
+package <a href="biblio.htm#Nauty"><cite>Nauty</cite></a>. These GRAPE functions can only be used on a
+fully installed version of GRAPE in a UNIX environment. DESIGN also
+requires the GAPDoc package <a href="biblio.htm#GAPDoc"><cite>GAPDoc</cite></a> (version at least 0.99),
+if you want to read lists of designs in the <a href="http://designtheory.org">http://designtheory.org</a>
+external representation format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
 <p>
-Except for the function <code>SmallestImageSet</code>, which is Copyright
-&copy; Steve Linton 2003, the DESIGN package is Copyright
-&copy; Leonard H. Soicher 2003--2004.  DESIGN is part of an EPSRC
-funded project to provide a web-based resource for design theory; see
-<a href="http://designtheory.org">http://designtheory.org</a>.
+The DESIGN package is Copyright &copy; Leonard H. Soicher
+2003--2006.  DESIGN is part of a wider project, which received EPSRC
+funding under grant GR/R29659/01, to provide a web-based resource for
+design theory; see <a href="http://designtheory.org">http://designtheory.org</a> and <a href="biblio.htm#Dotw"><cite>Dotw</cite></a>.
 <p>
 DESIGN is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +40,7 @@ If you use DESIGN to solve a problem then please send a short email
 about it to <a href="mailto:L.H.Soicher@qmul.ac.uk">L.H.Soicher@qmul.ac.uk</a>, and reference the DESIGN 
 package as follows:
 <p>
-Leonard&nbsp;H. Soicher, The DESIGN package for GAP,
+L.&nbsp;H. Soicher, The DESIGN package for GAP, Version&nbsp;1.2, 2006,
 <a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a>.
 <p>
 <p>
@@ -51,19 +50,19 @@ The DESIGN package only runs properly on a UNIX system. Before
 installing DESIGN (on your UNIX system), you must make sure that the
 GRAPE and GAPDoc packages are fully installed.
 <p>
-To install DESIGN&nbsp;1.1 (after installing <font face="Gill Sans,Helvetica,Arial">GAP</font>, GRAPE and
-GAPDoc), first obtain the DESIGN archive file <code>design1r1.tar.gz</code>,
+To install DESIGN&nbsp;1.2 (after installing <font face="Gill Sans,Helvetica,Arial">GAP</font>, GRAPE and
+GAPDoc), first obtain the DESIGN archive file <code>design1r2.tar.gz</code>,
 available from <a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a> and 
 then copy this archive file into the <code>pkg</code> directory of the <font face="Gill Sans,Helvetica,Arial">GAP</font>
 root directory. Actually, it is possible to have several <font face="Gill Sans,Helvetica,Arial">GAP</font> root
 directories, and so it is easy to install DESIGN locally even if you
 have no permission to add files to the main <font face="Gill Sans,Helvetica,Arial">GAP</font> installation (see
 <a href="../../../doc/htm/ref/CHAP009.htm#SECT002">GAP Root Directory</a>).  Now go to the appropriate <code>pkg</code> directory
-containing <code>design1r1.tar.gz</code>, and then run
+containing <code>design1r2.tar.gz</code>, and then run
 <p>
 <pre>
-gunzip design1r1.tar.gz
-tar -xf design1r1.tar
+gunzip design1r2.tar.gz
+tar -xf design1r2.tar
 </pre>
 <p>
 That's all there is to do.
@@ -120,16 +119,16 @@ create block design records and their components.
 <p>
 <h2><a name="SECT004">1.4 Example of the use of DESIGN</a></h2>
 <p><p>
-To give you an idea of the capabilities of this package, we now give an
-extended example of an application of the DESIGN package, in which
-a nearly resolvable non-simple 2-(21,4,3) is constructed (for Donald
-Preece) via a pairwise-balanced design. All the DESIGN functions used
-here are described in this manual.
+To give you an idea of the capabilities of this package, we now give
+an extended example of an application of the DESIGN package, in
+which a nearly resolvable non-simple 2-(21,4,3) design is constructed
+(for Donald Preece) via a pairwise-balanced design. All the DESIGN
+functions used here are described in this manual.
 <p>
 The program first discovers the unique (up to isomorphism)
-pairwise-balanced 2-(21,<var>{4,5}</var>,1) design <var>D</var> invariant under
-<var>H=langle(1,2,...,20)rangle</var>, and then applies the McSorley-Soicher
-construction to this design <var>D</var> to obtain a non-simple 2-(21,4,3) design
+pairwise-balanced 2-(21,<var>{4,5}</var>,1) design <var>D</var> invariant under <var>H=langle
+(1,2,...,20)rangle</var>, and then applies the <var>*</var>-construction of
+<a href="biblio.htm#McSo"><cite>McSo</cite></a> to this design <var>D</var> to obtain a non-simple 2-(21,4,3) design
 <var>Dstar</var> with automorphism group of order 80. The program then classifies
 the near-resolutions of <var>Dstar</var> invariant under the subgroup of order 5
 of <var>H</var>, and finds exactly two such (up to the action of <var>Aut(Dstar)</var>).
@@ -150,9 +149,11 @@ gap&gt; BlockNumbers(D);
 [ 20, 9 ]
 gap&gt; Size(AutGroupBlockDesign(D));
 80
-gap&gt; Dstar:=TDesignFromTBD(D,2,BlockSizes(D));;
+gap&gt; Dstar:=TDesignFromTBD(D,2,4);;
 gap&gt; AllTDesignLambdas(Dstar);
 [ 105, 20, 3 ]
+gap&gt; IsSimpleBlockDesign(Dstar);
+false
 gap&gt; Size(AutGroupBlockDesign(Dstar));
 80
 gap&gt; near_resolutions:=PartitionsIntoBlockDesigns(rec(
@@ -199,16 +200,16 @@ rec(
       [ 9, 15, 16, 18 ], [ 9, 15, 16, 18 ], [ 10, 15, 20, 21 ], 
       [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], 
       [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ] ],
+  autGroup := Group( [ ( 2,14,10,18)( 3, 7,19,15)( 4,20, 8,12)( 5,13,17, 9), 
+      ( 1,17, 5, 9)( 2,10,14, 6)( 4,16,12,20)( 7,15,19,11), 
+      ( 1,18,19,12)( 2,11, 8, 9)( 3, 4,17, 6)( 5,10,15,20)( 7,16,13,14) ] ),
   blockSizes := [ 4 ],
   isBinary := true,
   allTDesignLambdas := [ 105, 20, 3 ],
-  isSimple := false,
-  autGroup := 
-   Group( [ ( 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20), 
-      ( 2,18,10,14)( 3,15,19, 7)( 4,12, 8,20)( 5, 9,17,13) ] ) )
+  isSimple := false )
 </pre>
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>Design manual<br>June 2004
+<address>design manual<br>August 2006
 </address></body></html>

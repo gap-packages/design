@@ -7,6 +7,7 @@ design/doc/manual.tex
 design/doc/construct.tex
 design/doc/classify.tex
 design/doc/manual.six
+design/doc/parameters.tex
 design/doc/basic.tex
 design/doc/design.tex
 design/doc/partition.tex
@@ -16,10 +17,12 @@ design/doc/autiso.tex
 design/htm/indxM.htm
 design/htm/indxF.htm
 design/htm/theindex.htm
+design/htm/indxS.htm
 design/htm/CHAP003.htm
 design/htm/CHAP007.htm
 design/htm/CHAP006.htm
 design/htm/indxE.htm
+design/htm/indxN.htm
 design/htm/CHAP002.htm
 design/htm/indxP.htm
 design/htm/indxW.htm
@@ -29,10 +32,12 @@ design/htm/indxD.htm
 design/htm/indxR.htm
 design/htm/CHAP005.htm
 design/htm/indxC.htm
+design/htm/CHAP000.htm
 design/htm/chapters.htm
 design/htm/indxX.htm
 design/htm/biblio.htm
 design/htm/CHAP001.htm
+design/htm/CHAP008.htm
 design/htm/indxT.htm
 design/htm/CHAP004.htm
 design/htm/indxB.htm

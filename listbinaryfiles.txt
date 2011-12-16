@@ -8,6 +8,7 @@ design/doc/tthout
 design/doc/make_doc
 design/doc/manual.dvi
 design/doc/manual.blg
+design/doc/manual.mst
 design/doc/manual.aux
 design/doc/manual.lab
 design/doc/manual.idx

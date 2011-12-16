@@ -1,24 +1,47 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
 \begin{thebibliography}{CDMS04}
 
+\bibitem[BCD{\etalchar{+}}]{Dotw}
+R.~A. Bailey, P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
+\newblock Designs on the web.
+\newblock {\em to appear in Discrete Math.}
+\newblock Preprint available at:
+  \URL{http://designtheory.org/library/preprints/}.
+
 \bibitem[CDMS04]{Extrep}
-Peter~J. Cameron, Peter Dobcs\'anyi, John~P. Morgan, and Leonard~H. Soicher.
-\newblock {\em The external representation of block designs (version 2.0)},
+P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
+\newblock {\em The external representation of block designs, Version 2.0},
   2004.
 \newblock \URL{http://designtheory.org/library/extrep/}.
 
-\bibitem[LN04]{GAPDoc}
-Frank L\"ubeck and Max Neunh\"offer.
-\newblock {\em The GAPDoc package for GAP (version 0.9999)}, 2004.
+\bibitem[CS]{CaSo}
+P.~J. Cameron and L.~H. Soicher.
+\newblock Block intersection polynomials.
+\newblock Preprint available at:
+  \URL{http://designtheory.org/library/preprints/}.
+
+\bibitem[LN06]{GAPDoc}
+F.~L\"ubeck and M.~Neunh\"offer.
+\newblock {\em The GAPDoc package for GAP, Version 0.99999}, 2006.
 \newblock \URL{http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc/}.
 
-\bibitem[McK96]{Nauty}
-Brendan~D. McKay.
-\newblock {\em The nauty package (version 2.0b5)}, 1996.
-\newblock \URL{http://cs.anu.edu.au/people/bdm/nauty/}.
+\bibitem[McK90]{Nauty}
+B.~D. McKay.
+\newblock {\em {nauty} user's guide (version 1.5), Technical report
+  TR-CS-90-02}.
+\newblock Australian National University, Computer Science Department, 1990.
+\newblock nauty homepage: \URL{http://cs.anu.edu.au/people/bdm/nauty/}.
 
-\bibitem[Soi04]{Grape}
-Leonard~H. Soicher.
-\newblock {\em The GRAPE package for GAP (version 4.2)}, 2004.
+\bibitem[MS]{McSo}
+J.~P. McSorley and L.~H. Soicher.
+\newblock Constructing $t$-designs from $t$-wise balanced designs.
+\newblock {\em to appear in European J. Combinatorics}.
+\newblock Preprint available at:
+  \URL{http://designtheory.org/library/preprints/}.
+
+\bibitem[Soi06]{Grape}
+L.~H. Soicher.
+\newblock {\em The GRAPE package for GAP, Version 4.3}, 2006.
 \newblock \URL{http://www.maths.qmul.ac.uk/~leonard/grape/}.
 
 \end{thebibliography}

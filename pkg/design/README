@@ -1,23 +1,20 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         The DESIGN Package for GAP
 
-This README describes the {\DESIGN}~1.1 package for {\GAP}~4.4.
-The {\DESIGN} package is for generating, classifying and studying block
-designs.
+This README describes the {\DESIGN}~1.2 package for {\GAP}.  The {\DESIGN}
+package is for constructing, classifying, partitioning and studying
+block designs.
 
 All {\DESIGN} functions are written entirely in the {\GAP} language.
 However, {\DESIGN} requires the {\GRAPE} package to be installed,
 and makes use of certain {\GRAPE} functions, some of which make use of
-B.~D.~McKay{\pif}s {\nauty} (Version~2.0b5) package.  These {\GRAPE}
-functions can only be used on a fully installed version of {\GRAPE}
-in a UNIX environment. {\DESIGN} also requires the {\GAPDoc} package,
-if you want to read lists of designs in the \URL{http://designtheory.org}
-external representation format.
+B.D. McKay's {\nauty}.  These {\GRAPE} functions can only be used on
+a fully installed version of {\GRAPE} in a UNIX environment. {\DESIGN}
+also requires the {\GAPDoc} package, if you want to read lists of designs
+in the \URL{http://designtheory.org} external representation format.
 
-Except for the function `SmallestImageSet', which is Copyright
-{\copyright} Steve Linton 2003, the {\DESIGN} package is Copyright
-{\copyright} Leonard H. Soicher 2003--2004.  {\DESIGN} is part of an EPSRC
-funded project to provide a web-based resource for design theory; see
+The {\DESIGN} package is Copyright {\copyright} Leonard H. Soicher
+2003--2006.  {\DESIGN} is part of a wider project, which was funded
+by EPSRC, to provide a web-based resource for design theory; see
 \URL{http://designtheory.org}.
 
 {\DESIGN} is free software; you can redistribute it and/or modify
@@ -30,28 +27,29 @@ If you use {\DESIGN} to solve a problem then please send a short email
 about it to \Mailto{L.H.Soicher@qmul.ac.uk}, and reference the {\DESIGN} 
 package as follows:
 
-Leonard H. Soicher, The DESIGN package for GAP,
+L.H. Soicher, The DESIGN package for GAP, Version 1.2, 2006,
 http://designtheory.org/software/gap_design/.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Installing the DESIGN Package
 
 The {\DESIGN} package only runs properly on a UNIX system. Before
-installing {\DESIGN} (on your UNIX system), you must make sure that the
-{\GRAPE} and {\GAPDoc} packages are fully installed.
+installing {\DESIGN} (on your UNIX system), you must make sure that
+{\GAP} (version at least 4.4) is installed as well as its {\GRAPE}
+(version at least 4.2) and {\GAPDoc} (version at least 0.99) packages.
 
-To install {\DESIGN} 1.1 (after installing {\GAP}, {\GRAPE} and
-{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r1.tar.gz',
+To install {\DESIGN} 1.2 (after installing {\GAP}, {\GRAPE} and
+{\GAPDoc}), first obtain the {\DESIGN} archive file `design1r2.tar.gz',
 available from \URL{http://designtheory.org/software/gap_design/}
 and then copy this archive file into the `pkg' directory of the {\GAP}
 root directory. Actually, it is possible to have several {\GAP} root
 directories and so it is easy to install {\DESIGN} locally even if you
 have no permission to add files to the main {\GAP} installation (see
 "ref:GAP Root Directory").  Now go to the appropriate `pkg' directory
-containing `design1r1.tar.gz', and then run
+containing `design1r2.tar.gz', and then run
 
-gunzip design1r1.tar.gz
-tar -xf design1r1.tar
+gunzip design1r2.tar.gz
+tar -xf design1r2.tar
 
 That's all there is to do.
 
@@ -64,6 +62,39 @@ If you install {\DESIGN}, then please tell
 or bug reports.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Main changes from DESIGN 1.1 to DESIGN 1.2
+------------------------------------------
+
+(1) Added functions:
+   BlockIntersectionPolynomial
+   BlockIntersectionPolynomialCheck
+   TDesignLambdas
+   TDesignLambdaMin
+   TDesignIntersectionTriangle
+   SteinerSystemIntersectionTriangle
+   TDesignBlockMultiplicityBound
+   ResolvableTDesignBlockMultiplicityBound
+   BlockDesignPoints
+   NrBlockDesignPoints
+   BlockDesignBlocks
+   NrBlockDesignBlocks
+   PairwiseBalancedLambda
+   AffineResolvableMu
+   DeletedPointsBlockDesign
+   DeletedBlocksBlockDesign
+   AddedPointBlockDesign
+   AddedBlocksBlockDesign
+   DerivedBlockDesign
+   ResidualBlockDesign
+
+(2) The function BlockDesign can now (optionally) construct a block
+design from base blocks and a group of automorphisms, and the list 
+of blocks given to BlockDesign need no longer be sorted.
+
+(3) Improved documentation of the function TDesignFromTBD, and changed
+the parameters (in a backward compatible way) to match the description
+of the "*-construction" in the McSorley-Soicher paper.
 
 Main changes from DESIGN 1.0 to DESIGN 1.1
 ------------------------------------------
@@ -91,4 +122,4 @@ minimal expansion and writing out, which is a *change* from DESIGN 1.0.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Leonard Soicher
 Queen Mary, University of London
-June 2004
+August 2006

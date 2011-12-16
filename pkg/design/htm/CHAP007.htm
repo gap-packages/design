@@ -1,115 +1,282 @@
-<html><head><title>[Design] 7 XML I/O of block designs</title></head>
+<html><head><title>[design] 7 Partitioning block designs</title></head>
 <body text="#000000" bgcolor="#ffffff">
-[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
-<h1>7 XML I/O of block designs</h1><p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href ="CHAP008.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>7 Partitioning block designs</h1><p>
 <P>
 <H3>Sections</H3>
 <oL>
-<li> <A HREF="CHAP007.htm#SECT001">Writing lists of block designs and their properties in XML-format</a>
-<li> <A HREF="CHAP007.htm#SECT002">Reading lists of block designs in XML-format</a>
+<li> <A HREF="CHAP007.htm#SECT001">Partitioning a block design into block designs</a>
+<li> <A HREF="CHAP007.htm#SECT002">Computing resolutions</a>
 </ol><p>
 <p>
-This chapter describes functions to write and read lists of binary block
-designs in the <a href="http://designtheory.org">http://designtheory.org</a> external representation
-XML-format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
+This chapter describes the function <code>PartitionsIntoBlockDesigns</code> which can
+classify partitions of (the block multiset of) a given block design into
+(the block multisets of) block designs having user-specified properties.
+We also describe <code>MakeResolutionsComponent</code> which is useful for the
+special case when the desired partitions are resolutions.
 <p>
 <p>
-<h2><a name="SECT001">7.1 Writing lists of block designs and their properties in XML-format</a></h2>
+<h2><a name="SECT001">7.1 Partitioning a block design into block designs</a></h2>
 <p><p>
 <a name = "SSEC001.1"></a>
-<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code> )</code>
-<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code>, </code><var>include</var><code> )</code>
-<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code>, </code><var>include</var><code>, </code><var>list_id</var><code> )</code>
+<li><code>PartitionsIntoBlockDesigns( </code><var>param</var><code> )</code>
 <p>
-This function writes a list of (assumed distinct) binary block designs
-(given in DESIGN package format) to a file in external representation
-XML-format (version&nbsp;2.0).
+Let <var>D</var> equal <code></code><var>param</var><code>.blockDesign</code>.  This function returns a list <var>PL</var>
+of partitions of (the block multiset of) <var>D</var>.  Each element of <var>PL</var> is a
+record with one component <code>partition</code>, and, in most cases, a component
+<code>autGroup</code>.  The <code>partition</code> component gives a list <var>P</var> of block designs,
+all with the same point set as <var>D</var>, such that the list of (the block
+multisets of) the designs in <code></code><var>P</var><code>.partition</code> forms a partition of (the
+block multiset of) <var>D</var>. The component <code></code><var>P</var><code>.autGroup</code>, if bound, gives
+the automorphism group of the partition, which is the stabilizer of the
+partition in the automorphism group of <var>D</var>.  The precise interpretation
+of the output depends on <var>param</var>, described below.
 <p>
-The parameter <var>filename</var> is a string giving the name of the file, and
-<var>designs</var> is a record whose component <code>list</code> contains the list of block
-designs (<var>designs</var> can also be a list, in which case it is replaced by
-<code>rec(list:=</code><var>designs</var><code></code>).
+The required components of <var>param</var> are <code>blockDesign</code>, <code>v</code>, <code>blockSizes</code>,
+and <code>tSubsetStructure</code>.
 <p>
-The record <var>designs</var> should have the following components:
+<code></code><var>param</var><code>.blockDesign</code> is the block design to be partitioned.
 <p>
-<code>list</code>: the list of distinct binary block designs in DESIGN package
-format;
+<code></code><var>param</var><code>.v</code> must be a positive integer, and specifies that for each block
+design in each partition in <var>PL</var>, the points are 1,...,<code></code><var>param</var><code>.v</code>.
+It is required that <code></code><var>param</var><code>.v</code> be equal to <code></code><var>param</var><code>.blockDesign.v</code>.
 <p>
-<code>pairwiseNonisomorphic</code> (optional): should be <code>true</code> or <code>false</code> or the
-string <code>"unknown"</code>, specifying the pairwise-nonisomorphism status of the
-designs in <code></code><var>designs</var><code>.list</code>;
+<code></code><var>param</var><code>.blockSizes</code> must be a set of positive integers, and specifies
+that the block sizes of each block design in each partition in <var>PL</var>
+will be contained in <code></code><var>param</var><code>.blockSizes</code>.
 <p>
-<code>infoXML</code> (optional): should contain a string in XML format for the
-<code></code><var>info</var><code></code> element of the <code></code><var>list_of_designs</var><code></code> which is written.
+<code></code><var>param</var><code>.tSubsetStructure</code> must be a record, having
+components <code>t</code>, <code>partition</code>, and <code>lambdas</code>. Let <var>t</var> be
+equal to <code></code><var>param</var><code>.tSubsetStructure.t</code>, <var>partition</var> be
+<code></code><var>param</var><code>.tSubsetStructure.partition</code>, and <var>lambdas</var> be
+<code></code><var>param</var><code>.tSubsetStructure.lambdas</code>.  Then <var>t</var> must be a non-negative
+integer, <var>partition</var> must be a list of non-empty sets of <var>t</var>-subsets of
+<code>[1..</code><var>param</var><code>.v]</code>, forming an ordered partition of all the <var>t</var>-subsets of
+<code>[1..</code><var>param</var><code>.v]</code>, and <var>lambdas</var> must be a list of distinct non-negative
+integers (not all zero) of the same length as <var>partition</var>. This specifies
+that for each design in each partition in <var>PL</var>, each <var>t</var>-subset in
+<code></code><var>partition</var><code>[</code><var>i</var><code>]</code> will occur exactly <code></code><var>lambdas</var><code>[</code><var>i</var><code>]</code> times, counted
+over all blocks of the design.  For binary designs, this means that each
+<var>t</var>-subset in <code></code><var>partition</var><code>[</code><var>i</var><code>]</code> is contained in exactly <code></code><var>lambdas</var><code>[</code><var>i</var><code>]</code>
+blocks.  The <code>partition</code> component is optional if <var>lambdas</var> has length 1.
+We require that <var>t</var> is less than or equal to each element of
+<code></code><var>param</var><code>.blockSizes</code>, and that each block of <code></code><var>param</var><code>.blockDesign</code>
+contains at least <var>t</var> distinct elements.
 <p>
-The combinatorial and group-theoretical properties output for each design
-depend on <var>include</var>, which should be a list containing zero or more of
-the strings <code>"indicators"</code>, <code>"resolvable"</code>, <code>"combinatorial_properties"</code>,
-<code>"automorphism_group"</code>, and <code>"resolutions"</code>.  A shorthand for the list
-containing all these strings is <code>"all"</code>. The default for <var>include</var> is
-the empty list (which is a change from versions of DESIGN previous
-to 1.1).  The strings <code>"indicators"</code>, <code>"combinatorial_properties"</code>,
-<code>"automorphism_group"</code>, and <code>"resolutions"</code> are used to specify that
-those subtrees of the external representation of each design are to
-be expanded and written out. In the case of <code>"resolutions"</code> being in
-<var>include</var>, <strong>all</strong> resolutions up to isomorphism will be determined and
-written out. The string <code>"resolvable"</code> is used to specify that the
-<code>resolvable</code> indicator must be set (usually this is not forced), if
-the <code>indicators</code> subtree is written out, and also that if a design is
-resolvable but <code>"resolutions"</code> is not in <var>include</var>, then one and only
-one resolution should be written out in the <code>resolutions</code> subtree.
+The optional components of <var>param</var> are used to specify additional
+constraints on the partitions in <var>PL</var>, or to change default parameter
+values. These optional components are <code>r</code>, <code>b</code>, <code>blockNumbers</code>,
+<code>blockIntersectionNumbers</code>, <code>blockMaxMultiplicities</code>, <code>isoGroup</code>,
+<code>requiredAutSubgroup</code>, and <code>isoLevel</code>. Note that the last three of these
+optional components refer to the partitions and not to the block designs
+in a partition.
 <p>
-If <var>list_id</var> is given then the id's of the output designs will be
-<code></code><var>list_id</var><code>-0</code>, <code></code><var>list_id</var><code>-1</code>, <code></code><var>list_id</var><code>-2</code>, ...
+<code></code><var>param</var><code>.r</code> must be a positive integer, and specifies that in each design
+in each partition in <var>PL</var>, each point must occur exactly <code></code><var>param</var><code>.r</code>
+times in the list of blocks.
+<p>
+<code></code><var>param</var><code>.b</code> must be a positive integer, and specifies that each design
+in each partition in <var>PL</var> has exactly <code></code><var>param</var><code>.b</code> blocks.
+<p>
+<code></code><var>param</var><code>.blockNumbers</code> must be a list of non-negative integers, the <var>i</var>-th
+element of which specifies the number of blocks whose size is equal to
+<code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> (in each design in each partition in <var>PL</var>). The
+length of <code></code><var>param</var><code>.blockNumbers</code> must equal that of <code></code><var>param</var><code>.blockSizes</code>,
+and at least one entry of <code></code><var>param</var><code>.blockNumbers</code> must be positive.
+<p>
+<code></code><var>param</var><code>.blockIntersectionNumbers</code> must be a symmetric matrix of sets
+of non-negative integers, the <code>[</code><var>i</var><code>][</code><var>j</var><code>]</code>-element of which specifies
+the set of possible sizes for the intersection of a block of size
+<code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> with one of size <code></code><var>param</var><code>.blockSizes[</code><var>j</var><code>]</code>
+(in each design in each partition in <var>PL</var>). In the case of multisets, we
+take the multiplicity of an element in the intersection to be the minimum
+of its multiplicities in the multisets being intersected, so, for example,
+the intersection of <code>[1,1,1,2,2,3]</code> with <code>[1,1,2,2,2,4]</code> is <code>[1,1,2,2]</code>,
+having size 4.  The dimension of <code></code><var>param</var><code>.blockIntersectionNumbers</code>
+must equal the length of <code></code><var>param</var><code>.blockSizes</code>.
+<p>
+<code></code><var>param</var><code>.blockMaxMultiplicities</code> must be a list of non-negative
+integers, the <var>i</var>-th element of which specifies an upper bound on the
+multiplicity of a block whose size is equal to <code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code>
+(for each design in each partition in <var>PL</var>). The length of
+<code></code><var>param</var><code>.blockMaxMultiplicities</code> must equal that of <code></code><var>param</var><code>.blockSizes</code>.
+<p>
+<code></code><var>param</var><code>.isoGroup</code> must be a subgroup of the automorphism group of
+<code></code><var>param</var><code>.blockDesign</code>. We consider two elements of <var>PL</var> to be
+<strong>equivalent</strong> if they are in the same orbit of <code></code><var>param</var><code>.isoGroup</code>
+(in its action on multisets of block multisets).  The default for
+<code></code><var>param</var><code>.isoGroup</code> is the automorphism group of <code></code><var>param</var><code>.blockDesign</code>.
+<p>
+<code></code><var>param</var><code>.requiredAutSubgroup</code> must be a subgroup of <code></code><var>param</var><code>.isoGroup</code>,
+and specifies that each partition in <var>PL</var> must be invariant under
+<code></code><var>param</var><code>.requiredAutSubgroup</code> (in its action on multisets of block
+multisets). The default for <code></code><var>param</var><code>.requiredAutSubgroup</code> is the trivial
+permutation group.
+<p>
+<code></code><var>param</var><code>.isoLevel</code> must be 0, 1, or 2 (the default is 2).  The value 0
+specifies that <var>PL</var> will contain at most one partition, and will contain
+one partition with the required properties if and only if such a partition
+exists; the value 1 specifies that <var>PL</var> will contain (perhaps properly)
+a list of <code></code><var>param</var><code>.isoGroup</code> orbit-representatives of the required
+partitions; the value 2 specifies that <var>PL</var> will consist precisely of
+<code></code><var>param</var><code>.isoGroup</code>-orbit representatives of the required partitions.
+<p>
+For an example, we first classify up to isomorphism the 2-(15,3,1)
+designs invariant under a semi-regular group of automorphisms of order 5,
+and then use <code>PartitionsIntoBlockDesigns</code> to classify all the resolutions
+of these designs, up to the actions of the respective automorphism groups
+of the designs.
 <p>
 <pre>
-gap&gt; D:=[ BlockDesign(3, [[1,2],[1,3]]),                        
-&gt;         BlockDesign(3, [[1,2],[1,2],[2,3]]) ];;
-gap&gt; designs:=rec(list:=D, pairwiseNonisomorphic:=true);;
-gap&gt; BlockDesignsToXMLFile("example.xml",designs,[],"example"); 
+gap&gt; DL:=BlockDesigns(rec(
+&gt;    v:=15,blockSizes:=[3],
+&gt;    tSubsetStructure:=rec(t:=2,lambdas:=[1]),
+&gt;    requiredAutSubgroup:=
+&gt;       Group((1,2,3,4,5)(6,7,8,9,10)(11,12,13,14,15))));;
+gap&gt; List(DL,D-&gt;Size(AutGroupBlockDesign(D)));
+[ 20160, 5, 60 ]
+gap&gt; PL:=PartitionsIntoBlockDesigns(rec(
+&gt;       blockDesign:=DL[1],
+&gt;       v:=15,blockSizes:=[3],
+&gt;       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[ rec( 
+      partition := [ rec( isBlockDesign := true, v := 15, blocks := [ [ 1, 2, 
+                      6 ], [ 3, 4, 8 ], [ 5, 7, 14 ], [ 9, 12, 15 ], 
+                  [ 10, 11, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 3, 11 ], [ 2, 4, 12 ], [ 5, 6, 8 ], [ 7, 13, 15 ], 
+                  [ 9, 10, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 4, 14 ], [ 2, 5, 15 ], [ 3, 10, 12 ], [ 6, 7, 11 ], 
+                  [ 8, 9, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 5, 10 ], [ 2, 9, 11 ], [ 3, 14, 15 ], [ 4, 6, 13 ], 
+                  [ 7, 8, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 7, 9 ], [ 2, 8, 10 ], [ 3, 5, 13 ], [ 4, 11, 15 ], 
+                  [ 6, 12, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 8, 15 ], [ 2, 13, 14 ], [ 3, 6, 9 ], [ 4, 7, 10 ], 
+                  [ 5, 11, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 12, 13 ], [ 2, 3, 7 ], [ 4, 5, 9 ], [ 6, 10, 15 ], 
+                  [ 8, 11, 14 ] ] ) ], 
+      autGroup := Group([ (1,10)(2,11)(3,8)(6,13)(7,14)(12,15), 
+          (1,13)(2,11)(3,14)(4,5)(6,10)(7,8), 
+          (1,13,7)(2,11,5)(6,10,14)(9,12,15), 
+          (2,11,5,15,4,9,12)(3,10,8,14,7,13,6) ]) ), 
+  rec( partition := [ rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 2, 6 ], [ 3, 4, 8 ], [ 5, 7, 14 ], 
+                  [ 9, 12, 15 ], [ 10, 11, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 3, 11 ], [ 2, 4, 12 ], [ 5, 6, 8 ], 
+                  [ 7, 13, 15 ], [ 9, 10, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 4, 14 ], [ 2, 5, 15 ], [ 3, 10, 12 ], 
+                  [ 6, 7, 11 ], [ 8, 9, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 5, 10 ], [ 2, 13, 14 ], [ 3, 6, 9 ], 
+                  [ 4, 11, 15 ], [ 7, 8, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 7, 9 ], [ 2, 8, 10 ], [ 3, 14, 15 ], 
+                  [ 4, 6, 13 ], [ 5, 11, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 8, 15 ], [ 2, 9, 11 ], [ 3, 5, 13 ], 
+                  [ 4, 7, 10 ], [ 6, 12, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 12, 13 ], [ 2, 3, 7 ], [ 4, 5, 9 ], 
+                  [ 6, 10, 15 ], [ 8, 11, 14 ] ] ) ], 
+      autGroup := Group([ (1,15)(2,9)(3,4)(5,7)(6,12)(10,13), 
+          (1,12)(2,9)(3,5)(4,7)(6,15)(8,14), 
+          (1,14)(2,5)(3,8)(6,7)(9,12)(10,13), 
+          (1,8,10)(2,5,15)(3,14,13)(4,9,12) ]) ) ]
+gap&gt; List(PL,resolution-&gt;Size(resolution.autGroup));
+[ 168, 168 ]
+gap&gt; PL:=PartitionsIntoBlockDesigns(rec(
+&gt;       blockDesign:=DL[2],
+&gt;       v:=15,blockSizes:=[3],
+&gt;       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[  ]
+gap&gt; PL:=PartitionsIntoBlockDesigns(rec(
+&gt;       blockDesign:=DL[3],
+&gt;       v:=15,blockSizes:=[3],
+&gt;       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[  ]
 </pre>
 <p>
 <p>
-<h2><a name="SECT002">7.2 Reading lists of block designs in XML-format</a></h2>
+<h2><a name="SECT002">7.2 Computing resolutions</a></h2>
 <p><p>
 <a name = "SSEC002.1"></a>
-<li><code>BlockDesignsFromXMLFile( </code><var>filename</var><code> )</code>
+<li><code>MakeResolutionsComponent( </code><var>D</var><code> )</code>
+<li><code>MakeResolutionsComponent( </code><var>D</var><code>, </code><var>isolevel</var><code> )</code>
 <p>
-This function reads a file with name <var>filename</var>, containing a list of
-distinct binary block designs in external representation XML-format,
-and returns a record  <var>designs</var> in DESIGN package format containing
-the essential information in this file.
+This function computes resolutions of the block design <var>D</var>, and stores
+the result in <code></code><var>D</var><code>.resolutions</code>. If <code></code><var>D</var><code>.resolutions</code> already exists
+then it is ignored and overwritten. This function returns no value.
 <p>
-The record <var>designs</var> contains the following components:
+A <strong>resolution</strong> of a block design <var>D</var> is a partition of the blocks into
+subsets, each of which forms a partition of the point set.  We say that
+two resolutions <var>R</var> and <var>S</var> of <var>D</var> are <strong>isomorphic</strong> if there is an element
+<var>g</var> in the automorphism group of <var>D</var>, such that the <var>g</var>-image of <var>R</var>
+is <var>S</var>. (Isomorphism defines an equivalence relation on the set of
+resolutions of <var>D</var>.)
 <p>
-<code>list</code>: a list of block designs in DESIGN package format of
-the list of block designs in the file (certain elements such as
-<code></code><var>statistical_properties</var><code></code> are stored verbatim as strings; certain other
-elements are not stored since it is usually easier and more reliable to
-recompute them -- this can be done when the block designs are written
-out in XML format);
+The parameter <var>isolevel</var> (default 2) determines how many resolutions are
+computed: <var>isolevel</var>=2 means to classify up to isomorphism, <var>isolevel</var>=1
+means to determine at least one representative from each isomorphism
+class, and <var>isolevel</var>=0 means to determine whether or not <var>D</var> has
+a resolution.
 <p>
-<code>pairwiseNonisomorphic</code> is set according to the attribute
-<code>pairwise_nonisomorphic</code> of the XML element <code></code><var>list_of_designs</var><code></code>.
-The component <code>pairwiseNonisomorphic</code> is <code>false</code> if this attribute
-is <code>false</code>, <code>true</code> if this attribute is <code>true</code>, and <code>"unknown"</code> otherwise;
+When this function is finished, <code></code><var>D</var><code>.resolutions</code> will have the following
+three components:
 <p>
-<code>infoXML</code> is bound iff the <code></code><var>info</var><code></code> element occurs as a child of the
-XML <code></code><var>list_of_designs</var><code></code> element, and if bound, contains this <code></code><var>info</var><code></code>
-element in a string.
+<code>list</code>: a list of distinct partitions into block designs forming resolutions
+of <var>D</var>;
+<p>
+<code>pairwiseNonisomorphic</code>: <code>true</code>, <code>false</code> or <code>"unknown"</code>, depending on the
+resolutions in <code>list</code> and what is known. If <var>isolevel</var>=0 or <var>isolevel</var>=2
+then this component will be <code>true</code>;
+<p>
+<code>allClassesRepresented</code>: <code>true</code>, <code>false</code> or <code>"unknown"</code>, depending on the
+resolutions in <code>list</code> and what is known. If <var>isolevel</var>=1 or <var>isolevel</var>=2
+then this component will be <code>true</code>.
+<p>
+Note that <code></code><var>D</var><code>.resolutions</code> may be changed to contain more information
+as a side-effect of other functions in the DESIGN package.
 <p>
 <pre>
-gap&gt; BlockDesignsFromXMLFile("example.xml");
-rec( 
-  list := [ rec( isBlockDesign := true, v := 3, id := "example-0", blocks := 
-            [ [ 1, 2 ], [ 1, 3 ] ], isBinary := true ), 
-      rec( isBlockDesign := true, v := 3, id := "example-1", 
-          blocks := [ [ 1, 2 ], [ 1, 2 ], [ 2, 3 ] ], isBinary := true ) ], 
-  pairwiseNonisomorphic := true )
+gap&gt; L:=BlockDesigns(rec(v:=9,blockSizes:=[3],
+&gt;          tSubsetStructure:=rec(t:=2,lambdas:=[1])));;
+gap&gt; D:=L[1];;
+gap&gt; MakeResolutionsComponent(D);
+gap&gt; D;
+rec( isBlockDesign := true, v := 9, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
+      [ 2, 4, 6 ], [ 2, 5, 8 ], [ 2, 7, 9 ], [ 3, 4, 9 ], [ 3, 5, 7 ], 
+      [ 3, 6, 8 ], [ 4, 7, 8 ], [ 5, 6, 9 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3 ], blockNumbers := [ 12 ], r := 4, 
+  autGroup := Group([ (1,2)(5,6)(7,8), (1,3,2)(4,8,7)(5,6,9), (1,2)(4,7)(5,9),
+      (1,2)(4,9)(5,7)(6,8), (1,4,8,6,9,2)(3,5,7) ]), 
+  resolutions := rec( list := [ rec( partition := 
+                [ rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 2, 3 ], [ 4, 7, 8 ], [ 5, 6, 9 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 4, 5 ], [ 2, 7, 9 ], [ 3, 6, 8 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 6, 7 ], [ 2, 5, 8 ], [ 3, 4, 9 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 8, 9 ], [ 2, 4, 6 ], [ 3, 5, 7 ] ] ) ],
+              autGroup := Group(
+                [ (2,3)(4,5)(6,7)(8,9), (1,3,2)(4,8,7)(5,6,9), 
+                  (1,8,9)(2,4,6)(3,7,5), (1,2)(5,6)(7,8), (1,2)(4,7)(5,9), 
+                  (1,2,9,6,8,4)(3,7,5) ]) ) ], pairwiseNonisomorphic := true, 
+      allClassesRepresented := true ) )
 </pre>
 <p>
 <p>
-[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href ="CHAP008.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>Design manual<br>June 2004
+<address>design manual<br>August 2006
 </address></body></html>

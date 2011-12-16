@@ -10,16 +10,16 @@ PackageName := "DESIGN",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.1",
+Version := "1.2",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "22/06/2004",
+Date := "30/08/2006",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
-ArchiveURL := "http://designtheory.org/software/gap_design/design1r1",
+ArchiveURL := "http://designtheory.org/software/gap_design/design1r2",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -58,7 +58,7 @@ ArchiveFormats := ".tar.gz", # the others are generated automatically
 ##  
 ##  These entries are *optional*.
 #TextFiles := ["init.g", ......],
-#BinaryFiles := ["doc/manual.dvi", ......],
+BinaryFiles := ["doc/manual.dvi", "doc/manual.pdf"],
 
 
 ##  Information about authors and maintainers. Specify for each person a 
@@ -116,15 +116,14 @@ Persons := [
 ##    "dev"           for development versions of packages 
 ##    "other"         for all other packages
 ##
-# Status := "accepted",
-Status := "other",
+Status := "accepted",
 
 ##  You must provide the next two entries if and only if the status is 
 ##  "accepted":
 # format: 'name (place)'
-# CommunicatedBy := "Mike Atkinson (St. Andrews)",
+CommunicatedBy := "Akos Seress (Ohio State)",
 # format: mm/yyyy
-# AcceptDate := "08/1999",
+AcceptDate := "08/2006",
 
 ##  For a central overview of all packages and a collection of all package
 ##  archives it is necessary to have two files accessible which should be
@@ -147,7 +146,7 @@ PackageInfoURL := "http://designtheory.org/software/gap_design/PackageInfo.g",
 ##  '<span class="pkgname">MyPKG</span>' for specifing package names.
 ##  
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
-classifying, partitioning and studying block designs.",
+constructing, classifying, partitioning and studying block designs.",
 
 PackageWWWHome := "http://designtheory.org/software/gap_design/",
                   

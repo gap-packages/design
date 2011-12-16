@@ -1,38 +1,64 @@
 \indexentry {Installing the DESIGN Package@Installing the DESIGN Package|indexit}{3}
-\indexentry {Loading DESIGN@Loading DESIGN|indexit}{3}
+\indexentry {Loading DESIGN@Loading DESIGN|indexit}{4}
 \indexentry {The structure of a block design in DESIGN@The structure of a block design in DESIGN|indexit}{4}
 \indexentry {Example of the use of DESIGN@Example of the use of DESIGN|indexit}{4}
-\indexentry {Functions to construct block designs@Functions to construct block designs|indexit}{7}
-\indexentry {BlockDesign@`BlockDesign'}{7}
-\indexentry {PGPointFlatBlockDesign@`PGPointFlatBlockDesign'}{7}
-\indexentry {TDesignFromTBD@`TDesignFromTBD'}{8}
-\indexentry {DualBlockDesign@`DualBlockDesign'}{8}
-\indexentry {ComplementBlocksBlockDesign@`ComplementBlocksBlockDesign'}{8}
-\indexentry {The functions for basic properties@The functions for basic properties|indexit}{10}
-\indexentry {IsBlockDesign@`IsBlockDesign'}{10}
-\indexentry {IsBinaryBlockDesign@`IsBinaryBlockDesign'}{10}
-\indexentry {IsSimpleBlockDesign@`IsSimpleBlockDesign'}{10}
-\indexentry {IsConnectedBlockDesign@`IsConnectedBlockDesign'}{10}
-\indexentry {ReplicationNumber@`ReplicationNumber'}{10}
-\indexentry {BlockSizes@`BlockSizes'}{11}
-\indexentry {BlockNumbers@`BlockNumbers'}{11}
-\indexentry {TSubsetLambdasVector@`TSubsetLambdasVector'}{11}
-\indexentry {AllTDesignLambdas@`AllTDesignLambdas'}{11}
-\indexentry {Computing automorphism groups@Computing automorphism groups|indexit}{12}
-\indexentry {AutGroupBlockDesign@`AutGroupBlockDesign'}{12}
-\indexentry {Testing isomorphism@Testing isomorphism|indexit}{12}
-\indexentry {IsIsomorphicBlockDesign@`IsIsomorphicBlockDesign'}{12}
-\indexentry {BlockDesignIsomorphismClassRepresentatives@`BlockDesignIsomorphismClassRepresentatives'}{12}
-\indexentry {The function BlockDesigns@The function BlockDesigns|indexit}{14}
-\indexentry {BlockDesigns@`BlockDesigns'}{14}
-\indexentry {Partitioning a block design into block designs@Partitioning a block design into block designs|indexit}{17}
-\indexentry {PartitionsIntoBlockDesigns@`PartitionsIntoBlockDesigns'}{17}
-\indexentry {Computing resolutions@Computing resolutions|indexit}{19}
-\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{19}
-\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{19}
-\indexentry {Writing lists of block designs and their properties in XML-format@Writing lists of block designs and their properties in XML-format|indexit}{21}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{21}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{21}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{21}
-\indexentry {Reading lists of block designs in XML-format@Reading lists of block designs in XML-format|indexit}{21}
-\indexentry {BlockDesignsFromXMLFile@`BlockDesignsFromXMLFile'}{21}
+\indexentry {Information from $t$-design parameters@Information from $t$-design parameters|indexit}{7}
+\indexentry {TDesignLambdas@`TDesignLambdas'}{7}
+\indexentry {TDesignLambdaMin@`TDesignLambdaMin'}{7}
+\indexentry {TDesignIntersectionTriangle@`TDesignIntersectionTriangle'}{7}
+\indexentry {SteinerSystemIntersectionTriangle@`SteinerSystemIntersectionTriangle'}{8}
+\indexentry {TDesignBlockMultiplicityBound@`TDesignBlockMultiplicityBound'}{8}
+\indexentry {ResolvableTDesignBlockMultiplicityBound@`ResolvableTDesignBlockMultiplicityBound'}{9}
+\indexentry {Block intersection polynomials@Block intersection polynomials|indexit}{9}
+\indexentry {BlockIntersectionPolynomial@`BlockIntersectionPolynomial'}{9}
+\indexentry {BlockIntersectionPolynomialCheck@`BlockIntersectionPolynomialCheck'}{10}
+\indexentry {Functions to construct block designs@Functions to construct block designs|indexit}{11}
+\indexentry {BlockDesign@`BlockDesign'}{11}
+\indexentry {BlockDesign@`BlockDesign'}{11}
+\indexentry {PGPointFlatBlockDesign@`PGPointFlatBlockDesign'}{11}
+\indexentry {DualBlockDesign@`DualBlockDesign'}{12}
+\indexentry {ComplementBlocksBlockDesign@`ComplementBlocksBlockDesign'}{12}
+\indexentry {DeletedPointsBlockDesign@`DeletedPointsBlockDesign'}{13}
+\indexentry {DeletedBlocksBlockDesign@`DeletedBlocksBlockDesign'}{13}
+\indexentry {AddedPointBlockDesign@`AddedPointBlockDesign'}{14}
+\indexentry {AddedPointBlockDesign@`AddedPointBlockDesign'}{14}
+\indexentry {AddedBlocksBlockDesign@`AddedBlocksBlockDesign'}{14}
+\indexentry {DerivedBlockDesign@`DerivedBlockDesign'}{14}
+\indexentry {derived design}{14}
+\indexentry {ResidualBlockDesign@`ResidualBlockDesign'}{15}
+\indexentry {residual design}{15}
+\indexentry {TDesignFromTBD@`TDesignFromTBD'}{16}
+\indexentry {The functions for basic properties@The functions for basic properties|indexit}{18}
+\indexentry {IsBlockDesign@`IsBlockDesign'}{18}
+\indexentry {IsBinaryBlockDesign@`IsBinaryBlockDesign'}{18}
+\indexentry {IsSimpleBlockDesign@`IsSimpleBlockDesign'}{18}
+\indexentry {IsConnectedBlockDesign@`IsConnectedBlockDesign'}{18}
+\indexentry {BlockDesignPoints@`BlockDesignPoints'}{18}
+\indexentry {NrBlockDesignPoints@`NrBlockDesignPoints'}{19}
+\indexentry {BlockDesignBlocks@`BlockDesignBlocks'}{19}
+\indexentry {NrBlockDesignBlocks@`NrBlockDesignBlocks'}{19}
+\indexentry {BlockSizes@`BlockSizes'}{19}
+\indexentry {BlockNumbers@`BlockNumbers'}{19}
+\indexentry {ReplicationNumber@`ReplicationNumber'}{19}
+\indexentry {PairwiseBalancedLambda@`PairwiseBalancedLambda'}{20}
+\indexentry {TSubsetLambdasVector@`TSubsetLambdasVector'}{20}
+\indexentry {AllTDesignLambdas@`AllTDesignLambdas'}{20}
+\indexentry {AffineResolvableMu@`AffineResolvableMu'}{21}
+\indexentry {Computing automorphism groups@Computing automorphism groups|indexit}{22}
+\indexentry {AutGroupBlockDesign@`AutGroupBlockDesign'}{22}
+\indexentry {Testing isomorphism@Testing isomorphism|indexit}{22}
+\indexentry {IsIsomorphicBlockDesign@`IsIsomorphicBlockDesign'}{22}
+\indexentry {BlockDesignIsomorphismClassRepresentatives@`BlockDesignIsomorphismClassRepresentatives'}{22}
+\indexentry {The function BlockDesigns@The function BlockDesigns|indexit}{24}
+\indexentry {BlockDesigns@`BlockDesigns'}{24}
+\indexentry {Partitioning a block design into block designs@Partitioning a block design into block designs|indexit}{27}
+\indexentry {PartitionsIntoBlockDesigns@`PartitionsIntoBlockDesigns'}{27}
+\indexentry {Computing resolutions@Computing resolutions|indexit}{30}
+\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{30}
+\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{30}
+\indexentry {Writing lists of block designs and their properties in XML-format@Writing lists of block designs and their properties in XML-format|indexit}{32}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{32}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{32}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{32}
+\indexentry {Reading lists of block designs in XML-format@Reading lists of block designs in XML-format|indexit}{33}
+\indexentry {BlockDesignsFromXMLFile@`BlockDesignsFromXMLFile'}{33}

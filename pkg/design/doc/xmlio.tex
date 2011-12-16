@@ -30,7 +30,7 @@ XML-format (version~2.0).
 The parameter <filename> is a string giving the name of the file, and
 <designs> is a record whose component `list' contains the list of block
 designs (<designs> can also be a list, in which case it is replaced by
-`rec(list:=<designs>').
+`rec(list:=<designs>)').
 
 The record <designs> should have the following components:
 
@@ -44,13 +44,12 @@ designs in `<designs>.list';
 `infoXML' (optional): should contain a string in XML format for the
 `<info>' element of the `<list_of_designs>' which is written.
 
-The combinatorial and group-theoretical properties output for each design
-depend on <include>, which should be a list containing zero or more of
-the strings `"indicators"', `"resolvable"', `"combinatorial_properties"',
-`"automorphism_group"', and `"resolutions"'.  A shorthand for the list
-containing all these strings is `"all"'. The default for <include> is
-the empty list (which is a change from versions of {\DESIGN} previous
-to 1.1).  The strings `"indicators"', `"combinatorial_properties"',
+The combinatorial and group-theoretical properties output for each
+design depend on <include> (default: empty~list), which should
+be a list containing zero or more of the strings `"indicators"',
+`"resolvable"', `"combinatorial_properties"', `"automorphism_group"', and
+`"resolutions"'.  A shorthand for the list containing all these strings
+is `"all"'.  The strings `"indicators"', `"combinatorial_properties"',
 `"automorphism_group"', and `"resolutions"' are used to specify that
 those subtrees of the external representation of each design are to
 be expanded and written out. In the case of `"resolutions"' being in

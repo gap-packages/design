@@ -1,0 +1,114 @@
+<html><head><title>[design] 8 XML I/O of block designs</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
+<h1>8 XML I/O of block designs</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP008.htm#SECT001">Writing lists of block designs and their properties in XML-format</a>
+<li> <A HREF="CHAP008.htm#SECT002">Reading lists of block designs in XML-format</a>
+</ol><p>
+<p>
+This chapter describes functions to write and read lists of binary block
+designs in the <a href="http://designtheory.org">http://designtheory.org</a> external representation
+XML-format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
+<p>
+<p>
+<h2><a name="SECT001">8.1 Writing lists of block designs and their properties in XML-format</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code> )</code>
+<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code>, </code><var>include</var><code> )</code>
+<li><code>BlockDesignsToXMLFile( </code><var>filename</var><code>, </code><var>designs</var><code>, </code><var>include</var><code>, </code><var>list_id</var><code> )</code>
+<p>
+This function writes a list of (assumed distinct) binary block designs
+(given in DESIGN package format) to a file in external representation
+XML-format (version&nbsp;2.0).
+<p>
+The parameter <var>filename</var> is a string giving the name of the file, and
+<var>designs</var> is a record whose component <code>list</code> contains the list of block
+designs (<var>designs</var> can also be a list, in which case it is replaced by
+<code>rec(list:=</code><var>designs</var><code>)</code>).
+<p>
+The record <var>designs</var> should have the following components:
+<p>
+<code>list</code>: the list of distinct binary block designs in DESIGN package
+format;
+<p>
+<code>pairwiseNonisomorphic</code> (optional): should be <code>true</code> or <code>false</code> or the
+string <code>"unknown"</code>, specifying the pairwise-nonisomorphism status of the
+designs in <code></code><var>designs</var><code>.list</code>;
+<p>
+<code>infoXML</code> (optional): should contain a string in XML format for the
+<code></code><var>info</var><code></code> element of the <code></code><var>list_of_designs</var><code></code> which is written.
+<p>
+The combinatorial and group-theoretical properties output for each
+design depend on <var>include</var> (default: empty&nbsp;list), which should
+be a list containing zero or more of the strings <code>"indicators"</code>,
+<code>"resolvable"</code>, <code>"combinatorial_properties"</code>, <code>"automorphism_group"</code>, and
+<code>"resolutions"</code>.  A shorthand for the list containing all these strings
+is <code>"all"</code>.  The strings <code>"indicators"</code>, <code>"combinatorial_properties"</code>,
+<code>"automorphism_group"</code>, and <code>"resolutions"</code> are used to specify that
+those subtrees of the external representation of each design are to
+be expanded and written out. In the case of <code>"resolutions"</code> being in
+<var>include</var>, <strong>all</strong> resolutions up to isomorphism will be determined and
+written out. The string <code>"resolvable"</code> is used to specify that the
+<code>resolvable</code> indicator must be set (usually this is not forced), if
+the <code>indicators</code> subtree is written out, and also that if a design is
+resolvable but <code>"resolutions"</code> is not in <var>include</var>, then one and only
+one resolution should be written out in the <code>resolutions</code> subtree.
+<p>
+If <var>list_id</var> is given then the id's of the output designs will be
+<code></code><var>list_id</var><code>-0</code>, <code></code><var>list_id</var><code>-1</code>, <code></code><var>list_id</var><code>-2</code>, ...
+<p>
+<pre>
+gap&gt; D:=[ BlockDesign(3, [[1,2],[1,3]]),                        
+&gt;         BlockDesign(3, [[1,2],[1,2],[2,3]]) ];;
+gap&gt; designs:=rec(list:=D, pairwiseNonisomorphic:=true);;
+gap&gt; BlockDesignsToXMLFile("example.xml",designs,[],"example"); 
+</pre>
+<p>
+<p>
+<h2><a name="SECT002">8.2 Reading lists of block designs in XML-format</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>BlockDesignsFromXMLFile( </code><var>filename</var><code> )</code>
+<p>
+This function reads a file with name <var>filename</var>, containing a list of
+distinct binary block designs in external representation XML-format,
+and returns a record  <var>designs</var> in DESIGN package format containing
+the essential information in this file.
+<p>
+The record <var>designs</var> contains the following components:
+<p>
+<code>list</code>: a list of block designs in DESIGN package format of
+the list of block designs in the file (certain elements such as
+<code></code><var>statistical_properties</var><code></code> are stored verbatim as strings; certain other
+elements are not stored since it is usually easier and more reliable to
+recompute them -- this can be done when the block designs are written
+out in XML format);
+<p>
+<code>pairwiseNonisomorphic</code> is set according to the attribute
+<code>pairwise_nonisomorphic</code> of the XML element <code></code><var>list_of_designs</var><code></code>.
+The component <code>pairwiseNonisomorphic</code> is <code>false</code> if this attribute
+is <code>false</code>, <code>true</code> if this attribute is <code>true</code>, and <code>"unknown"</code> otherwise;
+<p>
+<code>infoXML</code> is bound iff the <code></code><var>info</var><code></code> element occurs as a child of the
+XML <code></code><var>list_of_designs</var><code></code> element, and if bound, contains this <code></code><var>info</var><code></code>
+element in a string.
+<p>
+<pre>
+gap&gt; BlockDesignsFromXMLFile("example.xml");
+rec( 
+  list := [ rec( isBlockDesign := true, v := 3, id := "example-0", blocks := 
+            [ [ 1, 2 ], [ 1, 3 ] ], isBinary := true ), 
+      rec( isBlockDesign := true, v := 3, id := "example-1", 
+          blocks := [ [ 1, 2 ], [ 1, 2 ], [ 2, 3 ] ], isBinary := true ) ], 
+  pairwiseNonisomorphic := true )
+</pre>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>design manual<br>August 2006
+</address></body></html>
