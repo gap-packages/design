@@ -11,6 +11,7 @@ design/doc/parameters.tex
 design/doc/basic.tex
 design/doc/design.tex
 design/doc/partition.tex
+design/doc/sls.tex
 design/doc/xmlio.tex
 design/doc/autiso.tex
 design/htm/indxM.htm
@@ -34,6 +35,7 @@ design/htm/indxC.htm
 design/htm/chapters.htm
 design/htm/indxX.htm
 design/htm/biblio.htm
+design/htm/CHAP009.htm
 design/htm/CHAP001.htm
 design/htm/CHAP008.htm
 design/htm/indxT.htm

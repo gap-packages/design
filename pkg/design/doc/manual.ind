@@ -1,32 +1,35 @@
 \letter A
   `AddedBlocksBlockDesign', 15
-  `AddedPointBlockDesign', 14
-  `AffineResolvableMu', 21
-  `AllTDesignLambdas', 20
-  `AutGroupBlockDesign', 22
+  `AddedPointBlockDesign', 15
+  `AffineResolvableMu', 22
+  `AGPointFlatBlockDesign', 11
+  `AllTDesignLambdas', 21
+  `AutGroupBlockDesign', 23
 \letter B
+  binary block design, 4
   `BlockDesign', 11
-  `BlockDesignBlocks', 19
-  `Block\-Design\-Isomorphism\-Class\-Representatives', 22
-  `BlockDesignPoints', 18
-  `BlockDesigns', 24
-  `BlockDesignsFromXMLFile', 33
-  `BlockDesignsToXMLFile', 32
+  block design, 4
+  `BlockDesignBlocks', 20
+  `Block\-Design\-Isomorphism\-Class\-Representatives', 23
+  `BlockDesignPoints', 19
+  `BlockDesigns', 25
+  `BlockDesignsFromXMLFile', 36
+  `BlockDesignsToXMLFile', 35
   `BlockIntersectionPolynomial', 9
   `BlockIntersectionPolynomialCheck', 10
   Block intersection polynomials, \indexit{9}
-  `BlockNumbers', 19
-  `BlockSizes', 19
+  `BlockNumbers', 20
+  `BlockSizes', 20
 \letter C
   `ComplementBlocksBlockDesign', 13
-  Computing automorphism groups, \indexit{22}
-  Computing resolutions, \indexit{30}
+  Computing automorphism groups, \indexit{23}
+  Computing resolutions, \indexit{33}
 \letter D
   `DeletedBlocksBlockDesign', 14
-  `DeletedPointsBlockDesign', 13
+  `DeletedPointsBlockDesign', 14
   `DerivedBlockDesign', 15
   derived design, 15
-  `DualBlockDesign', 12
+  `DualBlockDesign', 13
 \letter E
   Example of the use of DESIGN, \indexit{4}
 \letter F
@@ -34,42 +37,48 @@
 \letter I
   Information from $t$-design parameters, \indexit{7}
   Installing the DESIGN Package, \indexit{3}
-  `IsBinaryBlockDesign', 18
-  `IsBlockDesign', 18
-  `IsConnectedBlockDesign', 18
-  `IsIsomorphicBlockDesign', 22
-  `IsSimpleBlockDesign', 18
+  `IsBinaryBlockDesign', 19
+  `IsBlockDesign', 19
+  `IsConnectedBlockDesign', 19
+  `IsIsomorphicBlockDesign', 23
+  `IsSimpleBlockDesign', 19
 \letter L
   Loading DESIGN, \indexit{4}
 \letter M
-  `MakeResolutionsComponent', 30
+  `MakeResolutionsComponent', 33
 \letter N
-  `NrBlockDesignBlocks', 19
-  `NrBlockDesignPoints', 19
+  `NrBlockDesignBlocks', 20
+  `NrBlockDesignPoints', 20
 \letter P
-  `PairwiseBalancedLambda', 20
-  Partitioning a block design into block designs, \indexit{27}
-  `PartitionsIntoBlockDesigns', 27
-  `PGPointFlatBlockDesign', 11
+  `PairwiseBalancedLambda', 21
+  Partitioning a block design into block designs, \indexit{30}
+  `PartitionsIntoBlockDesigns', 30
+  `PGPointFlatBlockDesign', 12
 \letter R
-  Reading lists of block designs in XML-format, \indexit{33}
-  `ReplicationNumber', 19
+  Reading lists of block designs in XML-format, \indexit{36}
+  `ReplicationNumber', 20
   `ResidualBlockDesign', 16
   residual design, 16
   `ResolvableTDesignBlockMultiplicityBound', 9
 \letter S
+  semi-latin square, 28
+  Semi-Latin squares and SOMAs, \indexit{28}
+  `SemiLatinSquareDuals', 28
+  soma, 28
   `SteinerSystemIntersectionTriangle', 8
 \letter T
+  t-design, 7
   `TDesignBlockMultiplicityBound', 8
   `TDesignFromTBD', 17
   `TDesignIntersectionTriangle', 7
   `TDesignLambdaMin', 7
   `TDesignLambdas', 7
-  Testing isomorphism, \indexit{22}
-  The function BlockDesigns, \indexit{24}
-  The functions for basic properties, \indexit{18}
+  Testing isomorphism, \indexit{23}
+  The function BlockDesigns, \indexit{25}
+  The function SemiLatinSquareDuals, \indexit{28}
+  The functions for basic properties, \indexit{19}
   The structure of a block design in DESIGN, \indexit{4}
-  `TSubsetLambdasVector', 20
+  `TSubsetLambdasVector', 21
 \letter W
   `WittDesign', 12
-  Writing lists of block designs and their properties in XML-format, \indexit{32}
+  Writing lists of block designs and their properties in XML-format, \indexit{35}

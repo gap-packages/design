@@ -2,9 +2,12 @@ C design.tex 1. Design
 S 1.1. Installing the DESIGN Package
 S 1.2. Loading DESIGN
 S 1.3. The structure of a block design in DESIGN
+I 1.3. block design
+I 1.3. binary block design
 S 1.4. Example of the use of DESIGN
 C parameters.tex 2. Information from block design parameters
 S 2.1. Information from $t$-design parameters
+I 2.1. t-design
 F 2.1. TDesignLambdas
 F 2.1. TDesignLambdaMin
 F 2.1. TDesignIntersectionTriangle
@@ -18,6 +21,7 @@ C construct.tex 3. Constructing block designs
 S 3.1. Functions to construct block designs
 F 3.1. BlockDesign
 F 3.1. BlockDesign
+F 3.1. AGPointFlatBlockDesign
 F 3.1. PGPointFlatBlockDesign
 F 3.1. WittDesign
 F 3.1. DualBlockDesign
@@ -58,16 +62,25 @@ F 5.2. BlockDesignIsomorphismClassRepresentatives
 C classify.tex 6. Classifying block designs
 S 6.1. The function BlockDesigns
 F 6.1. BlockDesigns
-C partition.tex 7. Partitioning block designs
-S 7.1. Partitioning a block design into block designs
-F 7.1. PartitionsIntoBlockDesigns
-S 7.2. Computing resolutions
-F 7.2. MakeResolutionsComponent
-F 7.2. MakeResolutionsComponent
-C xmlio.tex 8. XML I/O of block designs
-S 8.1. Writing lists of block designs and their properties in XML-format
-F 8.1. BlockDesignsToXMLFile
-F 8.1. BlockDesignsToXMLFile
-F 8.1. BlockDesignsToXMLFile
-S 8.2. Reading lists of block designs in XML-format
-F 8.2. BlockDesignsFromXMLFile
+C sls.tex 7. Classifying semi-Latin squares
+S 7.1. Semi-Latin squares and SOMAs
+I 7.1. semi-Latin square
+I 7.1. SOMA
+S 7.2. The function SemiLatinSquareDuals
+F 7.2. SemiLatinSquareDuals
+F 7.2. SemiLatinSquareDuals
+F 7.2. SemiLatinSquareDuals
+F 7.2. SemiLatinSquareDuals
+C partition.tex 8. Partitioning block designs
+S 8.1. Partitioning a block design into block designs
+F 8.1. PartitionsIntoBlockDesigns
+S 8.2. Computing resolutions
+F 8.2. MakeResolutionsComponent
+F 8.2. MakeResolutionsComponent
+C xmlio.tex 9. XML I/O of block designs
+S 9.1. Writing lists of block designs and their properties in XML-format
+F 9.1. BlockDesignsToXMLFile
+F 9.1. BlockDesignsToXMLFile
+F 9.1. BlockDesignsToXMLFile
+S 9.2. Reading lists of block designs in XML-format
+F 9.2. BlockDesignsFromXMLFile

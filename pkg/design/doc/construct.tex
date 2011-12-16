@@ -44,13 +44,53 @@ gap> AllTDesignLambdas(D);
 
 
 
+\>AGPointFlatBlockDesign( <n>, <q>, <d> )
+
+Let <n> be positive integer, <q> a prime-power, and <d> a non-negative
+integer less than or equal to <n>. Then this function returns the block
+design whose points are the points of the affine space $AG(<n>,<q>)$,
+and whose blocks are the $<d>$-flats of $AG(<n>,<q>)$, considering a
+$<d>$-flat as a set of points.
+
+Note that the *affine space* $AG(<n>,<q>)$ consists of all the cosets of
+all the subspaces of the vector space $V(<n>,<q>)$, with the *points*
+being the cosets of the $0$-dimensional subspace and the *$<d>$-flats*
+being the cosets of the $<d>$-dimensional subspaces. As is usual, we
+identify the points with the vectors in $V(<n>,<q>)$, and these vectors
+are given as the point-names.
+
+\beginexample
+gap> D:=AGPointFlatBlockDesign(2,4,1);
+rec( isBlockDesign := true, v := 16, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 9, 13 ], [ 1, 6, 11, 16 ], 
+      [ 1, 7, 12, 14 ], [ 1, 8, 10, 15 ], [ 2, 5, 12, 15 ], [ 2, 6, 10, 14 ], 
+      [ 2, 7, 9, 16 ], [ 2, 8, 11, 13 ], [ 3, 5, 10, 16 ], [ 3, 6, 12, 13 ], 
+      [ 3, 7, 11, 15 ], [ 3, 8, 9, 14 ], [ 4, 5, 11, 14 ], [ 4, 6, 9, 15 ], 
+      [ 4, 7, 10, 13 ], [ 4, 8, 12, 16 ], [ 5, 6, 7, 8 ], [ 9, 10, 11, 12 ], 
+      [ 13, 14, 15, 16 ] ], 
+  autSubgroup := Group([ (5,9,13)(6,10,14)(7,11,15)(8,12,16), 
+      (2,5,6)(3,9,11)(4,13,16)(7,14,12)(8,10,15), 
+      (1,5)(2,6)(3,7)(4,8)(9,13)(10,14)(11,15)(12,16), 
+      (3,4)(7,8)(9,13)(10,14)(11,16)(12,15) ]), 
+  pointNames := [ [ 0*Z(2), 0*Z(2) ], [ 0*Z(2), Z(2)^0 ], [ 0*Z(2), Z(2^2) ], 
+      [ 0*Z(2), Z(2^2)^2 ], [ Z(2)^0, 0*Z(2) ], [ Z(2)^0, Z(2)^0 ], 
+      [ Z(2)^0, Z(2^2) ], [ Z(2)^0, Z(2^2)^2 ], [ Z(2^2), 0*Z(2) ], 
+      [ Z(2^2), Z(2)^0 ], [ Z(2^2), Z(2^2) ], [ Z(2^2), Z(2^2)^2 ], 
+      [ Z(2^2)^2, 0*Z(2) ], [ Z(2^2)^2, Z(2)^0 ], [ Z(2^2)^2, Z(2^2) ], 
+      [ Z(2^2)^2, Z(2^2)^2 ] ] )
+gap> AllTDesignLambdas(D);
+[ 20, 5, 1 ]
+\endexample
+
+
+
 \>PGPointFlatBlockDesign( <n>, <q>, <d> )
 
 Let <n> be a non-negative integer, <q> a prime-power, and <d> a
 non-negative integer less than or equal to <n>. Then this function
 returns the block design whose points are the (projective) points of
 the projective space $PG(<n>,<q>)$, and whose blocks are the $<d>$-flats
-of $PG(<n>,<q>)$, considering a <d>-flat as a set of projective points.
+of $PG(<n>,<q>)$, considering a $<d>$-flat as a set of projective points.
 
 Note that the *projective space* $PG(<n>,<q>)$ consists of all the
 subspaces of the vector space $V(<n>+1,<q>)$, with the *projective
@@ -58,27 +98,8 @@ points* being the 1-dimensional subspaces and the *$<d>$-flats* being
 the $(<d>+1)$-dimensional subspaces.
 
 \beginexample
-gap> D:=PGPointFlatBlockDesign(3,2,1);;
-gap> Print(D,"\n");
-rec(
-  isBlockDesign := true,
-  v := 15,
-  pointNames := 
-   [ VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
-      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ] ] ) ],
+gap> D:=PGPointFlatBlockDesign(3,2,1);
+rec( isBlockDesign := true, v := 15, 
   blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
       [ 1, 10, 11 ], [ 1, 12, 13 ], [ 1, 14, 15 ], [ 2, 4, 6 ], [ 2, 5, 7 ], 
       [ 2, 8, 10 ], [ 2, 9, 11 ], [ 2, 12, 14 ], [ 2, 13, 15 ], [ 3, 4, 7 ], 
@@ -86,9 +107,26 @@ rec(
       [ 4, 8, 12 ], [ 4, 9, 13 ], [ 4, 10, 14 ], [ 4, 11, 15 ], [ 5, 8, 13 ], 
       [ 5, 9, 12 ], [ 5, 10, 15 ], [ 5, 11, 14 ], [ 6, 8, 14 ], [ 6, 9, 15 ], 
       [ 6, 10, 12 ], [ 6, 11, 13 ], [ 7, 8, 15 ], [ 7, 9, 14 ], 
-      [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
-gap> Size(AutGroupBlockDesign(D));
-20160
+      [ 7, 10, 13 ], [ 7, 11, 12 ] ], 
+  autSubgroup := Group([ (8,12)(9,13)(10,14)(11,15), 
+      (1,2,4,8)(3,6,12,9)(5,10)(7,14,13,11) ]), 
+  pointNames := [ <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)>, 
+      <vector space of dimension 1 over GF(2)> ] )
+gap> AllTDesignLambdas(D);
+[ 35, 7, 1 ]
 \endexample
 
 
@@ -466,4 +504,3 @@ rec( isBlockDesign := true, v := 10,
 gap> AllTDesignLambdas(Dstar);
 [ 30, 9, 2 ]
 \endexample
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

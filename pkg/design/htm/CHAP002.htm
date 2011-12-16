@@ -12,11 +12,11 @@
 <p>
 <h2><a name="SECT001">2.1 Information from $t$-design parameters</a></h2>
 <p><p>
-For <var>t</var> a non-negative integer and <var>v,k,lambda</var> positive integers with
-<var>tleklev</var>, a <var>t</var>-<strong>design</strong> with <strong>parameters</strong> <var>t,v,k,lambda</var>, or a
-<var>t</var>-<var>(v,k,lambda)</var> <strong>design</strong>, is a binary block design with exactly <var>v</var>
-points, such that each block has size <var>k</var> and each <var>t</var>-subset of the
-points is contained in exactly <var>lambda</var> blocks.
+For <var>t</var> a non-negative integer and <var>v,k,lambda</var> positive integers
+with <var>tleklev</var>, a <var>t</var>-<strong>design</strong>indext-design with <strong>parameters</strong>
+<var>t,v,k,lambda</var>, or a <var>t</var>-<var>(v,k,lambda)</var> <strong>design</strong>, is a binary block
+design with exactly <var>v</var> points, such that each block has size <var>k</var> and
+each <var>t</var>-subset of the points is contained in exactly <var>lambda</var> blocks.
 <p>
 <a name = "SSEC001.1"></a>
 <li><code>TDesignLambdas( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
@@ -224,7 +224,7 @@ integer <var>n</var>. (These conditions can be checked using the function
 integer <var>n</var>, then <var>m<sub>i</sub>=n<sub>i</sub></var> for <var>inotin{n,n+1,...,n+t-1}</var>.
 <p>
 For more information on block intersection polynomials and their
-applications, see <a href="biblio.htm#CaSo"><cite>CaSo</cite></a>.
+applications, see <a href="biblio.htm#CaSo"><cite>CaSo</cite></a> and <a href="biblio.htm#Soi1"><cite>Soi1</cite></a>.
 <p>
 <pre>
 gap&gt; x:=Indeterminate(Rationals,1);
@@ -266,8 +266,7 @@ gap&gt; BlockIntersectionPolynomialCheck(m,lambdavec);
 false
 </pre>
 <p>
-<p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>November 2006
+<address>design manual<br>September 2009
 </address></body></html>

@@ -10,16 +10,16 @@ PackageName := "DESIGN",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.3",
+Version := "1.4",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "08/11/2006",
+Date := "17/09/2009",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
-ArchiveURL := "http://designtheory.org/software/gap_design/design1r3",
+ArchiveURL := "http://designtheory.org/software/gap_design/design1r4",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -243,7 +243,7 @@ Subtitle := "The Design Package for GAP",
 ##  *Optional*: Here you can list some keyword related to the topic 
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["block design","t-design","design","resolution"]
+Keywords := ["block design","t-design","design","resolution","semi-Latin square","SOMA"]
 
 ));
 

@@ -8,18 +8,21 @@
 \seccontents {2.2}{Block intersection polynomials} {9}
 \chapcontents {3}{Constructing block designs}{11}
 \seccontents {3.1}{Functions to construct block designs} {11}
-\chapcontents {4}{Determining basic properties of block designs}{18}
-\seccontents {4.1}{The functions for basic properties} {18}
-\chapcontents {5}{Automorphism groups and isomorphism testing for block designs}{22}
-\seccontents {5.1}{Computing automorphism groups} {22}
-\seccontents {5.2}{Testing isomorphism} {22}
-\chapcontents {6}{Classifying block designs}{24}
-\seccontents {6.1}{The function BlockDesigns} {24}
-\chapcontents {7}{Partitioning block designs}{27}
-\seccontents {7.1}{Partitioning a block design into block designs} {27}
-\seccontents {7.2}{Computing resolutions} {30}
-\chapcontents {8}{XML I/O of block designs}{32}
-\seccontents {8.1}{Writing lists of block designs and their properties in XML-format} {32}
-\seccontents {8.2}{Reading lists of block designs in XML-format} {33}
-\chapcontents {}{Bibliography}{34}
-\chapcontents {}{Index}{35}
+\chapcontents {4}{Determining basic properties of block designs}{19}
+\seccontents {4.1}{The functions for basic properties} {19}
+\chapcontents {5}{Automorphism groups and isomorphism testing for block designs}{23}
+\seccontents {5.1}{Computing automorphism groups} {23}
+\seccontents {5.2}{Testing isomorphism} {23}
+\chapcontents {6}{Classifying block designs}{25}
+\seccontents {6.1}{The function BlockDesigns} {25}
+\chapcontents {7}{Classifying semi-Latin squares}{28}
+\seccontents {7.1}{Semi-Latin squares and SOMAs} {28}
+\seccontents {7.2}{The function SemiLatinSquareDuals} {28}
+\chapcontents {8}{Partitioning block designs}{30}
+\seccontents {8.1}{Partitioning a block design into block designs} {30}
+\seccontents {8.2}{Computing resolutions} {33}
+\chapcontents {9}{XML I/O of block designs}{35}
+\seccontents {9.1}{Writing lists of block designs and their properties in XML-format} {35}
+\seccontents {9.2}{Reading lists of block designs in XML-format} {36}
+\chapcontents {}{Bibliography}{37}
+\chapcontents {}{Index}{38}

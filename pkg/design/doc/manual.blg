@@ -2,47 +2,47 @@ This is BibTeX, Version 0.99c (Web2C 7.4.5)
 The top-level auxiliary file: manual.aux
 The style file: alpha.bst
 Database file #1: manual.bib
-Warning--empty year in CaSo
-Warning--empty year in McSo
-You've used 7 entries,
+Warning--empty journal in Soi1
+Warning--empty year in Soi1
+You've used 9 entries,
             2543 wiz_defined-function locations,
-            632 strings with 6098 characters,
-and the built_in function-call counts, 2472 in all, are:
-= -- 242
-> -- 139
-< -- 2
-+ -- 50
-- -- 47
-* -- 167
-:= -- 441
-add.period$ -- 25
-call.type$ -- 7
-change.case$ -- 41
-chr.to.int$ -- 7
-cite$ -- 9
-duplicate$ -- 90
-empty$ -- 156
-format.name$ -- 55
-if$ -- 475
+            649 strings with 6296 characters,
+and the built_in function-call counts, 3300 in all, are:
+= -- 333
+> -- 166
+< -- 3
++ -- 58
+- -- 55
+* -- 228
+:= -- 574
+add.period$ -- 31
+call.type$ -- 9
+change.case$ -- 52
+chr.to.int$ -- 9
+cite$ -- 11
+duplicate$ -- 120
+empty$ -- 221
+format.name$ -- 66
+if$ -- 642
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 3
-newline$ -- 43
-num.names$ -- 21
-pop$ -- 42
+missing$ -- 5
+newline$ -- 53
+num.names$ -- 27
+pop$ -- 43
 preamble$ -- 1
-purify$ -- 52
+purify$ -- 65
 quote$ -- 0
-skip$ -- 73
+skip$ -- 101
 stack$ -- 0
-substring$ -- 83
-swap$ -- 11
-text.length$ -- 2
-text.prefix$ -- 2
+substring$ -- 166
+swap$ -- 12
+text.length$ -- 3
+text.prefix$ -- 3
 top$ -- 0
-type$ -- 56
+type$ -- 72
 warning$ -- 2
-while$ -- 21
-width$ -- 11
-write$ -- 95
+while$ -- 32
+width$ -- 14
+write$ -- 122
 (There were 2 warnings)

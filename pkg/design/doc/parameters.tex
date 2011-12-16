@@ -14,11 +14,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Information from $t$-design parameters}
 
-For $t$ a non-negative integer and $v,k,\lambda$ positive integers with
-$t\le k\le v$, a $t$-*design* with *parameters* $t,v,k,\lambda$, or a
-$t$-$(v,k,\lambda)$ *design*, is a binary block design with exactly $v$
-points, such that each block has size $k$ and each $t$-subset of the
-points is contained in exactly $\lambda$ blocks.
+For $t$ a non-negative integer and $v,k,\lambda$ positive integers
+with $t\le k\le v$, a $t$-*design*\index{t-design} with *parameters*
+$t,v,k,\lambda$, or a $t$-$(v,k,\lambda)$ *design*, is a binary block
+design with exactly $v$ points, such that each block has size $k$ and
+each $t$-subset of the points is contained in exactly $\lambda$ blocks.
 
 \>TDesignLambdas( <t>, <v>, <k>, <lambda> )
 
@@ -229,7 +229,7 @@ integer $n$. (These conditions can be checked using the function
 integer $n$, then $m_i=n_i$ for $i\not\in\{n,n+1,\ldots,n+t-1\}$.
 
 For more information on block intersection polynomials and their
-applications, see \cite{CaSo}.
+applications, see \cite{CaSo} and \cite{Soi1}.
 
 \beginexample
 gap> x:=Indeterminate(Rationals,1);
@@ -271,5 +271,3 @@ gap> m:=[1,0,0,0,0,0,0,1];;
 gap> BlockIntersectionPolynomialCheck(m,lambdavec);
 false
 \endexample
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
