@@ -14,8 +14,8 @@
   `Block\-Design\-Isomorphism\-Class\-Representatives', 26
   `BlockDesignPoints', 19
   `BlockDesigns', 28
-  `BlockDesignsFromXMLFile', 39
-  `BlockDesignsToXMLFile', 38
+  `BlockDesignsFromXMLFile', 38
+  `BlockDesignsToXMLFile', 37
   `BlockIntersectionPolynomial', 9
   `BlockIntersectionPolynomialCheck', 10
   Block intersection polynomials, \indexit{9}
@@ -60,7 +60,7 @@
   `PGPointFlatBlockDesign', 12
   `PointBlockIncidenceMatrix', 23
 \letter R
-  Reading lists of block designs in XML-format, \indexit{39}
+  Reading lists of block designs in XML-format, \indexit{38}
   `ReplicationNumber', 20
   `ResidualBlockDesign', 16
   residual design, 16
@@ -87,4 +87,4 @@
   `TSubsetLambdasVector', 21
 \letter W
   `WittDesign', 12
-  Writing lists of block designs and their properties in XML-format, \indexit{38}
+  Writing lists of block designs and their properties in XML-format, \indexit{37}

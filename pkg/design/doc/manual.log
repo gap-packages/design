@@ -1,5 +1,6 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdftex 2010.10.11)  9 SEP 2011 13:38
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdftex 2011.11.3)  23 NOV 2011 16:51
 entering extended mode
+ %&-line parsing enabled.
 **manual
 (./manual.tex (../../../doc/gapmacro.tex
 (/usr/share/texmf/tex/plain/amsfonts/amssym.tex
@@ -16,13 +17,19 @@ Running PDFTeX
 \origvsize=\dimen19
 \manindent=\dimen20
 \smallmanindent=\dimen21
-\msbfam=\fam11
+\itfam=\fam11
+\slfam=\fam12
+\bffam=\fam13
+\ttfam=\fam14
+\msbfam=\fam15
+\ttindent=\dimen22
 \labelout=\write0
 \indexout=\write1
 \secindout=\write2
 \tocout=\write3
 \citeout=\write4
 \ans=\write5
+\exampleout=\write6
 \labelin=\read0
 \indexin=\read1
 \tocin=\read2
@@ -33,7 +40,8 @@ Running PDFTeX
 \indentno=\count29
 \chapnum=\count30
 \ortoks=\toks12
-) [1{/usr/share/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+\bibindent=\dimen23
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 \makelabel{design:Contents}{{\setbox 0=\hbox {1}\vrule width 0pt height\ht 0}}
 Chapter `Contents' .
 (./manual.toc) [2.1
@@ -51,73 +59,176 @@ Chapter `Contents' .
 
  (./design.tex
 Chapter `Design' .
-[3.1] [4.1]) (./parameters.tex [5.1] [6.1]
+Label `Reference: Installing a GAP Package' undefined.
+Label `Reference: GAP Root Directory' undefined.
+[3.1]
+\openout6 = `manual.example-1.tst'.
+
+ [4.1]) (./parameters.tex [5.1] [6.1]
 Chapter `Information from block design parameters' .
-[7.2] [8.2] [9.2]) (./construct.tex [10.2]
+\openout6 = `manual.example-2.tst'.
+
+[7.2] [8.2] [9.2]
+Overfull \hbox (49.99527pt too wide) in paragraph at lines 257--261
+[]\tenrm Then, for \tenit x \tenrm an in-de-ter-mi-nate over the ra-tio-nals, t
+his func-tion checks whether \tentt Block-In-ter-sec-tion-Poly-no-mial(\tenit x
+\tentt ,\tenit m\tentt ,\tenit lambdavec\tentt )|
+
+\hbox(6.94444+2.22223)x468.0, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\tenrm T
+.\tenrm h
+.\tenrm e
+.\tenrm n
+.etc.
+
+) (./construct.tex [10.2]
 Chapter `Constructing block designs' .
+\openout6 = `manual.example-3.tst'.
+
 [11.3] [12.3] [13.3] [14.3] [15.3] [16.3] [17.3]) (./basic.tex [18.3]
 Chapter `Determining basic properties of block designs' .
+\openout6 = `manual.example-4.tst'.
+
 [19.4] [20.4] [21.4]) (./efficiency.tex [22.4]
 Chapter `Matrices and efficiency measures for block designs' .
+\openout6 = `manual.example-5.tst'.
+
 [23.5] [24.5]) (./autiso.tex [25.5]
 Chapter `Automorphism groups and isomorphism testing for block designs' .
+\openout6 = `manual.example-6.tst'.
+
 [26.6]) (./classify.tex [27.6]
 Chapter `Classifying block designs' .
+
+Overfull \hbox (105.64584pt too wide) in paragraph at lines 41--62
+\tenit param\tentt .tSubsetStructure.t\tenrm , \tenit par-ti-tion \tenrm be \te
+nit param\tentt .tSubsetStructure.partition\tenrm , and \tenit lamb-das \tenrm 
+be \tenit param\tentt .tSubsetStructure.lambdas\tenrm .|
+
+\hbox(6.8449+2.22223)x468.0, glue set - 1.0
+.\tenit p
+.\tenit a
+.\tenit r
+.\kern-0.1499
+.\tenit a
+.etc.
+
 [28.7]
-Overfull \hbox (6.26138pt too wide) in paragraph at lines 91--102
-\tenrm element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
-sec-tion of a block $\tenit B$ \tenrm of size \tenit param\tentt .blockSizes[\t
-enit i\tentt ]|
+\openout6 = `manual.example-7.tst'.
 
-\hbox(6.94444+1.94444)x468.0, glue set - 1.0
-.\tenrm e
-.\tenrm l
-.\tenrm e
-.\tenrm m
-.\tenrm e
-.etc.
-
-[29.7]) (./sls.tex [30.7]
+ [29.7]) (./sls.tex [30.7]
 Chapter `Classifying semi-Latin squares' .
-[31.8]) (./partition.tex [32.8]
-Chapter `Partitioning block designs' .
-[33.9]
-Overfull \hbox (6.26138pt too wide) in paragraph at lines 88--99
-\tenrm element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
-sec-tion of a block $\tenit B$ \tenrm of size \tenit param\tentt .blockSizes[\t
-enit i\tentt ]|
+[31.8]
+\openout6 = `manual.example-8.tst'.
 
-\hbox(6.94444+1.94444)x468.0, glue set - 1.0
-.\tenrm e
-.\tenrm l
-.\tenrm e
-.\tenrm m
-.\tenrm e
+) (./partition.tex [32.8]
+Chapter `Partitioning block designs' .
+
+Overfull \hbox (105.64584pt too wide) in paragraph at lines 49--66
+\tenit param\tentt .tSubsetStructure.t\tenrm , \tenit par-ti-tion \tenrm be \te
+nit param\tentt .tSubsetStructure.partition\tenrm , and \tenit lamb-das \tenrm 
+be \tenit param\tentt .tSubsetStructure.lambdas\tenrm .|
+
+\hbox(6.8449+2.22223)x468.0, glue set - 1.0
+.\tenit p
+.\tenit a
+.\tenit r
+.\kern-0.1499
+.\tenit a
 .etc.
 
-[34.9] [35.9] [36.9]) (./xmlio.tex [37.9]
+
+Overfull \hbox (50.43556pt too wide) in paragraph at lines 82--87
+\tenrm blocks whose size is equal to \tenit param\tentt .blockSizes[\tenit i\te
+ntt ] \tenrm (in each de-sign in each par-ti-tion in \tenit PL\tenrm ). The len
+gth of \tenit param\tentt .blockNumbers|
+
+\hbox(6.94444+2.16492)x468.0, glue set - 1.0
+.\tenrm b
+.\tenrm l
+.\tenrm o
+.\tenrm c
+.\tenrm k
+.etc.
+
+[33.9]
+\openout6 = `manual.example-9.tst'.
+
+ [34.9]
+Overfull \hbox (3.91565pt too wide) in paragraph at lines 214--218
+\tenrm This func-tion com-putes res-o-lu-tions of the block de-sign \tenit D\te
+nrm , and stores the re-sult in \tenit D\tentt .resolutions\tenrm . If \tenit D
+\tentt .resolutions|
+
+\hbox(6.81989+2.16492)x468.0, glue set - 1.0
+.\tenrm T
+.\tenrm h
+.\tenrm i
+.\tenrm s
+.\glue 2.5 plus 1.49998 minus 0.59998
+.etc.
+
+[35.9]) (./xmlio.tex [36.9]
 Chapter `XML I/O of block designs' .
-[38.10]) [39.10]
+
+Overfull \hbox (39.87555pt too wide) in paragraph at lines 47--62
+\tenrm which should be a list con-tain-ing zero or more of the strings \tentt "
+in-di-ca-tors"\tenrm , \tentt "re-solv-able"\tenrm , \tentt "com-bi-na-to-rial[
+]properties"\tenrm ,|
+
+\hbox(6.81989+2.22223)x468.0, glue set - 1.0
+.\tenrm w
+.\tenrm h
+.\tenrm i
+.\tenrm c
+.\tenrm h
+.etc.
+
+\openout6 = `manual.example-10.tst'.
+
+[37.10]
+Overfull \hbox (23.55432pt too wide) in paragraph at lines 92--96
+[]\tentt pairwiseNonisomorphic \tenrm is set ac-cord-ing to the at-tribute \ten
+tt pair-wise[]nonisomorphic \tenrm of the XML el-e-ment \tenit list[]of[]design
+s\tenrm .|
+
+\hbox(6.8449+2.22223)x468.0, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+.\tentt p
+.\tentt a
+.\tentt i
+.\tentt r
+.etc.
+
+) [38.10]
 Chapter `Bibliography' .
-(./manual.bbl) [40.11]
+(./manual.bbl) [39.11]
 Chapter `Index' .
-(./manual.ind [41.12]) [42.12]
+(./manual.ind [40.12]) [41.12]
 ##
 ## Citations for BibTeX written on manual.aux.
 ## Index entries for makeindex written on manual.idx.
 ## Section index entries written on manual.six.
 ## Label definitions written on manual.lab.
 ## Table of contents written on manual.toc.
+## Examples written to manual.example-XX.tst.
+## There were undefined labels or references.
 ##
- )</usr/share/texmf/fonts/type1/bluesky/cm/cmsl10.pfb></usr/share/texmf/fonts/t
-ype1/bluesky/cm/cmmi7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr7.pfb></u
-sr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/symbols/msam7.pfb></
-usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/
-share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/blu
-esky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cminch.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf/fonts/type1/blues
-ky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share
-/texmf/fonts/type1/bluesky/cm/cmssdc10.pfb>
-Output written on manual.pdf (42 pages, 247323 bytes).
+ ){/usr/share/texmf/fonts/enc/dvips/base/8r.enc}</usr/share/texmf/fonts/type1/b
+luesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/
+share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/blue
+sky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/sha
+re/texmf/fonts/type1/bluesky/ams/msam7.pfb></usr/share/texmf/fonts/type1/hoekwa
+ter/rsfs/rsfs10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb></usr
+/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf/fonts/type1/
+urw/symbol/usyr.pfb></usr/share/texmf/fonts/type1/urw/symbol/usyr.pfb></usr/sha
+re/texmf/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1/urw/tim
+es/utmr8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
+xmf/fonts/type1/urw/times/utmri8a.pfb>
+Output written on manual.pdf (41 pages, 262263 bytes).
+PDF statistics:
+ 527 PDF objects out of 1000 (max. 8388607)
+ 106 named destinations out of 1000 (max. 131072)
+ 377 words of extra memory for PDF output out of 10000 (max. 10000000)
+

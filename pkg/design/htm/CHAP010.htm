@@ -100,14 +100,18 @@ element in a string.
 <pre>
 gap&gt; BlockDesignsFromXMLFile("example.xml");
 rec( 
-  list := [ rec( isBlockDesign := true, v := 3, id := "example-0", blocks := 
-            [ [ 1, 2 ], [ 1, 3 ] ], isBinary := true ), 
-      rec( isBlockDesign := true, v := 3, id := "example-1", 
-          blocks := [ [ 1, 2 ], [ 1, 2 ], [ 2, 3 ] ], isBinary := true ) ], 
+  infoXML := "&lt;info&gt;\n&lt;software&gt;\n[ DESIGN-1.6, GRAPE-4.5, GAPDoc-1.4, GAP-4.5\
+.2(beta) ]\n&lt;/software&gt;\n&lt;/info&gt;", 
+  list := 
+    [ 
+      rec( blocks := [ [ 1, 2 ], [ 1, 3 ] ], id := "example-0", 
+          isBinary := true, isBlockDesign := true, v := 3 ), 
+      rec( blocks := [ [ 1, 2 ], [ 1, 2 ], [ 2, 3 ] ], id := "example-1", 
+          isBinary := true, isBlockDesign := true, v := 3 ) ], 
   pairwiseNonisomorphic := true )
 </pre>
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP009.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>September 2011
+<address>design manual<br>November 2011
 </address></body></html>

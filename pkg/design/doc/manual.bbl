@@ -47,16 +47,16 @@ J.~P. McSorley and L.~H. Soicher.
 \newblock {\em European J. Combinatorics}, 28:567--571, 2007.
 \newblock \URL{http://dx.doi.org/10.1016/j.ejc.2005.02.003}.
 
-\bibitem[Soi06]{Grape}
-L.~H. Soicher.
-\newblock {\em The GRAPE package for GAP, Version 4.3}, 2006.
-\newblock \URL{http://www.maths.qmul.ac.uk/~leonard/grape/}.
-
 \bibitem[Soi10]{Soi1}
 L.~H. Soicher.
 \newblock More on block intersection polynomials and new applications to graphs
   and block designs.
 \newblock {\em J. Comb. Theory, Ser. A}, 117:799--809, 2010.
 \newblock \URL{http://dx.doi.org/10.1016/j.jcta.2010.03.005}.
+
+\bibitem[Soi11]{Grape}
+L.~H. Soicher.
+\newblock {\em The GRAPE package for GAP, Version 4.5}, 2011.
+\newblock \URL{http://www.maths.qmul.ac.uk/~leonard/grape/}.
 
 \end{thebibliography}

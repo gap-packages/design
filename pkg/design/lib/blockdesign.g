@@ -1,6 +1,6 @@
 ############################################################################
 ##
-##    blockdesign.g             Design 1.5 Package          Leonard Soicher
+##    blockdesign.g             Design 1.6 Package          Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 

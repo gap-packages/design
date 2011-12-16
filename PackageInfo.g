@@ -10,16 +10,16 @@ PackageName := "DESIGN",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.5",
+Version := "1.6",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "09/09/2011",
+Date := "23/11/2011",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
-ArchiveURL := "http://www.maths.qmul.ac.uk/~leonard/pkgbeta/design/design1r5",
+ArchiveURL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/design1r6",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -135,8 +135,8 @@ AcceptDate := "08/2006",
 ##  the updating of package information on the GAP Website, and inclusion
 ##  and updating of the package in the GAP distribution.
 ##  
-README_URL := "http://www.maths.qmul.ac.uk/~leonard/pkgbeta/design/README.design",
-PackageInfoURL := "http://www.maths.qmul.ac.uk/~leonard/pkgbeta/design/PackageInfo.g",
+README_URL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/README",
+PackageInfoURL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/PackageInfo.g",
 
 ##  Here you  must provide a short abstract explaining the package content 
 ##  in HTML format (used on the package overview Web page) and an URL 
@@ -148,7 +148,7 @@ PackageInfoURL := "http://www.maths.qmul.ac.uk/~leonard/pkgbeta/design/PackageIn
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
 constructing, classifying, partitioning and studying block designs.",
 
-PackageWWWHome := "http://www.maths.qmul.ac.uk/~leonard/pkgbeta/design/",
+PackageWWWHome := "http://www.designtheory.org/software/gap_design/",
                   
 ##  On the GAP Website there is an online version of all manuals in the
 ##  GAP distribution. To handle the documentation of a package it is
@@ -198,7 +198,7 @@ Dependencies := rec(
   NeededOtherPackages := [["GRAPE", ">= 4.4"]],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
-  SuggestedOtherPackages := [["GAPDoc", ">= 0.99"]],
+  SuggestedOtherPackages := [["GAPDoc", ">= 1.4"]],
   # needed external conditions (programs, operating system, ...)  provide 
   # just strings as text or
   # pairs [text, URL] where URL  provides further information

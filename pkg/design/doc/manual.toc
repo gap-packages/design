@@ -24,8 +24,8 @@
 \chapcontents {9}{Partitioning block designs}{33}
 \seccontents {9.1}{Partitioning a block design into block designs} {33}
 \seccontents {9.2}{Computing resolutions} {36}
-\chapcontents {10}{XML I/O of block designs}{38}
-\seccontents {10.1}{Writing lists of block designs and their properties in XML-format} {38}
-\seccontents {10.2}{Reading lists of block designs in XML-format} {39}
-\chapcontents {}{Bibliography}{40}
-\chapcontents {}{Index}{41}
+\chapcontents {10}{XML I/O of block designs}{37}
+\seccontents {10.1}{Writing lists of block designs and their properties in XML-format} {37}
+\seccontents {10.2}{Reading lists of block designs in XML-format} {38}
+\chapcontents {}{Bibliography}{39}
+\chapcontents {}{Index}{40}

@@ -95,6 +95,6 @@
 \setcitlab {CaSo}{CS07}
 \setcitlab {Nauty}{McK05}
 \setcitlab {McSo}{MS07}
-\setcitlab {Grape}{Soi06}
 \setcitlab {Soi1}{Soi10}
+\setcitlab {Grape}{Soi11}
 \makelabel{design:Index}{}
