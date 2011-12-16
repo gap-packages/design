@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  partition.tex        DESIGN documentation           Leonard Soicher
+%
+%
+%
+\def\GRAPE{\sf GRAPE}
+\def\DESIGN{\sf DESIGN}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,} 
+
+\Chapter{Partitioning block designs}
+
+This chapter describes the function `PartitionsIntoBlockDesigns' which can
+classify partitions of (the block multiset of) a given block design into
+(the block multisets of) block designs having user-specified properties.
+We also describe `MakeResolutionsComponent' which is useful for the
+special case when the desired partitions are resolutions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Partitioning a block design into block designs}
+
+\>PartitionsIntoBlockDesigns( <param> )
+
+Let <D> equal `<param>.blockDesign'.  This function returns a list <PL>
+of partitions of (the block multiset of) <D>.  Each element of <PL> is a
+record with one component `partition', and, in most cases, a component
+`autGroup'.  The `partition' component gives a list <P> of block designs,
+all with the same point set as <D>, such that the list of (the block
+multisets of) the designs in `<P>.partition' forms a partition of (the
+block multiset of) <D>. The component `<P>.autGroup', if bound, gives
+the automorphism group of the partition, which is the stabilizer of the
+partition in the automorphism group of <D>.  The precise interpretation
+of the output depends on <param>, described below.
+
+The required components of <param> are `blockDesign', `v', `blockSizes',
+and `tSubsetStructure'.
+
+`<param>.blockDesign' is the block design to be partitioned.
+
+`<param>.v' must be a positive integer, and specifies that for each block
+design in each partition in <PL>, the points are 1,...,`<param>.v'.
+It is required that `<param>.v' be equal to `<param>.blockDesign.v'.
+
+`<param>.blockSizes' must be a set of positive integers, and specifies
+that the block sizes of each block design in each partition in <PL>
+will be contained in `<param>.blockSizes'.
+
+`<param>.tSubsetStructure' must be a record, having
+components `t', `partition', and `lambdas'. Let <t> be
+equal to `<param>.tSubsetStructure.t', <partition> be
+`<param>.tSubsetStructure.partition', and <lambdas> be
+`<param>.tSubsetStructure.lambdas'.  Then <t> must be a non-negative
+integer, <partition> must be a list of non-empty sets of <t>-subsets of
+`[1..<param>.v]', forming an ordered partition of all the <t>-subsets of
+`[1..<param>.v]', and <lambdas> must be a list of distinct non-negative
+integers (not all zero) of the same length as <partition>. This specifies
+that for each design in each partition in <PL>, each <t>-subset in
+`<partition>[<i>]' will occur exactly `<lambdas>[<i>]' times, counted
+over all blocks of the design.  For binary designs, this means that each
+<t>-subset in `<partition>[<i>]' is contained in exactly `<lambdas>[<i>]'
+blocks.  The `partition' component is optional if <lambdas> has length 1.
+We require that <t> is less than or equal to each element of
+`<param>.blockSizes', and that each block of `<param>.blockDesign'
+contains at least <t> distinct elements.
+
+The optional components of <param> are used to specify additional
+constraints on the partitions in <PL>, or to change default
+parameter values. These optional components are `r', `blockNumbers',
+`blockIntersectionNumbers', `blockMaxMultiplicities', `isoGroup',
+`requiredAutSubgroup', and `isoLevel'. Note that the last three of these
+optional components refer to the partitions and not to the block designs
+in a partition.
+
+`<param>.r' must be a positive integer, and specifies that in each design
+in each partition in <PL>, each point must occur exactly `<param>.r'
+times in the list of blocks.
+
+`<param>.blockNumbers' must be a list of non-negative integers, the <i>-th
+element of which specifies the number of blocks whose size is equal to
+`<param>.blockSizes[<i>]' (in each design in each partition in <PL>). The
+length of `<param>.blockNumbers' must equal that of `<param>.blockSizes',
+and at least one entry of `<param>.blockNumbers' must be positive.
+
+`<param>.blockIntersectionNumbers' must be a symmetric matrix of sets
+of non-negative integers, the `[<i>][<j>]'-element of which specifies
+the set of possible sizes for the intersection of a block of size
+`<param>.blockSizes[<i>]' with one of size `<param>.blockSizes[<j>]'
+(in each design in each partition in <PL>). In the case of multisets, we
+take the multiplicity of an element in the intersection to be the minimum
+of its multiplicities in the multisets being intersected, so, for example,
+the intersection of `[1,1,1,2,2,3]' with `[1,1,2,2,2,4]' is `[1,1,2,2]',
+having size 4.  The dimension of `<param>.blockIntersectionNumbers'
+must equal the length of `<param>.blockSizes'.
+
+`<param>.blockMaxMultiplicities' must be a list of non-negative integers,
+the <i>-th element of which specifies the maximum multiplicity of a block
+whose whose size is equal to `<param>.blockSizes[<i>]' (for each design
+in each partition in <PL>). The length of `<param>.blockMaxMultiplicities'
+must equal that of `<param>.blockSizes'.
+
+`<param>.isoGroup' must be a subgroup of the automorphism group of
+`<param>.blockDesign'. We consider two elements of <PL> to be
+*equivalent* if they are in the same orbit of `<param>.isoGroup'
+(in its action on multisets of block multisets).  The default for
+`<param>.isoGroup' is the automorphism group of `<param>.blockDesign'.
+
+`<param>.requiredAutSubgroup' must be a subgroup of `<param>.isoGroup',
+and specifies that each partition in <PL> must be invariant under
+`<param>.requiredAutSubgroup' (in its action on multisets of block
+multisets). The default for `<param>.requiredAutSubgroup' is the trivial
+premutation group.
+
+`<param>.isoLevel' must be 0, 1, or 2 (the default is 2).  The value 0
+specifies that <PL> will contain at most one partition, and will contain
+one partition with the required properties if and only if such a partition
+exists; the value 1 specifies that <PL> will contain (perhaps properly)
+a list of `<param>.isoGroup' orbit-representatives of the required
+partitions; the value 2 specifies that <PL> will consist precisely of
+`<param>.isoGroup'-orbit representatives of the required partitions.
+
+For an example, we first classify up to isomorphism the 2-(15,3,1)
+designs invariant under a semi-regular group of automorphisms of order 5,
+and then use `PartitionsIntoBlockDesigns' to classify all the resolutions
+of these designs, up to the actions of the respective automorphism groups
+of the designs.
+
+\beginexample
+gap> DL:=BlockDesigns(rec(
+>    v:=15,blockSizes:=[3],
+>    tSubsetStructure:=rec(t:=2,lambdas:=[1]),
+>    requiredAutSubgroup:=
+>       Group((1,2,3,4,5)(6,7,8,9,10)(11,12,13,14,15))));;
+gap> List(DL,D->Size(AutGroupBlockDesign(D)));
+[ 20160, 5, 60 ]
+gap> PL:=PartitionsIntoBlockDesigns(rec(
+>       blockDesign:=DL[1],
+>       v:=15,blockSizes:=[3],
+>       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[ rec( 
+      partition := [ rec( isBlockDesign := true, v := 15, blocks := [ [ 1, 2, 
+                      6 ], [ 3, 4, 8 ], [ 5, 7, 14 ], [ 9, 12, 15 ], 
+                  [ 10, 11, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 3, 11 ], [ 2, 4, 12 ], [ 5, 6, 8 ], [ 7, 13, 15 ], 
+                  [ 9, 10, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 4, 14 ], [ 2, 5, 15 ], [ 3, 10, 12 ], [ 6, 7, 11 ], 
+                  [ 8, 9, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 5, 10 ], [ 2, 9, 11 ], [ 3, 14, 15 ], [ 4, 6, 13 ], 
+                  [ 7, 8, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 7, 9 ], [ 2, 8, 10 ], [ 3, 5, 13 ], [ 4, 11, 15 ], 
+                  [ 6, 12, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 8, 15 ], [ 2, 13, 14 ], [ 3, 6, 9 ], [ 4, 7, 10 ], 
+                  [ 5, 11, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, blocks := 
+                [ [ 1, 12, 13 ], [ 2, 3, 7 ], [ 4, 5, 9 ], [ 6, 10, 15 ], 
+                  [ 8, 11, 14 ] ] ) ], 
+      autGroup := Group([ (1,10)(2,11)(3,8)(6,13)(7,14)(12,15), 
+          (1,13)(2,11)(3,14)(4,5)(6,10)(7,8), 
+          (1,13,7)(2,11,5)(6,10,14)(9,12,15), 
+          (2,11,5,15,4,9,12)(3,10,8,14,7,13,6) ]) ), 
+  rec( partition := [ rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 2, 6 ], [ 3, 4, 8 ], [ 5, 7, 14 ], 
+                  [ 9, 12, 15 ], [ 10, 11, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 3, 11 ], [ 2, 4, 12 ], [ 5, 6, 8 ], 
+                  [ 7, 13, 15 ], [ 9, 10, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 4, 14 ], [ 2, 5, 15 ], [ 3, 10, 12 ], 
+                  [ 6, 7, 11 ], [ 8, 9, 13 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 5, 10 ], [ 2, 13, 14 ], [ 3, 6, 9 ], 
+                  [ 4, 11, 15 ], [ 7, 8, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 7, 9 ], [ 2, 8, 10 ], [ 3, 14, 15 ], 
+                  [ 4, 6, 13 ], [ 5, 11, 12 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 8, 15 ], [ 2, 9, 11 ], [ 3, 5, 13 ], 
+                  [ 4, 7, 10 ], [ 6, 12, 14 ] ] ), 
+          rec( isBlockDesign := true, v := 15, 
+              blocks := [ [ 1, 12, 13 ], [ 2, 3, 7 ], [ 4, 5, 9 ], 
+                  [ 6, 10, 15 ], [ 8, 11, 14 ] ] ) ], 
+      autGroup := Group([ (1,15)(2,9)(3,4)(5,7)(6,12)(10,13), 
+          (1,12)(2,9)(3,5)(4,7)(6,15)(8,14), 
+          (1,14)(2,5)(3,8)(6,7)(9,12)(10,13), 
+          (1,8,10)(2,5,15)(3,14,13)(4,9,12) ]) ) ]
+gap> List(PL,resolution->Size(resolution.autGroup));
+[ 168, 168 ]
+gap> PL:=PartitionsIntoBlockDesigns(rec(
+>       blockDesign:=DL[2],
+>       v:=15,blockSizes:=[3],
+>       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[  ]
+gap> PL:=PartitionsIntoBlockDesigns(rec(
+>       blockDesign:=DL[3],
+>       v:=15,blockSizes:=[3],
+>       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
+[  ]
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Computing resolutions}
+
+\>MakeResolutionsComponent( <D> )
+\>MakeResolutionsComponent( <D>, <isolevel> )
+
+This function computes resolutions of the block design <D>, and stores
+the result in `<D>.resolutions'. If `<D>.resolutions' already exists
+then it is ignored and overwritten. This function returns no value.
+ 
+A *resolution* of a block design $D$ is a partition of the blocks into
+subsets, each of which forms a partition of the point set.  We say that
+two resolutions $R$ and $S$ of $D$ are *isomorphic* if there is an element
+$g$ in the automorphism group of $D$, such that the $g$-image of $R$
+is $S$. (Isomorphism defines an equivalence relation on the set of
+resolutions of $D$.)
+
+The parameter <isolevel> (default 2) determines how many resolutions are
+computed: <isolevel>=2 means to classify up to isomorphism, <isolevel>=1
+means to determine at least one representative from each isomorphism
+class, and <isolevel>=0 means to determine whether or not <D> has
+a resolution.
+
+When this function is finished, `<D>.resolutions' will have the following
+three components:
+
+`list': a list of distinct partitions into block designs forming resolutions
+of <D>;
+
+`pairwiseNonisomorphic': `true', `false' or `"unknown"', depending on the
+resolutions in `list' and what is known. If <isolevel>=0 or <isolevel>=2
+then this component will be `true';
+
+`allClassesRepresented': `true', `false' or `"unknown"', depending on the
+resolutions in `list' and what is known. If <isolevel>=1 or <isolevel>=2
+then this component will be `true'.
+
+Note that `<D>.resolutions' may be changed to contain more information
+as a side-effect of other functions in the {\DESIGN} package.
+
+\beginexample
+gap> L:=BlockDesigns(rec(v:=9,blockSizes:=[3],
+>          tSubsetStructure:=rec(t:=2,lambdas:=[1])));;
+gap> D:=L[1];;
+gap> MakeResolutionsComponent(D);
+gap> D;
+rec( isBlockDesign := true, v := 9, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
+      [ 2, 4, 6 ], [ 2, 5, 8 ], [ 2, 7, 9 ], [ 3, 4, 9 ], [ 3, 5, 7 ], 
+      [ 3, 6, 8 ], [ 4, 7, 8 ], [ 5, 6, 9 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3 ], blockNumbers := [ 12 ], r := 4, 
+  autGroup := Group([ (1,2)(5,6)(7,8), (1,3,2)(4,8,7)(5,6,9), (1,2)(4,7)(5,9),
+      (1,2)(4,9)(5,7)(6,8), (1,4,8,6,9,2)(3,5,7) ]), 
+  resolutions := rec( list := [ rec( partition := 
+                [ rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 2, 3 ], [ 4, 7, 8 ], [ 5, 6, 9 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 4, 5 ], [ 2, 7, 9 ], [ 3, 6, 8 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 6, 7 ], [ 2, 5, 8 ], [ 3, 4, 9 ] ] ), 
+                  rec( isBlockDesign := true, v := 9, 
+                      blocks := [ [ 1, 8, 9 ], [ 2, 4, 6 ], [ 3, 5, 7 ] ] ) ],
+              autGroup := Group(
+                [ (2,3)(4,5)(6,7)(8,9), (1,3,2)(4,8,7)(5,6,9), 
+                  (1,8,9)(2,4,6)(3,7,5), (1,2)(5,6)(7,8), (1,2)(4,7)(5,9), 
+                  (1,2,9,6,8,4)(3,7,5) ]) ) ], pairwiseNonisomorphic := true, 
+      allClassesRepresented := true ) )
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

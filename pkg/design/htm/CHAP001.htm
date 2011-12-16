@@ -1,0 +1,214 @@
+<html><head><title>[Design] 1 Design</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>1 Design</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP001.htm#SECT001">Installing the DESIGN Package</a>
+<li> <A HREF="CHAP001.htm#SECT002">Loading DESIGN</a>
+<li> <A HREF="CHAP001.htm#SECT003">The structure of a block design in DESIGN</a>
+<li> <A HREF="CHAP001.htm#SECT004">Example of the use of DESIGN</a>
+</ol><p>
+<p>
+This manual describes the DESIGN&nbsp;1.1 package for <font face="Gill Sans,Helvetica,Arial">GAP</font>&nbsp;4.4.
+The DESIGN package is for generating, classifying and studying block
+designs.
+<p>
+All DESIGN functions are written entirely in the <font face="Gill Sans,Helvetica,Arial">GAP</font> language.
+However, DESIGN requires the GRAPE package <a href="biblio.htm#Grape"><cite>Grape</cite></a> to be
+installed, and makes use of certain GRAPE functions, some of which
+make use of B.&nbsp;D.&nbsp;McKay's nauty (Version&nbsp;2.0b5) package
+<a href="biblio.htm#Nauty"><cite>Nauty</cite></a>. These GRAPE functions can only be used on a fully
+installed version of GRAPE in a UNIX environment. DESIGN also
+requires the GAPDoc package <a href="biblio.htm#GAPDoc"><cite>GAPDoc</cite></a>, if you want to read lists
+of designs in the <a href="http://designtheory.org">http://designtheory.org</a> external representation
+format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
+<p>
+Except for the function <code>SmallestImageSet</code>, which is Copyright
+&copy; Steve Linton 2003, the DESIGN package is Copyright
+&copy; Leonard H. Soicher 2003--2004.  DESIGN is part of an EPSRC
+funded project to provide a web-based resource for design theory; see
+<a href="http://designtheory.org">http://designtheory.org</a>.
+<p>
+DESIGN is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version. For details, see 
+<a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a>
+<p>
+If you use DESIGN to solve a problem then please send a short email
+about it to <a href="mailto:L.H.Soicher@qmul.ac.uk">L.H.Soicher@qmul.ac.uk</a>, and reference the DESIGN 
+package as follows:
+<p>
+Leonard&nbsp;H. Soicher, The DESIGN package for GAP,
+<a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a>.
+<p>
+<p>
+<h2><a name="SECT001">1.1 Installing the DESIGN Package</a></h2>
+<p><p>
+The DESIGN package only runs properly on a UNIX system. Before
+installing DESIGN (on your UNIX system), you must make sure that the
+GRAPE and GAPDoc packages are fully installed.
+<p>
+To install DESIGN&nbsp;1.1 (after installing <font face="Gill Sans,Helvetica,Arial">GAP</font>, GRAPE and
+GAPDoc), first obtain the DESIGN archive file <code>design1r1.tar.gz</code>,
+available from <a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a> and 
+then copy this archive file into the <code>pkg</code> directory of the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+root directory. Actually, it is possible to have several <font face="Gill Sans,Helvetica,Arial">GAP</font> root
+directories, and so it is easy to install DESIGN locally even if you
+have no permission to add files to the main <font face="Gill Sans,Helvetica,Arial">GAP</font> installation (see
+<a href="../../../doc/htm/ref/CHAP009.htm#SECT002">GAP Root Directory</a>).  Now go to the appropriate <code>pkg</code> directory
+containing <code>design1r1.tar.gz</code>, and then run
+<p>
+<pre>
+gunzip design1r1.tar.gz
+tar -xf design1r1.tar
+</pre>
+<p>
+That's all there is to do.
+<p>
+Both dvi and pdf versions of the DESIGN manual are available
+(as <code>manual.dvi</code> and <code>manual.pdf</code> respectively) in the <code>doc</code> directory
+of the home directory of DESIGN.
+<p>
+If you install DESIGN, then please tell
+<a href="mailto:L.H.Soicher@qmul.ac.uk">L.H.Soicher@qmul.ac.uk</a>, where you should also send any comments
+or bug reports.
+<p>
+<p>
+<h2><a name="SECT002">1.2 Loading DESIGN</a></h2>
+<p><p>
+Before using DESIGN you must load the package within <font face="Gill Sans,Helvetica,Arial">GAP</font> by calling 
+the statement
+<p>
+<pre>
+gap&gt; LoadPackage("design");
+true
+</pre>
+<p>
+<p>
+<h2><a name="SECT003">1.3 The structure of a block design in DESIGN</a></h2>
+<p><p>
+A <strong>block design</strong> is a pair <var>(X,B)</var>, where <var>X</var> is a non-empty finite
+set whose elements are called <strong>points</strong>, and <var>B</var> is a non-empty finite
+multiset whose elements are called <strong>blocks</strong>, such that each block   
+is a non-empty finite multiset of points.
+<p>
+DESIGN deals with arbitrary block designs. However, at present,  
+some DESIGN functions only work for <strong>binary</strong> block designs 
+(i.e. those with no repeated element in any block of the design),
+but these functions will check if an input block design is binary.
+<p>
+In DESIGN, a block design <var>D</var> is stored as a record, with mandatory
+components <code>isBlockDesign</code>, <code>v</code>, and <code>blocks</code>.  The points of a block
+design <var>D</var> are always 1,2,...,<code></code><var>D</var><code>.v</code>, but they may also be given <strong>names</strong>
+in the optional component <code>pointNames</code>, with <code></code><var>D</var><code>.pointNames[</code><var>i</var><code>]</code>
+the name of point <var>i</var>.  The <code>blocks</code> component must be a sorted list
+of the blocks of <var>D</var> (including any repeats), with each block being a
+sorted list of points (including any repeats). 
+<p>
+A block design record may also have some optional components which store
+information about the design. At present these optional components include
+<code>isSimple</code>, <code>isBinary</code>, <code>isConnected</code>, <code>r</code>, <code>blockSizes</code>, <code>blockNumbers</code>,
+<code>resolutions</code>, <code>autGroup</code>, <code>autSubgroup</code>, <code>tSubsetStructure</code>,
+<code>allTDesignLambdas</code>, and <code>pointNames</code>.
+<p>
+A non-expert user should only use functions in the DESIGN package to
+create block design records and their components.
+<p>
+<p>
+<h2><a name="SECT004">1.4 Example of the use of DESIGN</a></h2>
+<p><p>
+To give you an idea of the capabilities of this package, we now give an
+extended example of an application of the DESIGN package, in which
+a nearly resolvable non-simple 2-(21,4,3) is constructed (for Donald
+Preece) via a pairwise-balanced design. All the DESIGN functions used
+here are described in this manual.
+<p>
+The program first discovers the unique (up to isomorphism)
+pairwise-balanced 2-(21,<var>{4,5}</var>,1) design <var>D</var> invariant under
+<var>H=langle(1,2,...,20)rangle</var>, and then applies the McSorley-Soicher
+construction to this design <var>D</var> to obtain a non-simple 2-(21,4,3) design
+<var>Dstar</var> with automorphism group of order 80. The program then classifies
+the near-resolutions of <var>Dstar</var> invariant under the subgroup of order 5
+of <var>H</var>, and finds exactly two such (up to the action of <var>Aut(Dstar)</var>).
+Finally, <var>Dstar</var> is printed.
+<p>
+<pre>
+gap&gt; H:=CyclicGroup(IsPermGroup,20);
+Group([ (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) ])
+gap&gt; D:=BlockDesigns(rec(v:=21,blockSizes:=[4,5],
+&gt;       tSubsetStructure:=rec(t:=2,lambdas:=[1]),
+&gt;       requiredAutSubgroup:=H ));;
+gap&gt; Length(D);
+1
+gap&gt; D:=D[1];;
+gap&gt; BlockSizes(D);
+[ 4, 5 ]
+gap&gt; BlockNumbers(D);
+[ 20, 9 ]
+gap&gt; Size(AutGroupBlockDesign(D));
+80
+gap&gt; Dstar:=TDesignFromTBD(D,2,BlockSizes(D));;
+gap&gt; AllTDesignLambdas(Dstar);
+[ 105, 20, 3 ]
+gap&gt; Size(AutGroupBlockDesign(Dstar));
+80
+gap&gt; near_resolutions:=PartitionsIntoBlockDesigns(rec(
+&gt;    blockDesign:=Dstar,
+&gt;    v:=21,blockSizes:=[4],
+&gt;    tSubsetStructure:=rec(t:=0,lambdas:=[5]),
+&gt;    blockIntersectionNumbers:=[[ [0] ]],
+&gt;    requiredAutSubgroup:=SylowSubgroup(H,5) ));;
+gap&gt; Length(near_resolutions);
+2
+gap&gt; List(near_resolutions,x-&gt;Size(x.autGroup));
+[ 5, 20 ]
+gap&gt; Print(Dstar,"\n");
+rec(
+  isBlockDesign := true,
+  v := 21,
+  blocks := [ [ 1, 2, 4, 15 ], [ 1, 2, 4, 15 ], [ 1, 2, 4, 15 ], 
+      [ 1, 3, 14, 20 ], [ 1, 3, 14, 20 ], [ 1, 3, 14, 20 ], [ 1, 5, 9, 13 ], 
+      [ 1, 5, 9, 17 ], [ 1, 5, 13, 17 ], [ 1, 6, 11, 16 ], [ 1, 6, 11, 21 ], 
+      [ 1, 6, 16, 21 ], [ 1, 7, 8, 10 ], [ 1, 7, 8, 10 ], [ 1, 7, 8, 10 ], 
+      [ 1, 9, 13, 17 ], [ 1, 11, 16, 21 ], [ 1, 12, 18, 19 ], 
+      [ 1, 12, 18, 19 ], [ 1, 12, 18, 19 ], [ 2, 3, 5, 16 ], [ 2, 3, 5, 16 ], 
+      [ 2, 3, 5, 16 ], [ 2, 6, 10, 14 ], [ 2, 6, 10, 18 ], [ 2, 6, 14, 18 ], 
+      [ 2, 7, 12, 17 ], [ 2, 7, 12, 21 ], [ 2, 7, 17, 21 ], [ 2, 8, 9, 11 ], 
+      [ 2, 8, 9, 11 ], [ 2, 8, 9, 11 ], [ 2, 10, 14, 18 ], [ 2, 12, 17, 21 ], 
+      [ 2, 13, 19, 20 ], [ 2, 13, 19, 20 ], [ 2, 13, 19, 20 ], 
+      [ 3, 4, 6, 17 ], [ 3, 4, 6, 17 ], [ 3, 4, 6, 17 ], [ 3, 7, 11, 15 ], 
+      [ 3, 7, 11, 19 ], [ 3, 7, 15, 19 ], [ 3, 8, 13, 18 ], [ 3, 8, 13, 21 ], 
+      [ 3, 8, 18, 21 ], [ 3, 9, 10, 12 ], [ 3, 9, 10, 12 ], [ 3, 9, 10, 12 ], 
+      [ 3, 11, 15, 19 ], [ 3, 13, 18, 21 ], [ 4, 5, 7, 18 ], [ 4, 5, 7, 18 ], 
+      [ 4, 5, 7, 18 ], [ 4, 8, 12, 16 ], [ 4, 8, 12, 20 ], [ 4, 8, 16, 20 ], 
+      [ 4, 9, 14, 19 ], [ 4, 9, 14, 21 ], [ 4, 9, 19, 21 ], [ 4, 10, 11, 13 ],
+      [ 4, 10, 11, 13 ], [ 4, 10, 11, 13 ], [ 4, 12, 16, 20 ], 
+      [ 4, 14, 19, 21 ], [ 5, 6, 8, 19 ], [ 5, 6, 8, 19 ], [ 5, 6, 8, 19 ], 
+      [ 5, 9, 13, 17 ], [ 5, 10, 15, 20 ], [ 5, 10, 15, 21 ], 
+      [ 5, 10, 20, 21 ], [ 5, 11, 12, 14 ], [ 5, 11, 12, 14 ], 
+      [ 5, 11, 12, 14 ], [ 5, 15, 20, 21 ], [ 6, 7, 9, 20 ], [ 6, 7, 9, 20 ], 
+      [ 6, 7, 9, 20 ], [ 6, 10, 14, 18 ], [ 6, 11, 16, 21 ], 
+      [ 6, 12, 13, 15 ], [ 6, 12, 13, 15 ], [ 6, 12, 13, 15 ], 
+      [ 7, 11, 15, 19 ], [ 7, 12, 17, 21 ], [ 7, 13, 14, 16 ], 
+      [ 7, 13, 14, 16 ], [ 7, 13, 14, 16 ], [ 8, 12, 16, 20 ], 
+      [ 8, 13, 18, 21 ], [ 8, 14, 15, 17 ], [ 8, 14, 15, 17 ], 
+      [ 8, 14, 15, 17 ], [ 9, 14, 19, 21 ], [ 9, 15, 16, 18 ], 
+      [ 9, 15, 16, 18 ], [ 9, 15, 16, 18 ], [ 10, 15, 20, 21 ], 
+      [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], [ 10, 16, 17, 19 ], 
+      [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ], [ 11, 17, 18, 20 ] ],
+  blockSizes := [ 4 ],
+  isBinary := true,
+  allTDesignLambdas := [ 105, 20, 3 ],
+  isSimple := false,
+  autGroup := 
+   Group( [ ( 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20), 
+      ( 2,18,10,14)( 3,15,19, 7)( 4,12, 8,20)( 5, 9,17,13) ] ) )
+</pre>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>Design manual<br>June 2004
+</address></body></html>

@@ -1,0 +1,160 @@
+<html><head><title>[Design] 3 Determining basic properties of block designs</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>3 Determining basic properties of block designs</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP003.htm#SECT001">The functions for basic properties</a>
+</ol><p>
+<p>
+<p>
+<h2><a name="SECT001">3.1 The functions for basic properties</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>IsBlockDesign( </code><var>obj</var><code> )</code>
+<p>
+This boolean function  returns <code>true</code> if and only if <var>obj</var>, which can be
+an object of arbitrary type, is a block design.
+<p>
+<pre>
+gap&gt; IsBlockDesign(5);
+false
+gap&gt; IsBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );
+true
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>IsBinaryBlockDesign( </code><var>D</var><code> )</code>
+<p>
+This boolean function  returns <code>true</code> if and only if the block design
+<var>D</var> is <strong>binary</strong>, that is, if no block of <var>D</var> has a repeated element.
+<p>
+<pre>
+gap&gt; IsBinaryBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );
+true
+gap&gt; IsBinaryBlockDesign( BlockDesign(2,[[1],[1,2],[1,2,2]]) );
+false
+</pre>
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>IsSimpleBlockDesign( </code><var>D</var><code> )</code>
+<p>
+This boolean function  returns <code>true</code> if and only if the block design
+<var>D</var> is <strong>simple</strong>, that is, if no block of <var>D</var> is repeated.
+<p>
+<pre>
+gap&gt; IsSimpleBlockDesign( BlockDesign(2,[[1],[1,2],[1,2]]) );  
+false
+gap&gt; IsSimpleBlockDesign( BlockDesign(2,[[1],[1,2],[1,2,2]]) );
+true
+</pre>
+<p>
+<a name = "SSEC001.4"></a>
+<li><code>IsConnectedBlockDesign( </code><var>D</var><code> )</code>
+<p>
+This boolean function  returns <code>true</code> if and only if the block design
+<var>D</var> is <strong>connected</strong>, that is, if its incidence graph is a connected
+graph.
+<p>
+<pre>
+gap&gt; IsConnectedBlockDesign( BlockDesign(2,[[1],[2]]) ); 
+false
+gap&gt; IsConnectedBlockDesign( BlockDesign(2,[[1,2]]) );  
+true
+</pre>
+<p>
+<a name = "SSEC001.5"></a>
+<li><code>ReplicationNumber( </code><var>D</var><code> )</code>
+<p>
+If the block design <var>D</var> is equireplicate, then this function returns
+its replication number; otherwise <code>fail</code> is returned.
+<p>
+A block design <var>D</var> is <strong>equireplicate</strong> with <strong>replication number</strong> <var>r</var> if,
+for every point <var>x</var> of <var>D</var>, <var>r</var> is equal to the sum over the blocks of
+the multiplicity of <var>x</var> in a block. For a binary block design this is
+the same as saying that each point <var>x</var> is contained in exactly <var>r</var> blocks.
+<p>
+<pre>
+gap&gt; ReplicationNumber(BlockDesign(4,[[1],[1,2],[2,3,3],[4,4]]));
+2
+gap&gt; ReplicationNumber(BlockDesign(4,[[1],[1,2],[2,3],[4,4]]));  
+fail
+</pre>
+<p>
+<a name = "SSEC001.6"></a>
+<li><code>BlockSizes( </code><var>D</var><code> )</code>
+<p>
+This function returns the set of sizes (actually list-lengths) of the 
+blocks of the block design <var>D</var>.
+<p>
+<pre>
+gap&gt; BlockSizes( BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]) );  
+[ 1, 3 ]
+</pre>
+<p>
+<a name = "SSEC001.7"></a>
+<li><code>BlockNumbers( </code><var>D</var><code> )</code>
+<p>
+Let <var>D</var> be a block design. Then this function returns a list of
+the same length as <code>BlockSizes(</code><var>D</var><code>)</code>, such that the <var>i</var>-th element 
+of this returned list is the number of blocks of <var>D</var> of size
+<code>BlockSizes(</code><var>D</var><code>)[</code><var>i</var><code>]</code>.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]); 
+rec( isBlockDesign := true, v := 3, 
+  blocks := [ [ 1 ], [ 1, 2, 2 ], [ 1, 2, 3 ], [ 2 ], [ 3 ] ] )
+gap&gt; BlockSizes(D);
+[ 1, 3 ]
+gap&gt; BlockNumbers(D);
+[ 3, 2 ]
+</pre>
+<p>
+<a name = "SSEC001.8"></a>
+<li><code>TSubsetLambdasVector( </code><var>D</var><code>, </code><var>t</var><code> )</code>
+<p>
+Let <var>D</var> be a block design, <var>t</var> a non-negative integer, and 
+<code></code><var>v</var><code>=</code><var>D</var><code>.v</code>. Then this function returns an integer vector <var>L</var> 
+whose positions correspond to the <var>t</var>-subsets of <var>{1,...,v}</var>.
+The <var>i</var>-th element of <var>L</var> is the sum over all blocks <var>B</var> of <var>D</var> 
+of the number of times the <var>i</var>-th <var>t</var>-subset (in lexicographic order) 
+is contained in <var>B</var>. (For example, if <var>t=2</var> and <var>B=[1,1,2,3,3,4]</var>, then
+<var>B</var> contains <var>[1,2]</var> twice, <var>[1,3]</var> four times, <var>[1,4]</var> twice,
+<var>[2,3]</var> twice, <var>[2,4]</var> once, and <var>[3,4]</var> twice.) In particular, 
+if <var>D</var> is binary then <var>L[i]</var> is simply the number of blocks of <var>D</var> 
+containing the <var>i</var>-th <var>t</var>-subset (in lexicographic order).
+<p>
+<pre>
+gap&gt; D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]);;
+gap&gt; TSubsetLambdasVector(D,0);
+[ 5 ]
+gap&gt; TSubsetLambdasVector(D,1);
+[ 3, 4, 2 ]
+gap&gt; TSubsetLambdasVector(D,2);
+[ 3, 1, 1 ]
+gap&gt; TSubsetLambdasVector(D,3);
+[ 1 ]
+</pre>
+<p>
+<a name = "SSEC001.9"></a>
+<li><code>AllTDesignLambdas( </code><var>D</var><code> )</code>
+<p>
+If the block design <var>D</var> is not a <var>t</var>-design for some <var>tge0</var> then this
+function returns an empty list. Otherwise <var>D</var> is a binary block design
+with constant block size <var>k</var>, say, and this function returns a list
+<var>L</var> of length <var>T+1</var>, where <var>T</var> is the maximum <var>tlek</var> such that <var>D</var>
+is a <var>t</var>-design, and, for <var>i=1,...,T+1</var>, <var>L[i]</var> is equal to the
+(constant) number of blocks of <var>D</var> containing an <var>(i-1)</var>-subset of
+<var>{1,...,<code></code><var>D</var><code>.v</code>}</var>.
+<p>
+<pre>
+gap&gt; AllTDesignLambdas(PGPointFlatBlockDesign(3,2,1));                  
+[ 35, 7, 1 ]
+</pre>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>Design manual<br>June 2004
+</address></body></html>

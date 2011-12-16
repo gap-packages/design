@@ -1,0 +1,170 @@
+<html><head><title>[Design] 2 Constructing block designs</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>2 Constructing block designs</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP002.htm#SECT001">Functions to construct block designs</a>
+</ol><p>
+<p>
+<p>
+<h2><a name="SECT001">2.1 Functions to construct block designs</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>BlockDesign( </code><var>v</var><code>, </code><var>B</var><code> )</code>
+<p>
+Let <var>v</var> be a positive integer. Then this function  returns the block
+design with point-set <var>{1,...,<var>v</var>}</var> and block multiset <var>B</var>, which
+must be a non-empty sorted list of non-empty sorted lists of elements
+of <var>{1,...,<var>v</var>}</var>.
+<p>
+<pre>
+gap&gt; BlockDesign( 2, [[1],[1,2],[1,2]] );
+rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>PGPointFlatBlockDesign( </code><var>n</var><code>, </code><var>q</var><code>, </code><var>d</var><code> )</code>
+<p>
+Let <var>n</var> be a non-negative integer, <var>q</var> a prime-power, and <var>d</var> a
+non-negative integer less than or equal to <var>n</var>. Then this function
+returns the block design whose points are the (projective) points of
+the projective space <var>PG(<var>n</var>,<var>q</var>)</var>, and whose blocks are the <var><var>d</var></var>-flats
+of <var>PG(<var>n</var>,<var>q</var>)</var>, considering a <var>d</var>-flat as a set of projective points.
+<p>
+Note that the <strong>projective space</strong> <var>PG(<var>n</var>,<var>q</var>)</var> consists of all the
+subspaces of the vector space <var>V(<var>n</var>+1,<var>q</var>)</var>, with the <strong>projective
+points</strong> being the 1-dimensional subspaces and the <strong><var><var>d</var></var>-flats</strong> being
+the <var>(<var>d</var>+1)</var>-dimensional subspaces.
+<p>
+<pre>
+gap&gt; D:=PGPointFlatBlockDesign(3,2,1);;
+gap&gt; Print(D,"\n");
+rec(
+  isBlockDesign := true,
+  v := 15,
+  pointNames := 
+   [ VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ 0*Z(2), Z(2)^0, Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, 0*Z(2), Z(2)^0, Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, 0*Z(2), Z(2)^0 ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, 0*Z(2) ] ] ), 
+      VectorSpace( GF(2), [ [ Z(2)^0, Z(2)^0, Z(2)^0, Z(2)^0 ] ] ) ],
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
+      [ 1, 10, 11 ], [ 1, 12, 13 ], [ 1, 14, 15 ], [ 2, 4, 6 ], [ 2, 5, 7 ], 
+      [ 2, 8, 10 ], [ 2, 9, 11 ], [ 2, 12, 14 ], [ 2, 13, 15 ], [ 3, 4, 7 ], 
+      [ 3, 5, 6 ], [ 3, 8, 11 ], [ 3, 9, 10 ], [ 3, 12, 15 ], [ 3, 13, 14 ], 
+      [ 4, 8, 12 ], [ 4, 9, 13 ], [ 4, 10, 14 ], [ 4, 11, 15 ], [ 5, 8, 13 ], 
+      [ 5, 9, 12 ], [ 5, 10, 15 ], [ 5, 11, 14 ], [ 6, 8, 14 ], [ 6, 9, 15 ], 
+      [ 6, 10, 12 ], [ 6, 11, 13 ], [ 7, 8, 15 ], [ 7, 9, 14 ], 
+      [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
+gap&gt; Size(AutGroupBlockDesign(D));
+20160
+</pre>
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>TDesignFromTBD( </code><var>D</var><code>, </code><var>t</var><code>, </code><var>K</var><code> )</code>
+<p>
+Assuming that <var>D</var> is a <var>t</var>-wise balanced <var>t</var>-<var>(v,<var>K</var>,lambda)</var> design,
+with <var>t</var> a positive integer and <var>K</var> a set contained in <code>[</code><var>t</var><code>..</code><var>D</var><code>.v]</code>,
+this function returns the <var>t</var>-design obtained by applying the
+McSorley-Soicher construction to <var>D</var>.  The returned design is a
+<var>t</var>-<var>(v,<var>K</var>[1],nlambda)</var>, where <var>n</var> is the least common multiple of 
+<var>{k-tchoose<var>K</var>[1]-t : kin<var>K</var>}</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesigns(rec(v:=10,blockSizes:=[3,4],           
+&gt;          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 8 ], 
+      [ 2, 6, 9 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
+      [ 4, 5, 10 ], [ 4, 6, 8 ], [ 4, 7, 9 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,6)(8,10), (2,3,4)(8,9,10), 
+      (2,3,4)(5,8,7,9,6,10), (2,6,10)(3,7,9)(4,5,8) ]) )
+gap&gt; Dstar:=TDesignFromTBD(D,2,[3,4]);                       
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
+      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
+      [ 2, 3, 4 ], [ 2, 5, 8 ], [ 2, 5, 8 ], [ 2, 6, 9 ], [ 2, 6, 9 ], 
+      [ 2, 7, 10 ], [ 2, 7, 10 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
+      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 10 ], [ 4, 5, 10 ], 
+      [ 4, 6, 8 ], [ 4, 6, 8 ], [ 4, 7, 9 ], [ 4, 7, 9 ], [ 5, 6, 7 ], 
+      [ 8, 9, 10 ] ] )
+gap&gt; AllTDesignLambdas(Dstar);
+[ 30, 9, 2 ]
+</pre>
+<p>
+<a name = "SSEC001.4"></a>
+<li><code>DualBlockDesign( </code><var>D</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design for which every point lies on at least
+one block.  Then this function returns the dual of <var>D</var>, the block design
+in which the roles of points and blocks are interchanged, but incidence
+(including repeated incidence) stays the same.  Note that, since the
+list of blocks of a block design is always sorted, the block list of
+the dual of the dual of <var>D</var> may not be equal to the block list of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(4,[[1,3],[2,3,4],[3,4]]);;
+gap&gt; dualD:=DualBlockDesign(D);
+rec( isBlockDesign := true, v := 3, 
+  blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ], [ 2, 3 ] ], 
+  pointNames := [ [ 1, 3 ], [ 2, 3, 4 ], [ 3, 4 ] ] )
+gap&gt; DualBlockDesign(dualD).blocks;           
+[ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
+</pre>
+<p>
+<a name = "SSEC001.5"></a>
+<li><code>ComplementBlocksBlockDesign( </code><var>D</var><code> )</code>
+<p>
+Suppose <var>D</var> is a binary incomplete-block design.
+Then this function returns the block design on the same
+point-set as <var>D</var>, whose blocks are the complements of
+those of <var>D</var> (complemented with respect to the point-set).
+<p>
+<pre>
+gap&gt; D:=PGPointFlatBlockDesign(2,2,1);
+rec( isBlockDesign := true, v := 7, 
+  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt; ], 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 2, 4, 6 ], 
+      [ 2, 5, 7 ], [ 3, 4, 7 ], [ 3, 5, 6 ] ] )
+gap&gt; AllTDesignLambdas(D);
+[ 7, 3, 1 ]
+gap&gt; C:=ComplementBlocksBlockDesign(D);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4, 7 ], [ 1, 2, 5, 6 ], [ 1, 3, 4, 6 ], [ 1, 3, 5, 7 ], 
+      [ 2, 3, 4, 5 ], [ 2, 3, 6, 7 ], [ 4, 5, 6, 7 ] ], 
+  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt; ] )
+gap&gt; AllTDesignLambdas(C);
+[ 7, 4, 2 ]
+</pre>
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>Design manual<br>June 2004
+</address></body></html>

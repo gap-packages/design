@@ -1,0 +1,45 @@
+C design.tex 1. Design
+S 1.1. Installing the DESIGN Package
+S 1.2. Loading DESIGN
+S 1.3. The structure of a block design in DESIGN
+S 1.4. Example of the use of DESIGN
+C construct.tex 2. Constructing block designs
+S 2.1. Functions to construct block designs
+F 2.1. BlockDesign
+F 2.1. PGPointFlatBlockDesign
+F 2.1. TDesignFromTBD
+F 2.1. DualBlockDesign
+F 2.1. ComplementBlocksBlockDesign
+C basic.tex 3. Determining basic properties of block designs
+S 3.1. The functions for basic properties
+F 3.1. IsBlockDesign
+F 3.1. IsBinaryBlockDesign
+F 3.1. IsSimpleBlockDesign
+F 3.1. IsConnectedBlockDesign
+F 3.1. ReplicationNumber
+F 3.1. BlockSizes
+F 3.1. BlockNumbers
+F 3.1. TSubsetLambdasVector
+F 3.1. AllTDesignLambdas
+C autiso.tex 4. Automorphism groups and isomorphism testing for block designs
+S 4.1. Computing automorphism groups
+F 4.1. AutGroupBlockDesign
+S 4.2. Testing isomorphism
+F 4.2. IsIsomorphicBlockDesign
+F 4.2. BlockDesignIsomorphismClassRepresentatives
+C classify.tex 5. Classifying block designs
+S 5.1. The function BlockDesigns
+F 5.1. BlockDesigns
+C partition.tex 6. Partitioning block designs
+S 6.1. Partitioning a block design into block designs
+F 6.1. PartitionsIntoBlockDesigns
+S 6.2. Computing resolutions
+F 6.2. MakeResolutionsComponent
+F 6.2. MakeResolutionsComponent
+C xmlio.tex 7. XML I/O of block designs
+S 7.1. Writing lists of block designs and their properties in XML-format
+F 7.1. BlockDesignsToXMLFile
+F 7.1. BlockDesignsToXMLFile
+F 7.1. BlockDesignsToXMLFile
+S 7.2. Reading lists of block designs in XML-format
+F 7.2. BlockDesignsFromXMLFile

@@ -1,0 +1,50 @@
+\makelabel{design:Design}{1}
+\makelabel{design:Installing the DESIGN Package}{1.1}
+\makelabel{design:Loading DESIGN}{1.2}
+\makelabel{design:The structure of a block design in DESIGN}{1.3}
+\makelabel{design:Example of the use of DESIGN}{1.4}
+\makelabel{design:Constructing block designs}{2}
+\makelabel{design:Functions to construct block designs}{2.1}
+\makelabel{design:BlockDesign}{2.1.1}
+\makelabel{design:PGPointFlatBlockDesign}{2.1.2}
+\makelabel{design:TDesignFromTBD}{2.1.3}
+\makelabel{design:DualBlockDesign}{2.1.4}
+\makelabel{design:ComplementBlocksBlockDesign}{2.1.5}
+\makelabel{design:Determining basic properties of block designs}{3}
+\makelabel{design:The functions for basic properties}{3.1}
+\makelabel{design:IsBlockDesign}{3.1.1}
+\makelabel{design:IsBinaryBlockDesign}{3.1.2}
+\makelabel{design:IsSimpleBlockDesign}{3.1.3}
+\makelabel{design:IsConnectedBlockDesign}{3.1.4}
+\makelabel{design:ReplicationNumber}{3.1.5}
+\makelabel{design:BlockSizes}{3.1.6}
+\makelabel{design:BlockNumbers}{3.1.7}
+\makelabel{design:TSubsetLambdasVector}{3.1.8}
+\makelabel{design:AllTDesignLambdas}{3.1.9}
+\makelabel{design:Automorphism groups and isomorphism testing for block designs}{4}
+\makelabel{design:Computing automorphism groups}{4.1}
+\makelabel{design:AutGroupBlockDesign}{4.1.1}
+\makelabel{design:Testing isomorphism}{4.2}
+\makelabel{design:IsIsomorphicBlockDesign}{4.2.1}
+\makelabel{design:BlockDesignIsomorphismClassRepresentatives}{4.2.2}
+\makelabel{design:Classifying block designs}{5}
+\makelabel{design:The function BlockDesigns}{5.1}
+\makelabel{design:BlockDesigns}{5.1.1}
+\makelabel{design:Partitioning block designs}{6}
+\makelabel{design:Partitioning a block design into block designs}{6.1}
+\makelabel{design:PartitionsIntoBlockDesigns}{6.1.1}
+\makelabel{design:Computing resolutions}{6.2}
+\makelabel{design:MakeResolutionsComponent}{6.2.1}
+\makelabel{design:MakeResolutionsComponent}{6.2.1}
+\makelabel{design:XML I/O of block designs}{7}
+\makelabel{design:Writing lists of block designs and their properties in XML-format}{7.1}
+\makelabel{design:BlockDesignsToXMLFile}{7.1.1}
+\makelabel{design:BlockDesignsToXMLFile}{7.1.1}
+\makelabel{design:BlockDesignsToXMLFile}{7.1.1}
+\makelabel{design:Reading lists of block designs in XML-format}{7.2}
+\makelabel{design:BlockDesignsFromXMLFile}{7.2.1}
+\makelabel{design:Bibliography}{}
+\setcitlab {Extrep}{CDMS04}
+\setcitlab {GAPDoc}{LN04}
+\setcitlab {Nauty}{McK96}
+\setcitlab {Grape}{Soi04}

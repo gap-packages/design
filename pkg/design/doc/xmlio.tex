@@ -1,0 +1,112 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%A  xmlio.tex            DESIGN documentation              Leonard Soicher
+%
+%
+%
+\def\DESIGN{\sf DESIGN}
+\def\GRAPE{\sf GRAPE}
+\def\nauty{\it nauty}
+\def\Aut{{\rm Aut}\,}
+\def\x{\times}
+
+\Chapter{XML I/O of block designs}
+
+This chapter describes functions to write and read lists of binary block
+designs in the \URL{http://designtheory.org} external representation
+XML-format (see \cite{Extrep}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Writing lists of block designs and their properties in XML-format}
+
+\>BlockDesignsToXMLFile( <filename>, <designs> )
+\>BlockDesignsToXMLFile( <filename>, <designs>, <include> )
+\>BlockDesignsToXMLFile( <filename>, <designs>, <include>, <list_id> )
+
+This function writes a list of (assumed distinct) binary block designs
+(given in {\DESIGN} package format) to a file in external representation
+XML-format (version~2.0).
+
+The parameter <filename> is a string giving the name of the file, and
+<designs> is a record whose component `list' contains the list of block
+designs (<designs> can also be a list, in which case it is replaced by
+`rec(list:=<designs>').
+
+The record <designs> should have the following components:
+
+`list': the list of distinct binary block designs in {\DESIGN} package
+format;
+
+`pairwiseNonisomorphic' (optional): should be `true' or `false' or the
+string `"unknown"', specifying the pairwise-nonisomorphism status of the
+designs in `<designs>.list';
+
+`infoXML' (optional): should contain a string in XML format for the
+`<info>' element of the `<list_of_designs>' which is written.
+
+The combinatorial and group-theoretical properties output for each design
+depend on <include>, which should be a list containing zero or more of
+the strings `"indicators"', `"resolvable"', `"combinatorial_properties"',
+`"automorphism_group"', and `"resolutions"'.  A shorthand for the list
+containing all these strings is `"all"'. The default for <include> is
+the empty list (which is a change from versions of {\DESIGN} previous
+to 1.1).  The strings `"indicators"', `"combinatorial_properties"',
+`"automorphism_group"', and `"resolutions"' are used to specify that
+those subtrees of the external representation of each design are to
+be expanded and written out. In the case of `"resolutions"' being in
+<include>, *all* resolutions up to isomorphism will be determined and
+written out. The string `"resolvable"' is used to specify that the
+`resolvable' indicator must be set (usually this is not forced), if
+the `indicators' subtree is written out, and also that if a design is
+resolvable but `"resolutions"' is not in <include>, then one and only
+one resolution should be written out in the `resolutions' subtree.
+
+If <list_id> is given then the id's of the output designs will be
+`<list_id>-0', `<list_id>-1', `<list_id>-2', ...
+
+\beginexample
+gap> D:=[ BlockDesign(3, [[1,2],[1,3]]),                        
+>         BlockDesign(3, [[1,2],[1,2],[2,3]]) ];;
+gap> designs:=rec(list:=D, pairwiseNonisomorphic:=true);;
+gap> BlockDesignsToXMLFile("example.xml",designs,[],"example"); 
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Reading lists of block designs in XML-format}
+
+\>BlockDesignsFromXMLFile( <filename> )
+
+This function reads a file with name <filename>, containing a list of
+distinct binary block designs in external representation XML-format,
+and returns a record  <designs> in {\DESIGN} package format containing
+the essential information in this file.
+
+The record <designs> contains the following components:
+
+`list': a list of block designs in {\DESIGN} package format of
+the list of block designs in the file (certain elements such as
+`<statistical_properties>' are stored verbatim as strings; certain other
+elements are not stored since it is usually easier and more reliable to
+recompute them -- this can be done when the block designs are written
+out in XML format);
+
+`pairwiseNonisomorphic' is set according to the attribute
+`pairwise_nonisomorphic' of the XML element `<list_of_designs>'.
+The component `pairwiseNonisomorphic' is `false' if this attribute
+is `false', `true' if this attribute is `true', and `"unknown"' otherwise;
+
+`infoXML' is bound iff the `<info>' element occurs as a child of the
+XML `<list_of_designs>' element, and if bound, contains this `<info>'
+element in a string.
+
+\beginexample
+gap> BlockDesignsFromXMLFile("example.xml");
+rec( 
+  list := [ rec( isBlockDesign := true, v := 3, id := "example-0", blocks := 
+            [ [ 1, 2 ], [ 1, 3 ] ], isBinary := true ), 
+      rec( isBlockDesign := true, v := 3, id := "example-1", 
+          blocks := [ [ 1, 2 ], [ 1, 2 ], [ 2, 3 ] ], isBinary := true ) ], 
+  pairwiseNonisomorphic := true )
+\endexample
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

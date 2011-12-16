@@ -1,0 +1,21 @@
+\chapcontents {1}{Design}{3}
+\seccontents {1.1}{Installing the DESIGN Package} {3}
+\seccontents {1.2}{Loading DESIGN} {4}
+\seccontents {1.3}{The structure of a block design in DESIGN} {4}
+\seccontents {1.4}{Example of the use of DESIGN} {4}
+\chapcontents {2}{Constructing block designs}{7}
+\seccontents {2.1}{Functions to construct block designs} {7}
+\chapcontents {3}{Determining basic properties of block designs}{10}
+\seccontents {3.1}{The functions for basic properties} {10}
+\chapcontents {4}{Automorphism groups and isomorphism testing for block designs}{12}
+\seccontents {4.1}{Computing automorphism groups} {12}
+\seccontents {4.2}{Testing isomorphism} {12}
+\chapcontents {5}{Classifying block designs}{14}
+\seccontents {5.1}{The function BlockDesigns} {14}
+\chapcontents {6}{Partitioning block designs}{17}
+\seccontents {6.1}{Partitioning a block design into block designs} {17}
+\seccontents {6.2}{Computing resolutions} {20}
+\chapcontents {7}{XML I/O of block designs}{21}
+\seccontents {7.1}{Writing lists of block designs and their properties in XML-format} {21}
+\seccontents {7.2}{Reading lists of block designs in XML-format} {22}
+\chapcontents {}{Bibliography}{23}

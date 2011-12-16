@@ -1,0 +1,84 @@
+<html><head><title>[Design] 4 Automorphism groups and isomorphism testing for block designs</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>4 Automorphism groups and isomorphism testing for block designs</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP004.htm#SECT001">Computing automorphism groups</a>
+<li> <A HREF="CHAP004.htm#SECT002">Testing isomorphism</a>
+</ol><p>
+<p>
+The functions in this chapter depend on nauty via the GRAPE package,
+which must be fully installed on a computer running UNIX in order for
+these functions to work.
+<p>
+<p>
+<h2><a name="SECT001">4.1 Computing automorphism groups</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>AutGroupBlockDesign( </code><var>D</var><code> )</code>
+<p>
+This function returns the automorphism group of the block design <var>D</var>.
+The <strong>automorphism group</strong> <var>Aut(<var>D</var>)</var> of <var>D</var> is the group consisting of
+all the permutations of the points <var>{1,...,<code></code><var>D</var><code>.v</code>}</var> which preserve
+the block-multiset of <var>D</var>.
+<p>
+This function is not yet implemented for non-binary block designs.
+<p>
+This function can also be called via <code>AutomorphismGroup(</code><var>D</var><code>)</code>.
+<p>
+<pre>
+gap&gt; D:=PGPointFlatBlockDesign(2,3,1);; # projective plane of order 3
+gap&gt; Size(AutGroupBlockDesign(D));                            
+5616
+</pre>
+<p>
+<p>
+<h2><a name="SECT002">4.2 Testing isomorphism</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>IsIsomorphicBlockDesign( </code><var>D1</var><code>, </code><var>D2</var><code> )</code>
+<p>
+This boolean function returns <code>true</code> if and only if block designs
+<var>D1</var> and <var>D2</var> are isomorphic. 
+<p>
+This function is not yet implemented for non-binary block designs.
+<p>
+For pairwise isomorphism testing for three or more binary block designs,
+see <a href="CHAP004.htm#SSEC002.2">BlockDesignIsomorphismClassRepresentatives</a>.
+<p>
+<pre>
+gap&gt; D1:=BlockDesign(3,[[1],[1,2,3],[2]]);;
+gap&gt; D2:=BlockDesign(3,[[1],[1,2,3],[3]]);;
+gap&gt; IsIsomorphicBlockDesign(D1,D2);
+true
+gap&gt; D3:=BlockDesign(4,[[1],[1,2,3],[3]]);;
+gap&gt; IsIsomorphicBlockDesign(D2,D3);        
+false
+gap&gt; # block designs with different numbers of points are not isomorphic
+</pre>
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>BlockDesignIsomorphismClassRepresentatives( </code><var>L</var><code> )</code>
+<p>
+Given a list <var>L</var> of binary block designs, this function returns a list
+consisting of pairwise non-isomorphic elements of <var>L</var>, representing all
+the isomorphism classes of elements of <var>L</var>. The order of the elements
+in the returned list may differ from their order in <var>L</var>.
+<p>
+<pre>
+gap&gt; D1:=BlockDesign(3,[[1],[1,2,3],[2]]);;
+gap&gt; D2:=BlockDesign(3,[[1],[1,2,3],[3]]);;
+gap&gt; D3:=BlockDesign(4,[[1],[1,2,3],[3]]);; 
+gap&gt; BlockDesignIsomorphismClassRepresentatives([D1,D2,D3]);
+[ rec( isBlockDesign := true, v := 4, blocks := [ [ 1 ], [ 1, 2, 3 ], [ 3 ] ],
+      isBinary := true ), 
+  rec( isBlockDesign := true, v := 3, blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ] ],
+      isBinary := true ) ]
+</pre>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>Design manual<br>June 2004
+</address></body></html>

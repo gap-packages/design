@@ -1,0 +1,24 @@
+\begin{thebibliography}{CDMS04}
+
+\bibitem[CDMS04]{Extrep}
+Peter~J. Cameron, Peter Dobcs\'anyi, John~P. Morgan, and Leonard~H. Soicher.
+\newblock {\em The external representation of block designs (version 2.0)},
+  2004.
+\newblock \URL{http://designtheory.org/library/extrep/}.
+
+\bibitem[LN04]{GAPDoc}
+Frank L\"ubeck and Max Neunh\"offer.
+\newblock {\em The GAPDoc package for GAP (version 0.9999)}, 2004.
+\newblock \URL{http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc/}.
+
+\bibitem[McK96]{Nauty}
+Brendan~D. McKay.
+\newblock {\em The nauty package (version 2.0b5)}, 1996.
+\newblock \URL{http://cs.anu.edu.au/people/bdm/nauty/}.
+
+\bibitem[Soi04]{Grape}
+Leonard~H. Soicher.
+\newblock {\em The GRAPE package for GAP (version 4.2)}, 2004.
+\newblock \URL{http://www.maths.qmul.ac.uk/~leonard/grape/}.
+
+\end{thebibliography}

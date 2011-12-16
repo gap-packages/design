@@ -1,0 +1,76 @@
+\begin{theindex}
+
+  \item `AllTDesignLambdas', 11
+  \item `AutGroupBlockDesign', 12
+
+  \indexspace
+
+  \item `BlockDesign', 7
+  \item `Block\-Design\-Isomorphism\-Class\-Representatives', 12
+  \item `BlockDesigns', 14
+  \item `BlockDesignsFromXMLFile', 21
+  \item `BlockDesignsToXMLFile', 21
+  \item `BlockNumbers', 11
+  \item `BlockSizes', 11
+
+  \indexspace
+
+  \item `ComplementBlocksBlockDesign', 8
+  \item Computing automorphism groups, \indexit{12}
+  \item Computing resolutions, \indexit{19}
+
+  \indexspace
+
+  \item `DualBlockDesign', 8
+
+  \indexspace
+
+  \item Example of the use of DESIGN, \indexit{4}
+
+  \indexspace
+
+  \item Functions to construct block designs, \indexit{7}
+
+  \indexspace
+
+  \item Installing the DESIGN Package, \indexit{3}
+  \item `IsBinaryBlockDesign', 10
+  \item `IsBlockDesign', 10
+  \item `IsConnectedBlockDesign', 10
+  \item `IsIsomorphicBlockDesign', 12
+  \item `IsSimpleBlockDesign', 10
+
+  \indexspace
+
+  \item Loading DESIGN, \indexit{3}
+
+  \indexspace
+
+  \item `MakeResolutionsComponent', 19
+
+  \indexspace
+
+  \item Partitioning a block design into block designs, \indexit{17}
+  \item `PartitionsIntoBlockDesigns', 17
+  \item `PGPointFlatBlockDesign', 7
+
+  \indexspace
+
+  \item Reading lists of block designs in XML-format, \indexit{21}
+  \item `ReplicationNumber', 10
+
+  \indexspace
+
+  \item `TDesignFromTBD', 8
+  \item Testing isomorphism, \indexit{12}
+  \item The function BlockDesigns, \indexit{14}
+  \item The functions for basic properties, \indexit{10}
+  \item The structure of a block design in DESIGN, \indexit{4}
+  \item `TSubsetLambdasVector', 11
+
+  \indexspace
+
+  \item Writing lists of block designs and their properties in XML-format, 
+		\indexit{21}
+
+\end{theindex}

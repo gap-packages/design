@@ -1,0 +1,130 @@
+This is pdfTeX, Version 3.14159-14h-released-20010417 (Web2C 7.3.3.1) (format=pdftex 2003.2.18)  29 JUN 2004 15:24
+**manual
+(./manual.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, i
+talian, nohyphenation, loaded.
+(../../../doc/gapmacro.tex (/usr/share/texmf/tex/plain/amsfonts/amssym.tex
+(/usr/share/texmf/tex/plain/amsfonts/amssym.def
+\msafam=\fam8
+\msbfam=\fam9
+\eufmfam=\fam10
+))
+Running PDFTeX
+\pagewidth=\dimen16
+\pageheight=\dimen17
+\colwidth=\dimen18
+\partialpage=\box16
+\origvsize=\dimen19
+\manindent=\dimen20
+\smallmanindent=\dimen21
+\msbfam=\fam11
+\labelout=\write0
+\indexout=\write1
+\secindout=\write2
+\tocout=\write3
+\citeout=\write4
+\ans=\write5
+\labelin=\read0
+\indexin=\read1
+\tocin=\read2
+\citein=\read3
+\secno=\count26
+\subsecno=\count27
+\exno=\count28
+\indentno=\count29
+\chapnum=\count30
+\ortoks=\toks12
+) (../../../doc/ext/manual.lab) (../../../doc/ref/manual.lab) [1{/usr/share/tex
+mf/dvips/config/pdftex.map}]
+\makelabel{design:Contents}{{\setbox 0=\hbox {1}\vrule width 0pt height\ht 0}}
+Chapter `Contents' .
+(./manual.toc) [2.1
+\chapcontents {\tocstrut }{Contents}{2}
+] (./manual.lab)
+\openout3 = `manual.toc'.
+
+\openout0 = `manual.lab'.
+
+\openout1 = `manual.idx'.
+
+\openout2 = `manual.six'.
+
+\openout4 = `manual.aux'.
+
+ (./design.tex
+Chapter `Design' .
+[3.1] [4.1] [5.1]) (./construct.tex [6.1]
+Chapter `Constructing block designs' .
+[7.2] [8.2]) (./basic.tex [9.2]
+Chapter `Determining basic properties of block designs' .
+[10.3]) (./autiso.tex [11.3]
+Chapter `Automorphism groups and isomorphism testing for block designs' .
+[12.4]) (./classify.tex [13.4]
+Chapter `Classifying block designs' .
+
+Overfull \hbox (2.73976pt too wide) in paragraph at lines 34--36
+[]/cmti10/param/cmtt10/.v /cmr10/must be a pos-i-tive in-te-ger, and spec-i-fie
+s that for each block de-sign in /cmti10/DL/cmr10/, the points are 1,...,/cmti1
+0/param/cmtt10/.v/cmr10/. |
+
+\hbox(6.94444+1.94444)x468.0, glue set - 1.0
+.\hbox(0.0+0.0)x0.0
+./cmti10/p
+.\kern-0.51112
+./cmti10/a
+./cmti10/r
+.etc.
+
+[14.5] [15.5]) (./partition.tex [16.5]
+Chapter `Partitioning block designs' .
+[17.6]
+Overfull \hbox (3.86041pt too wide) in paragraph at lines 96--101
+/cmr10/each par-ti-tion in /cmti10/PL/cmr10/). The length of /cmti10/param/cmtt
+10/.blockMaxMultiplicities /cmr10/must equal that of /cmti10/param/cmtt10/.bloc
+kSizes/cmr10/. |
+
+\hbox(7.5+2.5)x468.0, glue set - 1.0
+./cmr10/e
+./cmr10/a
+./cmr10/c
+.\kern-0.27779
+./cmr10/h
+.etc.
+
+[18.6] [19.6]) (./xmlio.tex [20.6]
+Chapter `XML I/O of block designs' .
+
+Overfull \hbox (1.36134pt too wide) in paragraph at lines 47--63
+/cmr10/be a list con-tain-ing zero or more of the strings /cmtt10/"in-di-ca-tor
+s"/cmr10/, /cmtt10/"re-solv-able"/cmr10/, /cmtt10/"com-bi-na-to-rial[]propertie
+s"/cmr10/,|
+
+\hbox(6.94444+2.22223)x468.0, glue set - 1.0
+./cmr10/b
+.\kern0.27779
+./cmr10/e
+.\glue 3.33333 plus 1.66666 minus 1.11111
+./cmr10/a
+.etc.
+
+[21.7]) [22.7]
+Chapter `Bibliography' .
+(./manual.bbl) [23.8]
+##
+## Citations for BibTeX written on manual.aux.
+## Index entries for makeindex written on manual.idx.
+## Section index entries written on manual.six.
+## Label definitions written on manual.lab.
+## Table of contents written on manual.toc.
+##
+ )</usr/share/texmf/fonts/type1/bluesky/cm/cmsl10.pfb></usr/share/texmf/fonts/t
+ype1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb></u
+sr/share/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/
+bluesky/symbols/msam7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></u
+sr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/
+bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr
+/share/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf/fonts/type1/bl
+uesky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cminch.pfb></usr/s
+hare/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/blues
+ky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmssdc10.pfb>
+Output written on manual.pdf (23 pages, 167864 bytes).
