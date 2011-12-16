@@ -1,6 +1,6 @@
 ############################################################################
 ##
-##    blockdesign.g             Design 1.4 Package          Leonard Soicher
+##    blockdesign.g             Design 1.5 Package          Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 
@@ -8,7 +8,7 @@
 # block designs with given properties.
 # At present there is limited support for non-binary block designs.
 # 
-# Copyright (C) 2003-2009 Leonard H. Soicher
+# Copyright (C) 2003-2011 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -2748,7 +2748,7 @@ BindGlobal("SemiLatinSquareDuals",function(arg)
 # of these squares.
 #
 local n,k,blockmaxmultiplicity,blockintersectionsizes,isolevel,
-   C,G,W,B,S,s,i,blockdesign,pointnames,WW;
+   tau,Sngens,C,G,W,B,S,s,i,blockdesign,pointnames,WW;
 
 n:=arg[1];
 if not IsPosInt(n) then 
@@ -2792,12 +2792,14 @@ else
    isolevel:=2;
 fi;
 pointnames:=Immutable(Cartesian([1..n],[1..n]));
+Sngens:=GeneratorsOfGroup(SymmetricGroup([1..n]));
+tau:=Product(List([1..n],i->(i,i+n)));
 if isolevel in [0,1,2] then
    # for weak isomorphism
-   WW:=WreathProductImprimitiveAction(SymmetricGroup(n),SymmetricGroup(2));
+   WW:=Group(Concatenation(Sngens,[tau]),());
 else
    # for strong isomorphism
-   WW:=DirectProduct(SymmetricGroup(n),SymmetricGroup(n));
+   WW:=Group(Concatenation(Sngens,List(Sngens,g->g^tau)),());
 fi;
 W:=Action(WW,pointnames,
       function(x,g) 
@@ -2924,4 +2926,289 @@ else
    resolutions.allClassesRepresented:=true;
 fi;   
 D.resolutions:=Immutable(resolutions);
+end);
+
+BindGlobal("PointBlockIncidenceMatrix",function(D)
+#
+# Returns the (immutable) point-block incidence matrix of the block design D.
+#
+local v,b,i,j,blocks,N;
+if not IsBlockDesign(D) then
+   Error("usage: PointBlockIncidenceMatrix( <BlockDesign> )");
+fi;
+v:=NrBlockDesignPoints(D);
+b:=NrBlockDesignBlocks(D);
+blocks:=BlockDesignBlocks(D);
+N:=NullMat(v,b,Rationals);
+for j in [1..b] do
+   for i in blocks[j] do
+      N[i][j]:=N[i][j]+1;
+   od;
+od;
+return Immutable(N);
+end);
+
+BindGlobal("ConcurrenceMatrix",function(D)
+#
+# Returns the (immutable) point-concurrence matrix of the block design D.
+#
+local N;
+if not IsBlockDesign(D) then
+   Error("usage: ConcurrenceMatrix( <BlockDesign> )");
+fi;
+N:=PointBlockIncidenceMatrix(D);
+return Immutable(N*TransposedMat(N));
+end);
+
+BindGlobal("InformationMatrix",function(D)
+#
+# Returns the (immutable) information matrix of the block design D.
+#
+local blocks,T,i,N;
+if not IsBlockDesign(D) then
+   Error("usage: InformationMatrix( <BlockDesign> )");
+fi;
+blocks:=BlockDesignBlocks(D);
+N:=PointBlockIncidenceMatrix(D);
+T:=TransposedMatMutable(N);
+for i in [1..Length(blocks)] do
+   T[i]:=Length(blocks[i])^(-1)*T[i];
+od;
+return Immutable(DiagonalMat(TSubsetLambdasVector(D,1))-N*T);
+end);
+
+BindGlobal("DESIGN_IntervalForLeastRealZero",function(f,a,b,eps)
+#
+# Suppose that  f  is a univariate polynomial over the rationals, 
+# a,b are rational numbers with a<=b, and eps is a positive rational. 
+# 
+# If  f  has no real zero in the closed interval  [a,b],  then this
+# function returns the empty list  [].  Otherwise, let  alpha  be
+# the least real zero of  f  such that  a<=alpha<=b.  Then this function
+# returns a list  [c,d]  of rational numbers, with  c<=d,  d-c<=eps, 
+# and  c<=alpha<=d.  Moreover,  c=d  if and only if  alpha  is rational
+# (in which case  alpha=c=d).
+#
+local SturmSequence,NrRealZeros,c,d,rationalzeros,minrationalzero,z,x,s,nr,mid;
+
+SturmSequence := function(f) 
+#
+# Returns the Sturm sequence for  f,  when  f  is a non-zero
+# univariate polynomial over the rationals.
+#
+local s,g,r;
+if not IsUnivariatePolynomial(f) then
+   Error("usage: SturmSequence( <UnivariatePolynomial> )");
+elif not ForAll(CoefficientsOfUnivariatePolynomial(f),IsRat) then
+   Error("<f> must be a polynomial over the rationals");
+elif IsZero(f) then
+   Error("<f> must be a non-zero polynomial");
+fi;
+s:=[f]; # initialize the Sturm sequence
+g:=Derivative(f);
+while not IsZero(g) do
+   Add(s,g);
+   r:=-EuclideanRemainder(f,g);
+   f:=g;
+   g:=r;
+od;
+return s;
+end;
+
+NrRealZeros := function(s,a,b)
+#
+# Assume that  s  is the Sturm sequence for  f:=s[1], where  f  is a non-zero
+# square-free univariate polynomial over the rationals.
+#
+# Additionally suppose that  a  and  b  are rational numbers, neither of 
+# which is a zero of  f. 
+#
+# Then this function returns the number of real zeros of  f  in the 
+# interval  [a,b].  
+# 
+local f,lastterm,i,va,vb,ca,cb;
+f:=s[1];
+if Value(f,a)=0 or Value(f,b)=0 then
+   Error("neither <a> nor <b> should be a zero of f:=<s>[1]");
+fi;
+lastterm:=s[Length(s)]; 
+if IsZero(lastterm) or not IsConstantRationalFunction(lastterm) then
+   Error("<s> must be the Sturm sequence of a square-free polynomial");
+fi;
+if a>=b then
+   return 0;
+fi;
+va:=Filtered(List(s,g->Value(g,a)),v->v<>0);
+vb:=Filtered(List(s,g->Value(g,b)),v->v<>0);
+ca:=0;
+for i in [2..Length(va)] do 
+   if (va[i-1]<0 and va[i]>0) or (va[i-1]>0 and va[i]<0) then
+      ca:=ca+1;
+   fi;
+od;
+cb:=0;
+for i in [2..Length(vb)] do 
+   if (vb[i-1]<0 and vb[i]>0) or (vb[i-1]>0 and vb[i]<0) then
+      cb:=cb+1;
+   fi;
+od;
+return ca-cb; 
+end;
+
+if not (IsUnivariatePolynomial(f) and IsRat(a) and IsRat(b) and IsPosRat(eps)) then
+   Error("usage: DESIGN_IntervalForLeastRealZero( <UnivariatePolynomial>, <Rat>, <Rat>, <PosRat> )");
+elif not ForAll(CoefficientsOfUnivariatePolynomial(f),IsRat) then
+   Error("<f> must be a polynomial over the rationals");
+elif a>b then
+   Error("must have <a> <= <b>");
+fi;
+if Value(f,a)=0 then
+   return [a,a];
+elif a=b or DegreeOfLaurentPolynomial(f)=0 then
+   return [];
+fi;
+f:=f/Gcd(f,Derivative(f)); # make  f  squarefree
+rationalzeros:=RootsOfUPol(Rationals,f);
+x:=IndeterminateOfUnivariateRationalFunction(f);
+for z in rationalzeros do
+   f:=f/(x-z);
+od;
+# Now  f  is squarefree and has no rational zero.
+rationalzeros:=Filtered(rationalzeros,z->a<=z and z<=b);
+s:=SturmSequence(f);
+if rationalzeros<>[] then
+   minrationalzero:=Minimum(rationalzeros); 
+   nr:=NrRealZeros(s,a,minrationalzero);
+   if nr=0 then
+      # alpha=minrationalzero
+      return [minrationalzero,minrationalzero];
+   else
+      # alpha<minrationalzero, so set new upper bound for search for  alpha
+      b:=minrationalzero;
+   fi;
+else
+   nr:=NrRealZeros(s,a,b);
+   if nr=0 then
+      return [];
+   fi;
+fi;
+# Now we know that the  alpha  we seek is in the interval  [a,b]  and is
+# not rational.  We find the required interval  [c,d]  containing  alpha
+# using bisection.
+c:=a;
+d:=b;
+while d-c>eps do
+   mid:=(c+d)/2;
+   nr:=NrRealZeros(s,c,mid);
+   if nr=0 then
+      c:=mid;
+   else
+      d:=mid;
+   fi;
+od;
+return [c,d];
+end);
+   
+BindGlobal("BlockDesignEfficiency",function(arg)
+#
+# Suppose that  D:=arg[1]  is a  1-(v,k,r)  design with v >= 2.
+# Then this function returns a record containing the  A,  Dpowered,
+# and  Einterval  efficiency measures of  D,  as well as the monic
+# polynomial whose zeros (counting multiplicities) are the canonical
+# efficiency factors of  D.
+#
+# Note that the  Dpowered  efficiency measure is just 
+# the  D  efficiency measure raised to the power  v-1 
+# (to avoid irrationalities).  The interval  Einterval  (containing
+# the E efficiency measure) has length <= eps:=arg[2] (default 10^(-6)).
+# This length is in fact zero if the E-measure is rational. 
+#
+# If  includeMV:=arg[3]  is true  (default: false)  then the 
+# MV efficiency measure must also be included. (It may be included
+# even if  includeMV=false,  as a byproduct).  
+#
+local D,F,eps,v,b,r,k,cef,CEF,x,includeMV,P,M,pv,maxpv,i,j,eff;
+D:=arg[1];
+if IsBound(arg[2]) then 
+   eps:=arg[2];
+else
+   eps:=10^(-6);
+fi;
+if IsBound(arg[3]) then 
+   includeMV:=arg[3];
+else
+   includeMV:=false;
+fi;
+if not (IsBlockDesign(D) and IsPosRat(eps) and IsBool(includeMV)) then
+   Error("usage: BlockDesignEfficiency( <BlockDesign> [, <PosRat> [, <Bool> ] ] )");
+fi;
+v:=NrBlockDesignPoints(D);
+b:=NrBlockDesignBlocks(D);
+if v<2 then
+   Error("<D> must have at least two points");
+fi;
+r:=ReplicationNumber(D);
+if r=fail or not IsBinaryBlockDesign(D) or Length(BlockSizes(D))<>1 then
+   Error("<D> must be a 1-design");
+fi;
+if IsBound(D.efficiency) and IsBound(D.efficiency.CEFpolynomial) and 
+   IsBound(D.efficiency.A) and IsBound(D.efficiency.Dpowered) then
+   eff:=ShallowCopy(D.efficiency);
+   if not IsBound(eff.Einterval) or eff.Einterval[2]-eff.Einterval[1]>eps then
+      eff.Einterval:=
+         DESIGN_IntervalForLeastRealZero(D.efficiency.CEFpolynomial,0,1,eps);
+   fi;
+   if IsBound(eff.MV) or not includeMV then 
+      D.efficiency:=Immutable(eff);
+      return D.efficiency;
+   fi;
+else
+   # Make  eff.
+   x:=Indeterminate(Rationals,1); 
+   if b<v and b>1 and Length(BlockSizes(D))=1 then
+      # Make the  CEFpolynomial  for  D  from that of its dual.
+      k:=BlockSizes(D)[1];
+      F:=k^(-1)*InformationMatrix(DualBlockDesign(D));  
+      CEF:=(x-1)^(v-b)*(CharacteristicPolynomial(F,1)/x);
+   else 
+      F:=r^(-1)*InformationMatrix(D);
+      CEF:=CharacteristicPolynomial(F,1)/x;
+   fi;
+   cef:=CoefficientsOfUnivariatePolynomial(CEF);
+   # CEF  is the monic polynomial of degree  v-1  whose zeros (counting 
+   # multiplicities) are the canonical efficiency factors of  D,  and
+   # cef  is the vector of coefficients of  CEF  (in ascending order of 
+   # the powers of the indeterminate).
+   if cef[1]=0 then
+      # The constant term of  CEF  is 0, so the design  D  is not connected.
+      D.isConnected:=false;
+      eff:=rec(A:=0,Dpowered:=0,Einterval:=[0,0],CEFpolynomial:=CEF,MV:=0);
+      D.efficiency:=Immutable(eff);
+      return D.efficiency;
+   fi;
+   # At this point, we know that  D  is connected. 
+   eff:=rec(A:=(v-1)/(-cef[2]/cef[1]),
+      Dpowered:=(-1)^(v-1)*cef[1],
+      CEFpolynomial:=CEF, 
+      Einterval:=DESIGN_IntervalForLeastRealZero(CEF,0,1,eps));
+fi;
+if includeMV then 
+   F:=r^(-1)*InformationMatrix(D);
+   P:=List([1..v],row->ListWithIdenticalEntries(v,1/v));
+   M:=(F+P)^(-1)-P;  # M := Moore-Penrose inverse of F;
+   maxpv:=0;  # max pairwise variance so far
+   for i in [1..v] do 
+      for j in [1..v] do
+         if i<>j then
+            pv:=M[i][i]+M[j][j]-M[i][j]-M[j][i];
+            if pv>maxpv then
+               maxpv:=pv;
+            fi;
+         fi;
+      od;
+   od;
+   eff.MV:=2/maxpv;
+fi;
+D.efficiency:=Immutable(eff); 
+return D.efficiency;
 end);

@@ -1,5 +1,5 @@
 \indexentry {Installing the DESIGN Package@Installing the DESIGN Package|indexit}{3}
-\indexentry {Loading DESIGN@Loading DESIGN|indexit}{4}
+\indexentry {Loading DESIGN@Loading DESIGN|indexit}{3}
 \indexentry {The structure of a block design in DESIGN@The structure of a block design in DESIGN|indexit}{4}
 \indexentry {block design}{4}
 \indexentry {binary block design}{4}
@@ -49,29 +49,37 @@
 \indexentry {TSubsetLambdasVector@`TSubsetLambdasVector'}{21}
 \indexentry {AllTDesignLambdas@`AllTDesignLambdas'}{21}
 \indexentry {AffineResolvableMu@`AffineResolvableMu'}{22}
-\indexentry {Computing automorphism groups@Computing automorphism groups|indexit}{23}
-\indexentry {AutGroupBlockDesign@`AutGroupBlockDesign'}{23}
-\indexentry {Testing isomorphism@Testing isomorphism|indexit}{23}
-\indexentry {IsIsomorphicBlockDesign@`IsIsomorphicBlockDesign'}{23}
-\indexentry {BlockDesignIsomorphismClassRepresentatives@`BlockDesignIsomorphismClassRepresentatives'}{23}
-\indexentry {The function BlockDesigns@The function BlockDesigns|indexit}{25}
-\indexentry {BlockDesigns@`BlockDesigns'}{25}
-\indexentry {Semi-Latin squares and SOMAs@Semi-Latin squares and SOMAs|indexit}{28}
-\indexentry {semi-Latin square}{28}
-\indexentry {SOMA}{28}
-\indexentry {The function SemiLatinSquareDuals@The function SemiLatinSquareDuals|indexit}{28}
-\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{28}
-\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{28}
-\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{28}
-\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{28}
-\indexentry {Partitioning a block design into block designs@Partitioning a block design into block designs|indexit}{30}
-\indexentry {PartitionsIntoBlockDesigns@`PartitionsIntoBlockDesigns'}{30}
-\indexentry {Computing resolutions@Computing resolutions|indexit}{33}
-\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{33}
-\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{33}
-\indexentry {Writing lists of block designs and their properties in XML-format@Writing lists of block designs and their properties in XML-format|indexit}{35}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{35}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{35}
-\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{35}
-\indexentry {Reading lists of block designs in XML-format@Reading lists of block designs in XML-format|indexit}{36}
-\indexentry {BlockDesignsFromXMLFile@`BlockDesignsFromXMLFile'}{36}
+\indexentry {Matrices associated with a block design@Matrices associated with a block design|indexit}{23}
+\indexentry {PointBlockIncidenceMatrix@`PointBlockIncidenceMatrix'}{23}
+\indexentry {ConcurrenceMatrix@`ConcurrenceMatrix'}{23}
+\indexentry {InformationMatrix@`InformationMatrix'}{24}
+\indexentry {The function BlockDesignEfficiency@The function BlockDesignEfficiency|indexit}{24}
+\indexentry {BlockDesignEfficiency@`BlockDesignEfficiency'}{24}
+\indexentry {BlockDesignEfficiency@`BlockDesignEfficiency'}{24}
+\indexentry {BlockDesignEfficiency@`BlockDesignEfficiency'}{24}
+\indexentry {Computing automorphism groups@Computing automorphism groups|indexit}{26}
+\indexentry {AutGroupBlockDesign@`AutGroupBlockDesign'}{26}
+\indexentry {Testing isomorphism@Testing isomorphism|indexit}{26}
+\indexentry {IsIsomorphicBlockDesign@`IsIsomorphicBlockDesign'}{26}
+\indexentry {BlockDesignIsomorphismClassRepresentatives@`BlockDesignIsomorphismClassRepresentatives'}{26}
+\indexentry {The function BlockDesigns@The function BlockDesigns|indexit}{28}
+\indexentry {BlockDesigns@`BlockDesigns'}{28}
+\indexentry {Semi-Latin squares and SOMAs@Semi-Latin squares and SOMAs|indexit}{31}
+\indexentry {semi-Latin square}{31}
+\indexentry {SOMA}{31}
+\indexentry {The function SemiLatinSquareDuals@The function SemiLatinSquareDuals|indexit}{31}
+\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{31}
+\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{31}
+\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{31}
+\indexentry {SemiLatinSquareDuals@`SemiLatinSquareDuals'}{31}
+\indexentry {Partitioning a block design into block designs@Partitioning a block design into block designs|indexit}{33}
+\indexentry {PartitionsIntoBlockDesigns@`PartitionsIntoBlockDesigns'}{33}
+\indexentry {Computing resolutions@Computing resolutions|indexit}{36}
+\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{36}
+\indexentry {MakeResolutionsComponent@`MakeResolutionsComponent'}{36}
+\indexentry {Writing lists of block designs and their properties in XML-format@Writing lists of block designs and their properties in XML-format|indexit}{38}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{38}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{38}
+\indexentry {BlockDesignsToXMLFile@`BlockDesignsToXMLFile'}{38}
+\indexentry {Reading lists of block designs in XML-format@Reading lists of block designs in XML-format|indexit}{39}
+\indexentry {BlockDesignsFromXMLFile@`BlockDesignsFromXMLFile'}{39}

@@ -48,43 +48,53 @@
 \makelabel{design:TSubsetLambdasVector}{4.1.13}
 \makelabel{design:AllTDesignLambdas}{4.1.14}
 \makelabel{design:AffineResolvableMu}{4.1.15}
-\makelabel{design:Automorphism groups and isomorphism testing for block designs}{5}
-\makelabel{design:Computing automorphism groups}{5.1}
-\makelabel{design:AutGroupBlockDesign}{5.1.1}
-\makelabel{design:Testing isomorphism}{5.2}
-\makelabel{design:IsIsomorphicBlockDesign}{5.2.1}
-\makelabel{design:BlockDesignIsomorphismClassRepresentatives}{5.2.2}
-\makelabel{design:Classifying block designs}{6}
-\makelabel{design:The function BlockDesigns}{6.1}
-\makelabel{design:BlockDesigns}{6.1.1}
-\makelabel{design:Classifying semi-Latin squares}{7}
-\makelabel{design:Semi-Latin squares and SOMAs}{7.1}
-\makelabel{design:The function SemiLatinSquareDuals}{7.2}
-\makelabel{design:SemiLatinSquareDuals}{7.2.1}
-\makelabel{design:SemiLatinSquareDuals}{7.2.1}
-\makelabel{design:SemiLatinSquareDuals}{7.2.1}
-\makelabel{design:SemiLatinSquareDuals}{7.2.1}
-\makelabel{design:Partitioning block designs}{8}
-\makelabel{design:Partitioning a block design into block designs}{8.1}
-\makelabel{design:PartitionsIntoBlockDesigns}{8.1.1}
-\makelabel{design:Computing resolutions}{8.2}
-\makelabel{design:MakeResolutionsComponent}{8.2.1}
-\makelabel{design:MakeResolutionsComponent}{8.2.1}
-\makelabel{design:XML I/O of block designs}{9}
-\makelabel{design:Writing lists of block designs and their properties in XML-format}{9.1}
-\makelabel{design:BlockDesignsToXMLFile}{9.1.1}
-\makelabel{design:BlockDesignsToXMLFile}{9.1.1}
-\makelabel{design:BlockDesignsToXMLFile}{9.1.1}
-\makelabel{design:Reading lists of block designs in XML-format}{9.2}
-\makelabel{design:BlockDesignsFromXMLFile}{9.2.1}
+\makelabel{design:Matrices and efficiency measures for block designs}{5}
+\makelabel{design:Matrices associated with a block design}{5.1}
+\makelabel{design:PointBlockIncidenceMatrix}{5.1.1}
+\makelabel{design:ConcurrenceMatrix}{5.1.2}
+\makelabel{design:InformationMatrix}{5.1.3}
+\makelabel{design:The function BlockDesignEfficiency}{5.2}
+\makelabel{design:BlockDesignEfficiency}{5.2.1}
+\makelabel{design:BlockDesignEfficiency}{5.2.1}
+\makelabel{design:BlockDesignEfficiency}{5.2.1}
+\makelabel{design:Automorphism groups and isomorphism testing for block designs}{6}
+\makelabel{design:Computing automorphism groups}{6.1}
+\makelabel{design:AutGroupBlockDesign}{6.1.1}
+\makelabel{design:Testing isomorphism}{6.2}
+\makelabel{design:IsIsomorphicBlockDesign}{6.2.1}
+\makelabel{design:BlockDesignIsomorphismClassRepresentatives}{6.2.2}
+\makelabel{design:Classifying block designs}{7}
+\makelabel{design:The function BlockDesigns}{7.1}
+\makelabel{design:BlockDesigns}{7.1.1}
+\makelabel{design:Classifying semi-Latin squares}{8}
+\makelabel{design:Semi-Latin squares and SOMAs}{8.1}
+\makelabel{design:The function SemiLatinSquareDuals}{8.2}
+\makelabel{design:SemiLatinSquareDuals}{8.2.1}
+\makelabel{design:SemiLatinSquareDuals}{8.2.1}
+\makelabel{design:SemiLatinSquareDuals}{8.2.1}
+\makelabel{design:SemiLatinSquareDuals}{8.2.1}
+\makelabel{design:Partitioning block designs}{9}
+\makelabel{design:Partitioning a block design into block designs}{9.1}
+\makelabel{design:PartitionsIntoBlockDesigns}{9.1.1}
+\makelabel{design:Computing resolutions}{9.2}
+\makelabel{design:MakeResolutionsComponent}{9.2.1}
+\makelabel{design:MakeResolutionsComponent}{9.2.1}
+\makelabel{design:XML I/O of block designs}{10}
+\makelabel{design:Writing lists of block designs and their properties in XML-format}{10.1}
+\makelabel{design:BlockDesignsToXMLFile}{10.1.1}
+\makelabel{design:BlockDesignsToXMLFile}{10.1.1}
+\makelabel{design:BlockDesignsToXMLFile}{10.1.1}
+\makelabel{design:Reading lists of block designs in XML-format}{10.2}
+\makelabel{design:BlockDesignsFromXMLFile}{10.2.1}
 \makelabel{design:Bibliography}{}
 \setcitlab {BaCh}{BC97}
+\setcitlab {BaCa}{BC09}
 \setcitlab {Dotw}{BCD{+}06}
+\setcitlab {BaRo}{BR97}
 \setcitlab {Extrep}{CDMS04}
 \setcitlab {CaSo}{CS07}
-\setcitlab {GAPDoc}{LN08}
 \setcitlab {Nauty}{McK05}
 \setcitlab {McSo}{MS07}
-\setcitlab {Soi1}{Soi}
 \setcitlab {Grape}{Soi06}
+\setcitlab {Soi1}{Soi10}
 \makelabel{design:Index}{}

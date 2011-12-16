@@ -1,7 +1,8 @@
-This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdftex 2007.11.15)  17 SEP 2009 12:44
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdftex 2010.10.11)  9 SEP 2011 13:38
+entering extended mode
 **manual
-(./manual.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
-(../../../doc/gapmacro.tex (/usr/share/texmf/tex/plain/amsfonts/amssym.tex
+(./manual.tex (../../../doc/gapmacro.tex
+(/usr/share/texmf/tex/plain/amsfonts/amssym.tex
 (/usr/share/texmf/tex/plain/amsfonts/amssym.def
 \msafam=\fam8
 \msbfam=\fam9
@@ -32,10 +33,7 @@ Running PDFTeX
 \indentno=\count29
 \chapnum=\count30
 \ortoks=\toks12
-)
-No file ../../../doc/ext/manual.lab.
-No file ../../../doc/ref/manual.lab.
-[1{/usr/share/texmf/dvips/config/pdftex.map}]
+) [1{/usr/share/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 \makelabel{design:Contents}{{\setbox 0=\hbox {1}\vrule width 0pt height\ht 0}}
 Chapter `Contents' .
 (./manual.toc) [2.1
@@ -53,76 +51,73 @@ Chapter `Contents' .
 
  (./design.tex
 Chapter `Design' .
-Label `ref:GAP Root Directory' undefined.
-[3.1] [4.1] [5.1]) (./parameters.tex [6.1]
+[3.1] [4.1]) (./parameters.tex [5.1] [6.1]
 Chapter `Information from block design parameters' .
 [7.2] [8.2] [9.2]) (./construct.tex [10.2]
 Chapter `Constructing block designs' .
 [11.3] [12.3] [13.3] [14.3] [15.3] [16.3] [17.3]) (./basic.tex [18.3]
 Chapter `Determining basic properties of block designs' .
-[19.4] [20.4] [21.4]) (./autiso.tex [22.4]
+[19.4] [20.4] [21.4]) (./efficiency.tex [22.4]
+Chapter `Matrices and efficiency measures for block designs' .
+[23.5] [24.5]) (./autiso.tex [25.5]
 Chapter `Automorphism groups and isomorphism testing for block designs' .
-[23.5]) (./classify.tex [24.5]
+[26.6]) (./classify.tex [27.6]
 Chapter `Classifying block designs' .
-[25.6]
+[28.7]
 Overfull \hbox (6.26138pt too wide) in paragraph at lines 91--102
-/cmr10/element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
-sec-tion of a block $/cmti10/B$ /cmr10/of size /cmti10/param/cmtt10/.blockSizes
-[/cmti10/i/cmtt10/]|
+\tenrm element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
+sec-tion of a block $\tenit B$ \tenrm of size \tenit param\tentt .blockSizes[\t
+enit i\tentt ]|
 
 \hbox(6.94444+1.94444)x468.0, glue set - 1.0
-./cmr10/e
-./cmr10/l
-./cmr10/e
-./cmr10/m
-./cmr10/e
+.\tenrm e
+.\tenrm l
+.\tenrm e
+.\tenrm m
+.\tenrm e
 .etc.
 
-[26.6]) (./sls.tex [27.6]
+[29.7]) (./sls.tex [30.7]
 Chapter `Classifying semi-Latin squares' .
-[28.7]) (./partition.tex [29.7]
+[31.8]) (./partition.tex [32.8]
 Chapter `Partitioning block designs' .
-[30.8]
+[33.9]
 Overfull \hbox (6.26138pt too wide) in paragraph at lines 88--99
-/cmr10/element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
-sec-tion of a block $/cmti10/B$ /cmr10/of size /cmti10/param/cmtt10/.blockSizes
-[/cmti10/i/cmtt10/]|
+\tenrm element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
+sec-tion of a block $\tenit B$ \tenrm of size \tenit param\tentt .blockSizes[\t
+enit i\tentt ]|
 
 \hbox(6.94444+1.94444)x468.0, glue set - 1.0
-./cmr10/e
-./cmr10/l
-./cmr10/e
-./cmr10/m
-./cmr10/e
+.\tenrm e
+.\tenrm l
+.\tenrm e
+.\tenrm m
+.\tenrm e
 .etc.
 
-[31.8] [32.8] [33.8]) (./xmlio.tex [34.8]
+[34.9] [35.9] [36.9]) (./xmlio.tex [37.9]
 Chapter `XML I/O of block designs' .
-[35.9]) [36.9]
+[38.10]) [39.10]
 Chapter `Bibliography' .
-(./manual.bbl) [37.10]
+(./manual.bbl) [40.11]
 Chapter `Index' .
-(./manual.ind [38.11]) [39.11]
+(./manual.ind [41.12]) [42.12]
 ##
 ## Citations for BibTeX written on manual.aux.
 ## Index entries for makeindex written on manual.idx.
 ## Section index entries written on manual.six.
 ## Label definitions written on manual.lab.
 ## Table of contents written on manual.toc.
-## There were undefined labels or references.
 ##
- ){/usr/share/texmf/dvips/tetex/f7b6d320.enc}</usr/share/texmf/fonts/type1/blue
-sky/cm/cmsl10.pfb>{/usr/share/texmf/dvips/tetex/aae443f0.enc}</usr/share/texmf/
-fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr7.
-pfb>{/usr/share/texmf/dvips/tetex/bbad153f.enc}</usr/share/texmf/fonts/type1/bl
-uesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/symbols/msam7.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/cm/cmsy10.pfb>{/usr/share/texmf/dvips/tetex/09fbb
-fac.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/share/texmf/f
-onts/type1/bluesky/cm/cmss10.pfb>{/usr/share/texmf/dvips/tetex/1b6d048e.enc}</u
-sr/share/texmf/fonts/type1/bluesky/cm/cminch.pfb>{/usr/share/texmf/dvips/tetex/
-74afc74c.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/te
-xmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/c
-mbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmssdc10.pfb>
-Output written on manual.pdf (39 pages, 234756 bytes).
+ )</usr/share/texmf/fonts/type1/bluesky/cm/cmsl10.pfb></usr/share/texmf/fonts/t
+ype1/bluesky/cm/cmmi7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr7.pfb></u
+sr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/symbols/msam7.pfb></
+usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/
+share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/blu
+esky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cminch.pfb></usr/sh
+are/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf/fonts/type1/blues
+ky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share
+/texmf/fonts/type1/bluesky/cm/cmssdc10.pfb>
+Output written on manual.pdf (42 pages, 247323 bytes).

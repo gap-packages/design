@@ -53,34 +53,43 @@ F 4.1. PairwiseBalancedLambda
 F 4.1. TSubsetLambdasVector
 F 4.1. AllTDesignLambdas
 F 4.1. AffineResolvableMu
-C autiso.tex 5. Automorphism groups and isomorphism testing for block designs
-S 5.1. Computing automorphism groups
-F 5.1. AutGroupBlockDesign
-S 5.2. Testing isomorphism
-F 5.2. IsIsomorphicBlockDesign
-F 5.2. BlockDesignIsomorphismClassRepresentatives
-C classify.tex 6. Classifying block designs
-S 6.1. The function BlockDesigns
-F 6.1. BlockDesigns
-C sls.tex 7. Classifying semi-Latin squares
-S 7.1. Semi-Latin squares and SOMAs
-I 7.1. semi-Latin square
-I 7.1. SOMA
-S 7.2. The function SemiLatinSquareDuals
-F 7.2. SemiLatinSquareDuals
-F 7.2. SemiLatinSquareDuals
-F 7.2. SemiLatinSquareDuals
-F 7.2. SemiLatinSquareDuals
-C partition.tex 8. Partitioning block designs
-S 8.1. Partitioning a block design into block designs
-F 8.1. PartitionsIntoBlockDesigns
-S 8.2. Computing resolutions
-F 8.2. MakeResolutionsComponent
-F 8.2. MakeResolutionsComponent
-C xmlio.tex 9. XML I/O of block designs
-S 9.1. Writing lists of block designs and their properties in XML-format
-F 9.1. BlockDesignsToXMLFile
-F 9.1. BlockDesignsToXMLFile
-F 9.1. BlockDesignsToXMLFile
-S 9.2. Reading lists of block designs in XML-format
-F 9.2. BlockDesignsFromXMLFile
+C efficiency.tex 5. Matrices and efficiency measures for block designs
+S 5.1. Matrices associated with a block design
+F 5.1. PointBlockIncidenceMatrix
+F 5.1. ConcurrenceMatrix
+F 5.1. InformationMatrix
+S 5.2. The function BlockDesignEfficiency
+F 5.2. BlockDesignEfficiency
+F 5.2. BlockDesignEfficiency
+F 5.2. BlockDesignEfficiency
+C autiso.tex 6. Automorphism groups and isomorphism testing for block designs
+S 6.1. Computing automorphism groups
+F 6.1. AutGroupBlockDesign
+S 6.2. Testing isomorphism
+F 6.2. IsIsomorphicBlockDesign
+F 6.2. BlockDesignIsomorphismClassRepresentatives
+C classify.tex 7. Classifying block designs
+S 7.1. The function BlockDesigns
+F 7.1. BlockDesigns
+C sls.tex 8. Classifying semi-Latin squares
+S 8.1. Semi-Latin squares and SOMAs
+I 8.1. semi-Latin square
+I 8.1. SOMA
+S 8.2. The function SemiLatinSquareDuals
+F 8.2. SemiLatinSquareDuals
+F 8.2. SemiLatinSquareDuals
+F 8.2. SemiLatinSquareDuals
+F 8.2. SemiLatinSquareDuals
+C partition.tex 9. Partitioning block designs
+S 9.1. Partitioning a block design into block designs
+F 9.1. PartitionsIntoBlockDesigns
+S 9.2. Computing resolutions
+F 9.2. MakeResolutionsComponent
+F 9.2. MakeResolutionsComponent
+C xmlio.tex 10. XML I/O of block designs
+S 10.1. Writing lists of block designs and their properties in XML-format
+F 10.1. BlockDesignsToXMLFile
+F 10.1. BlockDesignsToXMLFile
+F 10.1. BlockDesignsToXMLFile
+S 10.2. Reading lists of block designs in XML-format
+F 10.2. BlockDesignsFromXMLFile

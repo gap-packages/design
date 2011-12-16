@@ -11,22 +11,19 @@
 <li> <A HREF="CHAP001.htm#SECT004">Example of the use of DESIGN</a>
 </ol><p>
 <p>
-This manual describes the DESIGN&nbsp;1.4 package for <font face="Gill Sans,Helvetica,Arial">GAP</font> (version at
-least 4.4).  The DESIGN package is for constructing, classifying,
+This manual describes the DESIGN&nbsp;1.5 package for <font face="Gill Sans,Helvetica,Arial">GAP</font> (version at
+least 4.5).  The DESIGN package is for constructing, classifying,
 partitioning and studying block designs.
 <p>
 All DESIGN functions are written entirely in the <font face="Gill Sans,Helvetica,Arial">GAP</font> language.
 However, DESIGN requires the GRAPE package <a href="biblio.htm#Grape"><cite>Grape</cite></a> (version
-at least 4.2) to be installed, and makes use of certain GRAPE
-functions, some of which make use of B.&nbsp;D.&nbsp;McKay's nauty
-package <a href="biblio.htm#Nauty"><cite>Nauty</cite></a>. These GRAPE functions can only be used on a
-fully installed version of GRAPE in a UNIX environment. DESIGN also
-requires the GAPDoc package <a href="biblio.htm#GAPDoc"><cite>GAPDoc</cite></a> (version at least 0.99),
-if you want to read lists of designs in the <a href="http://designtheory.org">http://designtheory.org</a>
-external representation XML format (see <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>).
+at least 4.3) to be installed, and makes use of certain GRAPE
+functions, some of which make use of B.&nbsp;D.&nbsp;McKay's nauty package
+<a href="biblio.htm#Nauty"><cite>Nauty</cite></a>. These GRAPE functions can only be used on a fully
+installed version of GRAPE. 
 <p>
 The DESIGN package is Copyright &copy; Leonard H. Soicher
-2003--2009.  DESIGN is part of a wider project, which received EPSRC
+2003--2011.  DESIGN is part of a wider project, which received EPSRC
 funding under grant GR/R29659/01, to provide a web-based resource for
 design theory; see <a href="http://designtheory.org">http://designtheory.org</a> and <a href="biblio.htm#Dotw"><cite>Dotw</cite></a>.
 <p>
@@ -40,41 +37,16 @@ If you use DESIGN to solve a problem then please send a short email
 about it to <a href="mailto:L.H.Soicher@qmul.ac.uk">L.H.Soicher@qmul.ac.uk</a>, and reference the DESIGN 
 package as follows:
 <p>
-L.&nbsp;H. Soicher, The DESIGN package for GAP, Version&nbsp;1.4, 2009,
+L.&nbsp;H. Soicher, The DESIGN package for GAP, Version&nbsp;1.5, 2011,
 <a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a>.
 <p>
 <p>
 <h2><a name="SECT001">1.1 Installing the DESIGN Package</a></h2>
 <p><p>
-The DESIGN package has complete functionality only in a UNIX
-environment in which the GRAPE and GAPDoc packages are fully
-installed.
-<p>
-To install DESIGN&nbsp;1.4 (on a UNIX system, after
-installing <font face="Gill Sans,Helvetica,Arial">GAP</font>, GRAPE and GAPDoc), first obtain
-the DESIGN archive file <code>design1r4.tar.gz</code>, available from
-<a href="http://designtheory.org/software/gap_design/">http://designtheory.org/software/gap_design/</a> and then copy
-this archive file into the <code>pkg</code> directory of the <font face="Gill Sans,Helvetica,Arial">GAP</font> root
-directory. Actually, it is possible to have several <font face="Gill Sans,Helvetica,Arial">GAP</font> root
-directories, and so it is easy to install DESIGN locally even if you
-have no permission to add files to the main <font face="Gill Sans,Helvetica,Arial">GAP</font> installation (see the
-<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual section <a href="badlink:ref:GAP Root Directory">GAP Root Directory</a>).  Now go to the
-appropriate <code>pkg</code> directory containing <code>design1r4.tar.gz</code>, and then run
-<p>
-<pre>
-gunzip design1r4.tar.gz
-tar -xf design1r4.tar
-</pre>
-<p>
-That's all there is to do.
-<p>
-Both dvi and pdf versions of the DESIGN manual are available
-(as <code>manual.dvi</code> and <code>manual.pdf</code> respectively) in the <code>doc</code> directory
-of the home directory of DESIGN.
-<p>
-If you install DESIGN, then please tell
-<a href="mailto:L.H.Soicher@qmul.ac.uk">L.H.Soicher@qmul.ac.uk</a>, where you should also send any comments
-or bug reports.
+The DESIGN package is included in the main <font face="Gill Sans,Helvetica,Arial">GAP</font> distribution, is
+written entirely in <font face="Gill Sans,Helvetica,Arial">GAP</font> code, and requires no further installation.
+However, the DESIGN package has complete functionality only in an
+environment in which the GRAPE package is fully installed.
 <p>
 <p>
 <h2><a name="SECT002">1.2 Loading DESIGN</a></h2>
@@ -113,7 +85,8 @@ A block design record may also have some optional components which store
 information about the design. At present these optional components include
 <code>isSimple</code>, <code>isBinary</code>, <code>isConnected</code>, <code>r</code>, <code>blockSizes</code>, <code>blockNumbers</code>,
 <code>resolutions</code>, <code>autGroup</code>, <code>autSubgroup</code>, <code>tSubsetStructure</code>,
-<code>allTDesignLambdas</code>, and <code>pointNames</code>.
+<code>allTDesignLambdas</code>, <code>efficiency</code>, <code>id</code>, <code>statistical_propertiesXML</code>,
+and <code>pointNames</code>.
 <p>
 A non-expert user should only use functions in the DESIGN package to
 create block design records and their components.
@@ -213,5 +186,5 @@ rec(
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>September 2009
+<address>design manual<br>September 2011
 </address></body></html>

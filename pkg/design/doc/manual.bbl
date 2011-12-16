@@ -5,13 +5,24 @@
 R.~A. Bailey and P.~E. Chigbu.
 \newblock Enumeration of semi-latin squares.
 \newblock {\em Discrete Math.}, 167-168:73--84, 1997.
-\newblock \URL{http://dx.doi.org/10.1016/S0012-365X(96)00217-8}.
+
+\bibitem[BC09]{BaCa}
+R.~A. Bailey and P.~J. Cameron.
+\newblock Combinatorics of optimal designs.
+\newblock In S.~Huczynska, J.~D. Mitchell, and C.~M. Roney-Dougal, editors,
+  {\em Surveys in Combinatorics 2009}, volume 365 of {\em London Math. Soc.
+  Lecture Notes}, pages 19--73. Cambridge University Press, 2009.
 
 \bibitem[BCD{\etalchar{+}}06]{Dotw}
 R.~A. Bailey, P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
 \newblock Designs on the web.
 \newblock {\em Discrete Math.}, 306:3014--3027, 2006.
 \newblock \URL{http://dx.doi.org/10.1016/j.disc.2004.10.027}.
+
+\bibitem[BR97]{BaRo}
+R.~A. Bailey and G.~Royle.
+\newblock Optimal semi-latin squares with side six and block size two.
+\newblock {\em Proc. Roy. Soc. London, Ser. A}, 453:1903--1914, 1997.
 
 \bibitem[CDMS04]{Extrep}
 P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
@@ -25,11 +36,6 @@ P.~J. Cameron and L.~H. Soicher.
 \newblock {\em Bull. London Math. Soc.}, 39:559--564, 2007.
 \newblock \URL{http://dx.doi.org/10.1112/blms/bdm034}.
 
-\bibitem[LN08]{GAPDoc}
-F.~L\"ubeck and M.~Neunh\"offer.
-\newblock {\em The GAPDoc package for GAP, Version 1.2}, 2008.
-\newblock \URL{http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc/}.
-
 \bibitem[McK05]{Nauty}
 B.~D. McKay.
 \newblock {\em {nauty}, Version 2.2}, 2005.
@@ -41,15 +47,16 @@ J.~P. McSorley and L.~H. Soicher.
 \newblock {\em European J. Combinatorics}, 28:567--571, 2007.
 \newblock \URL{http://dx.doi.org/10.1016/j.ejc.2005.02.003}.
 
-\bibitem[Soi]{Soi1}
-L.~H. Soicher.
-\newblock More on block intersection polynomials and new applications to graphs
-  and block designs.
-\newblock preprint at: \URL{http://designtheory.org/library/preprints/}.
-
 \bibitem[Soi06]{Grape}
 L.~H. Soicher.
 \newblock {\em The GRAPE package for GAP, Version 4.3}, 2006.
 \newblock \URL{http://www.maths.qmul.ac.uk/~leonard/grape/}.
+
+\bibitem[Soi10]{Soi1}
+L.~H. Soicher.
+\newblock More on block intersection polynomials and new applications to graphs
+  and block designs.
+\newblock {\em J. Comb. Theory, Ser. A}, 117:799--809, 2010.
+\newblock \URL{http://dx.doi.org/10.1016/j.jcta.2010.03.005}.
 
 \end{thebibliography}

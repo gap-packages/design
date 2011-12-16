@@ -1,6 +1,6 @@
 #############################################################################
 ##
-##    blockdesign_io.g          Design 1.4 Package          Leonard Soicher
+##    blockdesign_io.g          Design 1.5 Package          Leonard Soicher
 ##
 ##    
 # The "GAP Expander/Writer" to expand the information about 
@@ -11,7 +11,7 @@
 # DTRS external representation XML-format, and to convert these 
 # block designs into GAP-format.
 #
-# Copyright (C) 2003-2009 Leonard H. Soicher
+# Copyright (C) 2003-2011 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
