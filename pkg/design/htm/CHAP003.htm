@@ -19,9 +19,7 @@ Let <var>v</var> be a positive integer and <var>B</var> a non-empty list of non-
 sorted lists of elements of <var>{1,...,<var>v</var>}</var>.
 <p>
 The first version of this function returns the block design with point-set
-<var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>, where <var>C</var> is <code>SortedList(</code><var>B</var><code>)</code>
-(this is a backward compatible change to DESIGN&nbsp;1.1, where it was
-required that <var>B</var> be sorted).
+<var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>, where <var>C</var> is <code>SortedList(</code><var>B</var><code>)</code>.
 <p>
 For the second version of this function, we require <var>G</var> to be a group
 of permutations of <var>{1,...,<var>v</var>}</var>, and the function returns the
@@ -90,6 +88,45 @@ gap&gt; Size(AutGroupBlockDesign(D));
 </pre>
 <p>
 <a name = "SSEC001.3"></a>
+<li><code>WittDesign( </code><var>n</var><code> )</code>
+<p>
+Suppose <var><var>n</var>in{9,10,11,12,21,22,23,24}</var>. 
+<p>
+If <var><var>n</var>=24</var> then this function returns the <strong>large Witt design</strong> <var>W<sub>24</sub></var>,
+the unique (up to isomorphism) 5-(24,8,1) design. If <var><var>n</var>=24-i</var>, where
+<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>24</sub></var>
+is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(24-i,8-i,1)</var>
+design.
+<p>
+If <var><var>n</var>=12</var> then this function returns the <strong>small Witt design</strong> <var>W<sub>12</sub></var>,
+the unique (up to isomorphism) 5-(12,6,1) design. If <var><var>n</var>=12-i</var>, where
+<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>12</sub></var>
+is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(12-i,6-i,1)</var>
+design.
+<p>
+<pre>
+gap&gt; W24:=WittDesign(24);;
+gap&gt; AllTDesignLambdas(W24);
+[ 759, 253, 77, 21, 5, 1 ]
+gap&gt; DisplayCompositionSeries(AutomorphismGroup(W24));
+G (3 gens, size 244823040)
+ | M(24)
+1 (0 gens, size 1)
+gap&gt; W10:=WittDesign(10);;
+gap&gt; AllTDesignLambdas(W10);
+[ 30, 12, 4, 1 ]
+gap&gt; DisplayCompositionSeries(AutomorphismGroup(W10));
+G (4 gens, size 1440)
+ | Z(2)
+S (4 gens, size 720)
+ | Z(2)
+S (3 gens, size 360)
+ | A(6) ~ A(1,9) = L(2,9) ~ B(1,9) = O(3,9) ~ C(1,9) = S(2,9) ~ 2A(1,9) = U(2,\
+9)
+1 (0 gens, size 1)
+</pre>
+<p>
+<a name = "SSEC001.4"></a>
 <li><code>DualBlockDesign( </code><var>D</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design for which every point lies on at least
@@ -109,7 +146,7 @@ gap&gt; DualBlockDesign(dualD).blocks;
 [ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
 </pre>
 <p>
-<a name = "SSEC001.4"></a>
+<a name = "SSEC001.5"></a>
 <li><code>ComplementBlocksBlockDesign( </code><var>D</var><code> )</code>
 <p>
 Suppose <var>D</var> is a binary incomplete-block design.
@@ -146,7 +183,7 @@ gap&gt; AllTDesignLambdas(C);
 [ 7, 4, 2 ]
 </pre>
 <p>
-<a name = "SSEC001.5"></a>
+<a name = "SSEC001.6"></a>
 <li><code>DeletedPointsBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design and <var>Y</var> is a proper subset of the point-set
@@ -183,7 +220,7 @@ gap&gt; PairwiseBalancedLambda(DP);
 2
 </pre>
 <p>
-<a name = "SSEC001.6"></a>
+<a name = "SSEC001.7"></a>
 <li><code>DeletedBlocksBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code>)</code>
 <p>
 Suppose <var>D</var> is a block design, and <var>Y</var> is a proper sublist of the 
@@ -206,7 +243,7 @@ rec( isBlockDesign := true, v := 7,
       [ 3, 4, 6 ], [ 4, 5, 7 ] ] )
 </pre>
 <p>
-<a name = "SSEC001.7"></a>
+<a name = "SSEC001.8"></a>
 <li><code>AddedPointBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
 <li><code>AddedPointBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code>, </code><var>pointname</var><code> )</code>
 <p>
@@ -235,7 +272,7 @@ rec( isBlockDesign := true, v := 8,
   pointNames := [ 1, 2, 3, 4, 5, 6, 7, "infinity" ] )
 </pre>
 <p>
-<a name = "SSEC001.8"></a>
+<a name = "SSEC001.9"></a>
 <li><code>AddedBlocksBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
 <p>
 Suppose <var>Y</var> is a list of multisets of points of the block design <var>D</var>.
@@ -256,7 +293,7 @@ rec( isBlockDesign := true, v := 7,
       [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ] )
 </pre>
 <p>
-<a name = "SSEC001.9"></a>
+<a name = "SSEC001.10"></a>
 <li><code>DerivedBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
@@ -310,7 +347,7 @@ gap&gt; AllTDesignLambdas(DD);
 [ 10, 4, 1 ]
 </pre>
 <p>
-<a name = "SSEC001.10"></a>
+<a name = "SSEC001.11"></a>
 <li><code>ResidualBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
@@ -362,7 +399,7 @@ gap&gt; AllTDesignLambdas(RD);
 [ 10, 5, 2 ]
 </pre>
 <p>
-<a name = "SSEC001.11"></a>
+<a name = "SSEC001.12"></a>
 <li><code>TDesignFromTBD( </code><var>D</var><code>, </code><var>t</var><code>, </code><var>k</var><code> )</code>
 <p>
 For <var>t</var> a non-negative integer, <var>K</var> a set of positive integers, and
@@ -385,10 +422,6 @@ every <var>k</var>-subset of <var>B</var>, where <var>n:=lcm(k<sub>i</sub>-t cho
 It is shown in <a href="biblio.htm#McSo"><cite>McSo</cite></a> that <var>D<sup>*</sup></var> is a <var>t</var>-<var>(v,k,nlambda)</var> design,
 that <var>Aut(D)subseteqAut(D<sup>*</sup>)</var>, and that if <var>lambda=1</var> and <var>t&lt;k</var>,
 then <var>Aut(D)=Aut(D<sup>*</sup>)</var>.
-<p>
-Note: This is a change, mostly of notation, from version&nbsp;1.1 of
-DESIGN. For backward compatiblity, this function also performs as
-described in the version 1.1 documentation, but we discourage such use.
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       
@@ -421,5 +454,5 @@ gap&gt; AllTDesignLambdas(Dstar);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>August 2006
+<address>design manual<br>November 2006
 </address></body></html>

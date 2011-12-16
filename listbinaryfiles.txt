@@ -4,7 +4,6 @@ design/doc/manual.log
 design/doc/manual.ilg
 design/doc/manual.toc
 design/doc/manual.bbl
-design/doc/tthout
 design/doc/make_doc
 design/doc/manual.dvi
 design/doc/manual.blg

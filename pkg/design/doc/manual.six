@@ -19,6 +19,7 @@ S 3.1. Functions to construct block designs
 F 3.1. BlockDesign
 F 3.1. BlockDesign
 F 3.1. PGPointFlatBlockDesign
+F 3.1. WittDesign
 F 3.1. DualBlockDesign
 F 3.1. ComplementBlocksBlockDesign
 F 3.1. DeletedPointsBlockDesign

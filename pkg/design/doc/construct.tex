@@ -22,9 +22,7 @@ Let <v> be a positive integer and <B> a non-empty list of non-empty
 sorted lists of elements of $\{1,\ldots,<v>\}$.
 
 The first version of this function returns the block design with point-set
-$\{1,\ldots,<v>\}$ and block multiset <C>, where <C> is `SortedList(<B>)'
-(this is a backward compatible change to {\DESIGN}~1.1, where it was
-required that <B> be sorted).
+$\{1,\ldots,<v>\}$ and block multiset <C>, where <C> is `SortedList(<B>)'.
 
 For the second version of this function, we require <G> to be a group
 of permutations of $\{1,\ldots,<v>\}$, and the function returns the
@@ -91,6 +89,46 @@ rec(
       [ 7, 10, 13 ], [ 7, 11, 12 ] ] )
 gap> Size(AutGroupBlockDesign(D));
 20160
+\endexample
+
+
+
+\>WittDesign( <n> )
+
+Suppose $<n>\in \{9,10,11,12,21,22,23,24\}$. 
+
+If $<n>=24$ then this function returns the *large Witt design* $W_{24}$,
+the unique (up to isomorphism) 5-(24,8,1) design. If $<n>=24-i$, where
+$<i>\in \{1,2,3\}$, then the $i$-fold point-derived design of $W_{24}$
+is returned; this is the unique (up to isomorphism) $(5-i)$-$(24-i,8-i,1)$
+design.
+
+If $<n>=12$ then this function returns the *small Witt design* $W_{12}$,
+the unique (up to isomorphism) 5-(12,6,1) design. If $<n>=12-i$, where
+$<i>\in \{1,2,3\}$, then the $i$-fold point-derived design of $W_{12}$
+is returned; this is the unique (up to isomorphism) $(5-i)$-$(12-i,6-i,1)$
+design.
+
+\beginexample
+gap> W24:=WittDesign(24);;
+gap> AllTDesignLambdas(W24);
+[ 759, 253, 77, 21, 5, 1 ]
+gap> DisplayCompositionSeries(AutomorphismGroup(W24));
+G (3 gens, size 244823040)
+ | M(24)
+1 (0 gens, size 1)
+gap> W10:=WittDesign(10);;
+gap> AllTDesignLambdas(W10);
+[ 30, 12, 4, 1 ]
+gap> DisplayCompositionSeries(AutomorphismGroup(W10));
+G (4 gens, size 1440)
+ | Z(2)
+S (4 gens, size 720)
+ | Z(2)
+S (3 gens, size 360)
+ | A(6) ~ A(1,9) = L(2,9) ~ B(1,9) = O(3,9) ~ C(1,9) = S(2,9) ~ 2A(1,9) = U(2,\
+9)
+1 (0 gens, size 1)
 \endexample
 
 
@@ -399,10 +437,6 @@ every $k$-subset of $B$, where $n:=\lcm({k_i-t \choose k-t}:1\le i\le s)$.
 It is shown in \cite{McSo} that $D^{*}$ is a $t$-$(v,k,n\lambda)$ design,
 that $\Aut(D)\subseteq\Aut(D^{*})$, and that if $\lambda=1$ and $t\<k$,
 then $\Aut(D)=\Aut(D^{*})$.
-
-Note: This is a change, mostly of notation, from version~1.1 of
-{\DESIGN}. For backward compatiblity, this function also performs as
-described in the version 1.1 documentation, but we discourage such use.
 
 \beginexample
 gap> D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       

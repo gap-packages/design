@@ -1,12 +1,11 @@
 \newcommand{\etalchar}[1]{$^{#1}$}
-\begin{thebibliography}{CDMS04}
+\begin{thebibliography}{BCD{\etalchar{+}}06}
 
-\bibitem[BCD{\etalchar{+}}]{Dotw}
+\bibitem[BCD{\etalchar{+}}06]{Dotw}
 R.~A. Bailey, P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
 \newblock Designs on the web.
-\newblock {\em to appear in Discrete Math.}
-\newblock Preprint available at:
-  \URL{http://designtheory.org/library/preprints/}.
+\newblock {\em Discrete Math.}, 306:3014--3027, 2006.
+\newblock \URL{http://dx.doi.org/10.1016/j.disc.2004.10.027}.
 
 \bibitem[CDMS04]{Extrep}
 P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
@@ -17,6 +16,7 @@ P.~J. Cameron, P.~Dobcs\'anyi, J.~P. Morgan, and L.~H. Soicher.
 \bibitem[CS]{CaSo}
 P.~J. Cameron and L.~H. Soicher.
 \newblock Block intersection polynomials.
+\newblock {\em to appear in Bull. London Math. Soc.}
 \newblock Preprint available at:
   \URL{http://designtheory.org/library/preprints/}.
 

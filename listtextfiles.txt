@@ -12,7 +12,6 @@ design/doc/basic.tex
 design/doc/design.tex
 design/doc/partition.tex
 design/doc/xmlio.tex
-design/doc/tthmacros.tex
 design/doc/autiso.tex
 design/htm/indxM.htm
 design/htm/indxF.htm
@@ -32,7 +31,6 @@ design/htm/indxD.htm
 design/htm/indxR.htm
 design/htm/CHAP005.htm
 design/htm/indxC.htm
-design/htm/CHAP000.htm
 design/htm/chapters.htm
 design/htm/indxX.htm
 design/htm/biblio.htm

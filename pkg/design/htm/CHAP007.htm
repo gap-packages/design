@@ -86,14 +86,15 @@ and at least one entry of <code></code><var>param</var><code>.blockNumbers</code
 <p>
 <code></code><var>param</var><code>.blockIntersectionNumbers</code> must be a symmetric matrix of sets
 of non-negative integers, the <code>[</code><var>i</var><code>][</code><var>j</var><code>]</code>-element of which specifies
-the set of possible sizes for the intersection of a block of size
-<code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> with one of size <code></code><var>param</var><code>.blockSizes[</code><var>j</var><code>]</code>
-(in each design in each partition in <var>PL</var>). In the case of multisets, we
-take the multiplicity of an element in the intersection to be the minimum
-of its multiplicities in the multisets being intersected, so, for example,
-the intersection of <code>[1,1,1,2,2,3]</code> with <code>[1,1,2,2,2,4]</code> is <code>[1,1,2,2]</code>,
-having size 4.  The dimension of <code></code><var>param</var><code>.blockIntersectionNumbers</code>
-must equal the length of <code></code><var>param</var><code>.blockSizes</code>.
+the set of possible sizes for the intersection of a block <var>B</var> of size
+<code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> with a different block (but possibly a repeat of
+<var>B</var>) of size <code></code><var>param</var><code>.blockSizes[</code><var>j</var><code>]</code> (in each design in each partition
+in <var>PL</var>). In the case of multisets, we take the multiplicity of an
+element in the intersection to be the minimum of its multiplicities in
+the multisets being intersected; for example, the intersection of
+<code>[1,1,1,2,2,3]</code> with <code>[1,1,2,2,2,4]</code> is <code>[1,1,2,2]</code>, having size 4.
+The dimension of <code></code><var>param</var><code>.blockIntersectionNumbers</code> must equal the length
+of <code></code><var>param</var><code>.blockSizes</code>.
 <p>
 <code></code><var>param</var><code>.blockMaxMultiplicities</code> must be a list of non-negative
 integers, the <var>i</var>-th element of which specifies an upper bound on the
@@ -278,5 +279,5 @@ rec( isBlockDesign := true, v := 9,
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href ="CHAP008.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>August 2006
+<address>design manual<br>November 2006
 </address></body></html>

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdftex 2006.5.24)  30 AUG 2006 15:55
+This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdftex 2006.5.24)  8 NOV 2006 10:40
 **manual
 (./manual.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
 (../../../doc/gapmacro.tex (/usr/share/texmf/tex/plain/amsfonts/amssym.tex
@@ -61,9 +61,37 @@ Chapter `Determining basic properties of block designs' .
 Chapter `Automorphism groups and isomorphism testing for block designs' .
 [22.5]) (./classify.tex [23.5]
 Chapter `Classifying block designs' .
-[24.6] [25.6]) (./partition.tex [26.6]
+[24.6]
+Overfull \hbox (6.26138pt too wide) in paragraph at lines 91--102
+/cmr10/element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
+sec-tion of a block $/cmti10/B$ /cmr10/of size /cmti10/param/cmtt10/.blockSizes
+[/cmti10/i/cmtt10/]|
+
+\hbox(6.94444+1.94444)x468.0, glue set - 1.0
+./cmr10/e
+./cmr10/l
+./cmr10/e
+./cmr10/m
+./cmr10/e
+.etc.
+
+[25.6]) (./partition.tex [26.6]
 Chapter `Partitioning block designs' .
-[27.7] [28.7] [29.7] [30.7]) (./xmlio.tex [31.7]
+[27.7]
+Overfull \hbox (6.26138pt too wide) in paragraph at lines 88--99
+/cmr10/element of which spec-i-fies the set of pos-si-ble sizes for the in-ter-
+sec-tion of a block $/cmti10/B$ /cmr10/of size /cmti10/param/cmtt10/.blockSizes
+[/cmti10/i/cmtt10/]|
+
+\hbox(6.94444+1.94444)x468.0, glue set - 1.0
+./cmr10/e
+./cmr10/l
+./cmr10/e
+./cmr10/m
+./cmr10/e
+.etc.
+
+[28.7] [29.7] [30.7]) (./xmlio.tex [31.7]
 Chapter `XML I/O of block designs' .
 [32.8]) [33.8]
 Chapter `Bibliography' .
@@ -91,4 +119,4 @@ sr/share/texmf/fonts/type1/bluesky/cm/cminch.pfb>{/usr/share/texmf/dvips/tetex/
 74afc74c.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/te
 xmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/c
 mbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmssdc10.pfb>
-Output written on manual.pdf (35 pages, 218487 bytes).
+Output written on manual.pdf (35 pages, 221607 bytes).

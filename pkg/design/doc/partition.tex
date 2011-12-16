@@ -87,14 +87,15 @@ and at least one entry of `<param>.blockNumbers' must be positive.
 
 `<param>.blockIntersectionNumbers' must be a symmetric matrix of sets
 of non-negative integers, the `[<i>][<j>]'-element of which specifies
-the set of possible sizes for the intersection of a block of size
-`<param>.blockSizes[<i>]' with one of size `<param>.blockSizes[<j>]'
-(in each design in each partition in <PL>). In the case of multisets, we
-take the multiplicity of an element in the intersection to be the minimum
-of its multiplicities in the multisets being intersected, so, for example,
-the intersection of `[1,1,1,2,2,3]' with `[1,1,2,2,2,4]' is `[1,1,2,2]',
-having size 4.  The dimension of `<param>.blockIntersectionNumbers'
-must equal the length of `<param>.blockSizes'.
+the set of possible sizes for the intersection of a block $B$ of size
+`<param>.blockSizes[<i>]' with a different block (but possibly a repeat of
+$B$) of size `<param>.blockSizes[<j>]' (in each design in each partition
+in <PL>). In the case of multisets, we take the multiplicity of an
+element in the intersection to be the minimum of its multiplicities in
+the multisets being intersected; for example, the intersection of
+`[1,1,1,2,2,3]' with `[1,1,2,2,2,4]' is `[1,1,2,2]', having size 4.
+The dimension of `<param>.blockIntersectionNumbers' must equal the length
+of `<param>.blockSizes'.
 
 `<param>.blockMaxMultiplicities' must be a list of non-negative
 integers, the <i>-th element of which specifies an upper bound on the

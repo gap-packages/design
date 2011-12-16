@@ -16,18 +16,19 @@
 \indexentry {BlockDesign@`BlockDesign'}{11}
 \indexentry {BlockDesign@`BlockDesign'}{11}
 \indexentry {PGPointFlatBlockDesign@`PGPointFlatBlockDesign'}{11}
+\indexentry {WittDesign@`WittDesign'}{12}
 \indexentry {DualBlockDesign@`DualBlockDesign'}{12}
-\indexentry {ComplementBlocksBlockDesign@`ComplementBlocksBlockDesign'}{12}
+\indexentry {ComplementBlocksBlockDesign@`ComplementBlocksBlockDesign'}{13}
 \indexentry {DeletedPointsBlockDesign@`DeletedPointsBlockDesign'}{13}
-\indexentry {DeletedBlocksBlockDesign@`DeletedBlocksBlockDesign'}{13}
+\indexentry {DeletedBlocksBlockDesign@`DeletedBlocksBlockDesign'}{14}
 \indexentry {AddedPointBlockDesign@`AddedPointBlockDesign'}{14}
 \indexentry {AddedPointBlockDesign@`AddedPointBlockDesign'}{14}
-\indexentry {AddedBlocksBlockDesign@`AddedBlocksBlockDesign'}{14}
-\indexentry {DerivedBlockDesign@`DerivedBlockDesign'}{14}
-\indexentry {derived design}{14}
-\indexentry {ResidualBlockDesign@`ResidualBlockDesign'}{15}
-\indexentry {residual design}{15}
-\indexentry {TDesignFromTBD@`TDesignFromTBD'}{16}
+\indexentry {AddedBlocksBlockDesign@`AddedBlocksBlockDesign'}{15}
+\indexentry {DerivedBlockDesign@`DerivedBlockDesign'}{15}
+\indexentry {derived design}{15}
+\indexentry {ResidualBlockDesign@`ResidualBlockDesign'}{16}
+\indexentry {residual design}{16}
+\indexentry {TDesignFromTBD@`TDesignFromTBD'}{17}
 \indexentry {The functions for basic properties@The functions for basic properties|indexit}{18}
 \indexentry {IsBlockDesign@`IsBlockDesign'}{18}
 \indexentry {IsBinaryBlockDesign@`IsBinaryBlockDesign'}{18}
