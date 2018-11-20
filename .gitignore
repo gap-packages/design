@@ -1,0 +1,17 @@
+
+doc/manual.aux
+doc/manual.bbl
+doc/manual.blg
+doc/manual.dvi
+doc/manual.idx
+doc/manual.ilg
+doc/manual.ind
+doc/manual.lab
+doc/manual.log
+doc/manual.pdf
+doc/manual.six
+doc/manual.toc
+htm/
+
+gh-pages/
+tmp/
