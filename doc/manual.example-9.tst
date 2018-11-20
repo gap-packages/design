@@ -1,4 +1,3 @@
-
 gap> DL:=BlockDesigns(rec(
 >    v:=15,blockSizes:=[3],
 >    tSubsetStructure:=rec(t:=2,lambdas:=[1]),
@@ -73,8 +72,6 @@ gap> PL:=PartitionsIntoBlockDesigns(rec(
 >       v:=15,blockSizes:=[3],
 >       tSubsetStructure:=rec(t:=1,lambdas:=[1])));
 [  ]
-
-
 gap> L:=BlockDesigns(rec(v:=9,blockSizes:=[3],
 >          tSubsetStructure:=rec(t:=2,lambdas:=[1])));;
 gap> D:=L[1];;
@@ -102,4 +99,3 @@ rec( isBlockDesign := true, v := 9,
                   (1,8,9)(2,4,6)(3,7,5), (1,2)(5,6)(7,8), (1,2)(4,7)(5,9),
                   (1,2,9,6,8,4)(3,7,5) ]) ) ], pairwiseNonisomorphic := true,
       allClassesRepresented := true ) )
-

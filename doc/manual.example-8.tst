@@ -1,10 +1,7 @@
-
 gap> List([1..6],k->Length(SemiLatinSquareDuals(4,k))); # weak
 [ 2, 10, 40, 164, 621, 2298 ]
 gap> List([1..6],k->Length(SemiLatinSquareDuals(4,k,"default","default",4))); # strong
 [ 2, 11, 46, 201, 829, 3343 ]
-
-
 gap> SemiLatinSquareDuals(6,3,"default",[0,1],0);
 [ rec( isBlockDesign := true, v := 36,
       blocks := [ [ 1, 8, 15, 22, 29, 36 ], [ 1, 9, 16, 23, 30, 32 ],
@@ -26,4 +23,3 @@ gap> SemiLatinSquareDuals(6,3,"default",[0,1],0);
           [ 4, 6 ], [ 5, 1 ], [ 5, 2 ], [ 5, 3 ], [ 5, 4 ], [ 5, 5 ],
           [ 5, 6 ], [ 6, 1 ], [ 6, 2 ], [ 6, 3 ], [ 6, 4 ], [ 6, 5 ],
           [ 6, 6 ] ] ) ]
-

@@ -1,4 +1,3 @@
-
 gap> DL:=BlockDesigns(rec(
 >    v:=15,blockSizes:=[3],
 >    tSubsetStructure:=rec(t:=2,lambdas:=[1]),
@@ -54,4 +53,3 @@ gap> List(parclasses,Length);
 [ 1, 1, 2 ]
 gap> List(parclasses,L->List(L,parclass->Size(parclass.autSubgroup)));
 [ [ 360 ], [ 5 ], [ 6, 60 ] ]
-

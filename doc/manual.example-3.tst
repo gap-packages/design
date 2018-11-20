@@ -1,4 +1,3 @@
-
 gap> BlockDesign( 2, [[1,2],[1],[1,2]] );
 rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
 gap> D:=BlockDesign(7, [[1,2,4]], Group((1,2,3,4,5,6,7)));
@@ -8,8 +7,6 @@ rec( isBlockDesign := true, v := 7,
   autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
 gap> AllTDesignLambdas(D);
 [ 7, 3, 1 ]
-
-
 gap> D:=AGPointFlatBlockDesign(2,4,1);
 rec( isBlockDesign := true, v := 16,
   blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 9, 13 ], [ 1, 6, 11, 16 ],
@@ -30,8 +27,6 @@ rec( isBlockDesign := true, v := 16,
       [ Z(2^2)^2, Z(2^2)^2 ] ] )
 gap> AllTDesignLambdas(D);
 [ 20, 5, 1 ]
-
-
 gap> D:=PGPointFlatBlockDesign(3,2,1);
 rec( isBlockDesign := true, v := 15,
   blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ],
@@ -61,8 +56,6 @@ rec( isBlockDesign := true, v := 15,
       <vector space of dimension 1 over GF(2)> ] )
 gap> AllTDesignLambdas(D);
 [ 35, 7, 1 ]
-
-
 gap> W24:=WittDesign(24);;
 gap> AllTDesignLambdas(W24);
 [ 759, 253, 77, 21, 5, 1 ]
@@ -82,8 +75,6 @@ S (3 gens, size 360)
  \ A(6) ~ A(1,9) = L(2,9) ~ B(1,9) = O(3,9) ~ C(1,9) = S(2,9) ~ 2A(1,9) = U(2,\
 9)
 1 (0 gens, size 1)
-
-
 gap> D:=BlockDesign(4,[[1,3],[2,3,4],[3,4]]);;
 gap> dualD:=DualBlockDesign(D);
 rec( isBlockDesign := true, v := 3,
@@ -91,8 +82,6 @@ rec( isBlockDesign := true, v := 3,
   pointNames := [ [ 1, 3 ], [ 2, 3, 4 ], [ 3, 4 ] ] )
 gap> DualBlockDesign(dualD).blocks;
 [ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
-
-
 gap> D:=PGPointFlatBlockDesign(2,2,1);
 rec( isBlockDesign := true, v := 7,
   pointNames := [ <vector space of dimension 1 over GF(2)>,
@@ -119,8 +108,6 @@ rec( isBlockDesign := true, v := 7,
       <vector space of dimension 1 over GF(2)> ] )
 gap> AllTDesignLambdas(C);
 [ 7, 4, 2 ]
-
-
 gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
 >       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
 rec( isBlockDesign := true, v := 11,
@@ -142,8 +129,6 @@ rec( isBlockDesign := true, v := 9,
   pointNames := [ 1, 2, 3, 4, 6, 7, 9, 10, 11 ] )
 gap> PairwiseBalancedLambda(DP);
 2
-
-
 gap> D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
 rec( isBlockDesign := true, v := 7,
   blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ],
@@ -155,8 +140,6 @@ rec( isBlockDesign := true, v := 7,
   blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ],
       [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 6, 7 ], [ 2, 6, 7 ], [ 3, 4, 6 ],
       [ 3, 4, 6 ], [ 4, 5, 7 ] ] )
-
-
 gap> D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
 rec( isBlockDesign := true, v := 7,
   blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ],
@@ -169,8 +152,6 @@ rec( isBlockDesign := true, v := 8,
       [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5, 8 ], [ 2, 3, 5, 8 ], [ 2, 6, 7 ],
       [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7, 8 ] ],
   pointNames := [ 1, 2, 3, 4, 5, 6, 7, "infinity" ] )
-
-
 gap> D:=BlockDesign(7,[[1,2,4]],Group((1,2,3,4,5,6,7)));
 rec( isBlockDesign := true, v := 7,
   blocks := [ [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 5, 6 ], [ 2, 3, 5 ],
@@ -181,8 +162,6 @@ rec( isBlockDesign := true, v := 7,
   blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ],
       [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ],
       [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ] )
-
-
 gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
 >       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
 rec( isBlockDesign := true, v := 11,
@@ -210,8 +189,6 @@ rec( isBlockDesign := true, v := 5,
   pointNames := [ 2, 3, 6, 8, 10 ] )
 gap> AllTDesignLambdas(DD);
 [ 10, 4, 1 ]
-
-
 gap> D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
 >       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
 rec( isBlockDesign := true, v := 11,
@@ -239,8 +216,6 @@ rec( isBlockDesign := true, v := 6,
       [ 3, 4, 6 ] ], pointNames := [ 1, 4, 5, 7, 9, 11 ] )
 gap> AllTDesignLambdas(RD);
 [ 10, 5, 2 ]
-
-
 gap> D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],
 >          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
 rec( isBlockDesign := true, v := 10,
@@ -267,4 +242,3 @@ rec( isBlockDesign := true, v := 10,
         10), (2,3,4)(5,9,6,8,7,10), (2,6,9,3,7,10)(4,5,8) ]) )
 gap> AllTDesignLambdas(Dstar);
 [ 30, 9, 2 ]
-
