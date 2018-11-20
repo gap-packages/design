@@ -12,8 +12,8 @@
 
 \Chapter{Design}
 
-This manual describes the {\DESIGN}~1.6 package for {\GAP} (version at
-least 4.5).  The {\DESIGN} package is for constructing, classifying,
+This manual describes the {\DESIGN}~1.6.1 package for {\GAP} (version
+at least 4.9).  The {\DESIGN} package is for constructing, classifying,
 partitioning and studying block designs.
 
 All {\DESIGN} functions are written entirely in the {\GAP} language.
@@ -77,14 +77,17 @@ true
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{The structure of a block design in DESIGN}
 
-A *block design*\index{block design} is an ordered pair $(X,B)$, where
+A *block design*
+\index{block design} 
+is an ordered pair $(X,B)$, where
 $X$ is a non-empty finite set whose elements are called *points*, and
 $B$ is a non-empty finite multiset whose elements are called *blocks*,
 such that each block is a non-empty finite multiset of points.
 
 {\DESIGN} deals with arbitrary block designs. However, at present, some
-{\DESIGN} functions only work for *binary* block designs\index{binary
-block design} (i.e. those with no repeated element in any block of
+{\DESIGN} functions only work for *binary* block designs
+\index{binary block design} 
+(i.e. those with no repeated element in any block of
 the design), but these functions will check if an input block design
 is binary.
 
