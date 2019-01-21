@@ -15,6 +15,11 @@ In this chapter we describe functions to calculate certain matrices
 associated with a block design, and the function `BlockDesignEfficiency'
 which determines certain statistical efficiency measures of a 1-design.
 
+We also document the utility function `DESIGN_IntervalForLeastRealZero'
+for univariate polynomials over the rationals. This useful function is
+used in the calculation of block design efficiency measures, but has
+much wider application.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Matrices associated with a block design}
 
@@ -187,4 +192,44 @@ rec( A := 33/41,
   Einterval := [ 3/4, 3/4 ], MV := 3/4 )
 \endexample
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Computing an interval for a real zero of a rational polynomial}
 
+We document a {\DESIGN} package utility function used in the calculation
+of the `Einterval' component above, but is more widely applicable.
+
+\>DESIGN_IntervalForLeastRealZero( <f>, <a>, <b>, <eps> )
+
+Suppose that <f> is a univariate polynomial over the rationals, <a>,
+<b> are rational numbers with $<a>\le <b>$, and <eps> is a positive
+rational number.
+
+If <f> has no real zero in the closed interval $[<a>,<b>]$, then this
+function returns the empty list.  Otherwise, let $\alpha$ be the least
+real zero of <f> such that $<a>\le \alpha\le <b>$. Then this function
+returns a list $[c,d]$ of rational numbers, with $c\le \alpha\le d$
+and $d-c\le <eps>$. Moreover, $c=d$ if and only if $\alpha$ is rational
+(in which case $\alpha=c=d$).
+
+\beginexample
+gap> x:=Indeterminate(Rationals,1);                     
+x_1
+gap> f:=(x+3)*(x^2-3);
+x_1^3+3*x_1^2-3*x_1-9
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-5,5,10^(-3));
+[ -3, -3 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-2,5,10^(-3));
+[ -14193/8192, -7093/4096 ]
+gap> List(L,Float);             
+[ -1.73254, -1.73169 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-3));
+[ 14185/8192, 7095/4096 ]
+gap> List(L,Float);           
+[ 1.73157, 1.73218 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-5));
+[ 454045/262144, 908095/524288 ]
+gap> List(L,Float);                  
+[ 1.73204, 1.73205 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,2,5,10^(-5));
+[  ]
+\endexample
