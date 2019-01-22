@@ -63,3 +63,23 @@ rec( A := 33/41,
 47/64*x_1^6+138159/1024*x_1^5-159813/2048*x_1^4+2067201/65536*x_1^3-556227/655\
 36*x_1^2+89667/65536*x_1-6561/65536, Dpowered := 6561/65536,
   Einterval := [ 3/4, 3/4 ], MV := 3/4 )
+gap> x:=Indeterminate(Rationals,1);
+x_1
+gap> f:=(x+3)*(x^2-3);
+x_1^3+3*x_1^2-3*x_1-9
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-5,5,10^(-3));
+[ -3, -3 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-2,5,10^(-3));
+[ -14193/8192, -7093/4096 ]
+gap> List(L,Float);
+[ -1.73254, -1.73169 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-3));
+[ 14185/8192, 7095/4096 ]
+gap> List(L,Float);
+[ 1.73157, 1.73218 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-5));
+[ 454045/262144, 908095/524288 ]
+gap> List(L,Float);
+[ 1.73204, 1.73205 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,2,5,10^(-5));
+[  ]

@@ -29,7 +29,7 @@ pdftex manual; pdftex manual
 # The HTML version of the manual
 mkdir -p ../htm
 echo "Creating HTML documentation"
-../../../etc/convert.pl -c -n design . ../htm
+../../../etc/convert.pl -t -c -n design . ../htm
 
 #############################################################################
 ##
