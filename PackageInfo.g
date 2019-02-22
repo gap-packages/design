@@ -5,92 +5,28 @@
 
 SetPackageInfo( rec(
 
-##  This is case sensitive, use your preferred spelling.
 PackageName := "DESIGN",
-
-##  See '?Extending: Version Numbers' in GAP help for an explanation
-##  of valid version numbers.
+Subtitle := "The Design Package for GAP",
 Version := "1.6",
+Date := "23/11/2011", # dd/mm/yyyy format
+License := "GPL-2.0-or-later",
 
-##  Release date of the current version in dd/mm/yyyy format.
-Date := "23/11/2011",
+SourceRepository := rec(
+    Type := "git",
+    URL :=  "https://github.com/gap-packages/design",
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := "https://gap-packages.github.io/design",
+README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
+PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
+ArchiveURL      := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/design-", ~.Version ),
 
-##  URL of the archive(s) of the current package release, but *without*
-##  the format extension(s), like '.zoo', which are given next.
-##  The archive file name *must be changed* with each version of the archive
-##  (and probably somehow contain the package name and version).
-ArchiveURL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/design1r6",
+ArchiveFormats := ".tar.gz", 
 
-##  All provided formats as list of file extensions, separated by white
-##  space or commas.
-##  Currently recognized formats are:
-##      .zoo       the (GAP-traditional) zoo-format with "!TEXT!" comments 
-##                 for text files
-##      .tar.gz    the UNIX standard
-##      .tar.bz2   compressed with 'bzip2', often smaller than with gzip
-##      -win.zip   zip-format for DOS/Windows, text files must have DOS 
-##                 style line breaks (CRLF)
-##  
-##  In the future we may also provide .deb or .rpm formats which allow
-##  a convenient installation and upgrading on Linux systems.
-##  
-ArchiveFormats := ".tar.gz", # the others are generated automatically
-
-##  If not all of the archive formats mentioned above are provided, these 
-##  can be produced at the GAP side. Therefore it is necessary to know which
-##  files of the package distribution are text files which should be unpacked
-##  with operating system specific line breaks. There are the following 
-##  possibilities to specify the text files:
-##  
-##    - specify below a component 'TextFiles' which is a list of names of the 
-##      text files, relative to the package root directory (e.g., "lib/bla.g")
-##    - specify below a component 'BinaryFiles' as list of names, then all other
-##      files are taken as text files.
-##    - if no 'TextFiles' or 'BinaryFiles' are given and a .zoo archive is
-##      provided, then the files in that archive with a "!TEXT!" comment are
-##      taken as text files
-##    - otherwise: exactly the files with names matching the regular expression
-##      ".*\(\.txt\|\.gi\|\.gd\|\.g\|\.c\|\.h\|\.htm\|\.html\|\.xml\|\.tex\|\.six\|\.bib\|\.tst\|README.*\|INSTALL.*\|Makefile\)"
-##      are taken as text files
-##  
-##  (Remark: Just providing a .tar.gz file will often result in useful
-##  archives)
-##  
-##  These entries are *optional*.
-#TextFiles := ["init.g", ......],
 BinaryFiles := ["doc/manual.dvi", "doc/manual.pdf"],
 
-
-##  Information about authors and maintainers. Specify for each person a 
-##  record with the following information:
-##  
-##     rec(
-##     # these are compulsory, characters are interpreted as latin-1, so
-##     # German umlauts and other western European special characters are ok:
-##     LastName := "Müller",
-##     FirstNames := "Fritz Eduard",
-##  
-##     # At least one of the following two entries must be given and set 
-##     # to 'true' (an entry can be left out if value is not 'true'):
-##     IsAuthor := true;
-##     IsMaintainer := true;
-##  
-##     # At least one of the following three entries must be given.
-##     # - preferably email address and WWW homepage
-##     # - postal address not needed if email or WWW address available
-##     # - if no contact known, specify postal address as "no address known"
-##     Email := "Mueller@no.org",
-##     # complete URL, starting with protocol
-##     WWWHome := "http://www.no.org/~Mueller",
-##     # separate lines by '\n' (*optional*)
-##     PostalAddress := "Dr. F. Müller\nNo Org Institute\nNo Place 13\n\
-##     12345 Notown\nNocountry"
-##     
-##     # If you want, add one or both of the following entries (*optional*)
-##     Place := "Notown",
-##     Institution := "Institute for Nothing"
-##     )
-##  
 Persons := [
   rec(
     LastName := "Soicher",
@@ -105,8 +41,6 @@ Persons := [
       "Queen Mary, University of London",
       ] )
     )
-# provide such a record for each author and/or maintainer ...
-  
 ],
 
 ##  Status information. Currently the following cases are recognized:
@@ -125,19 +59,6 @@ CommunicatedBy := "Akos Seress (Ohio State)",
 # format: mm/yyyy
 AcceptDate := "08/2006",
 
-##  For a central overview of all packages and a collection of all package
-##  archives it is necessary to have two files accessible which should be
-##  contained in each package:
-##     - A README file, containing a short abstract about the package
-##       content and installation instructions.
-##     - The file you are currently reading or editing!
-##  You must specify URLs for these two files, these allow to automate 
-##  the updating of package information on the GAP Website, and inclusion
-##  and updating of the package in the GAP distribution.
-##  
-README_URL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/README",
-PackageInfoURL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/PackageInfo.g",
-
 ##  Here you  must provide a short abstract explaining the package content 
 ##  in HTML format (used on the package overview Web page) and an URL 
 ##  for a Webpage with more detailed information about the package
@@ -147,8 +68,6 @@ PackageInfoURL := "http://www.maths.qmul.ac.uk/~leonard/design/design1r6/Package
 ##  
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
 constructing, classifying, partitioning and studying block designs.",
-
-PackageWWWHome := "http://www.designtheory.org/software/gap_design/",
                   
 ##  On the GAP Website there is an online version of all manuals in the
 ##  GAP distribution. To handle the documentation of a package it is
@@ -220,21 +139,6 @@ Dependencies := rec(
 ## need not be included here.)
 # AvailabilityTest := ReturnTrue,
 AvailabilityTest := ReturnTrue,
-
-##  Suggest here if the package should be *automatically loaded* when GAP is 
-##  started.  This should usually be 'false'. Say 'true' only if your package 
-##  provides some improvements of the GAP library which are likely to enhance 
-##  the overall system performance for many users.
-Autoload := false,
-
-##  If the default banner does not suffice then provide a string that is
-##  printed when the package is loaded (not when it is autoloaded or if
-##  command line options `-b' or `-q' are given).
-# BannerString := 
-# "\nLoading  GRAPE 4.2  (GRaph Algorithms using PErmutation groups),\n\
-# by L.H.Soicher@qmul.ac.uk.\n\n",
-
-Subtitle := "The Design Package for GAP",
 
 ##  *Optional*, but recommended: path relative to package root to a file which 
 ##  contains as many tests of the package functionality as sensible.
