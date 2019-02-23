@@ -1,0 +1,495 @@
+<html><head><title>[design] 3 Constructing block designs</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>3 Constructing block designs</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP003.htm#SECT001">Functions to construct block designs</a>
+</ol><p>
+<p>
+<p>
+<h2><a name="SECT001">3.1 Functions to construct block designs</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>BlockDesign( </code><var>v</var><code>, </code><var>B</var><code> )</code>
+<li><code>BlockDesign( </code><var>v</var><code>, </code><var>B</var><code>, </code><var>G</var><code> )</code>
+<p>
+Let <var>v</var> be a positive integer and <var>B</var> a non-empty list of non-empty
+sorted lists of elements of <var>{1,...,<var>v</var>}</var>.
+<p>
+The first version of this function returns the block design with point-set
+<var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>, where <var>C</var> is <code>SortedList(</code><var>B</var><code>)</code>.
+<p>
+For the second version of this function, we require <var>G</var> to be a group
+of permutations of <var>{1,...,<var>v</var>}</var>, and the function returns the
+block design with point-set <var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>,
+where <var>C</var> is the sorted list of the concatenation of the <var>G</var>-orbits of
+the elements of <var>B</var>.
+<p>
+<pre>
+gap&gt; BlockDesign( 2, [[1,2],[1],[1,2]] );
+rec( isBlockDesign := true, v := 2, blocks := [ [ 1 ], [ 1, 2 ], [ 1, 2 ] ] )
+gap&gt; D:=BlockDesign(7, [[1,2,4]], Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 5, 6 ], [ 2, 3, 5 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap&gt; AllTDesignLambdas(D);
+[ 7, 3, 1 ]
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>AGPointFlatBlockDesign( </code><var>n</var><code>, </code><var>q</var><code>, </code><var>d</var><code> )</code>
+<p>
+Let <var>n</var> be positive integer, <var>q</var> a prime-power, and <var>d</var> a non-negative
+integer less than or equal to <var>n</var>. Then this function returns the block
+design whose points are the points of the affine space <var>AG(<var>n</var>,<var>q</var>)</var>,
+and whose blocks are the <var><var>d</var></var>-flats of <var>AG(<var>n</var>,<var>q</var>)</var>, considering a
+<var><var>d</var></var>-flat as a set of points.
+<p>
+Note that the <strong>affine space</strong> <var>AG(<var>n</var>,<var>q</var>)</var> consists of all the cosets of
+all the subspaces of the vector space <var>V(<var>n</var>,<var>q</var>)</var>, with the <strong>points</strong>
+being the cosets of the <var>0</var>-dimensional subspace and the <strong><var><var>d</var></var>-flats</strong>
+being the cosets of the <var><var>d</var></var>-dimensional subspaces. As is usual, we
+identify the points with the vectors in <var>V(<var>n</var>,<var>q</var>)</var>, and these vectors
+are given as the point-names.
+<p>
+<pre>
+gap&gt; D:=AGPointFlatBlockDesign(2,4,1);
+rec( isBlockDesign := true, v := 16, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 9, 13 ], [ 1, 6, 11, 16 ], 
+      [ 1, 7, 12, 14 ], [ 1, 8, 10, 15 ], [ 2, 5, 12, 15 ], [ 2, 6, 10, 14 ], 
+      [ 2, 7, 9, 16 ], [ 2, 8, 11, 13 ], [ 3, 5, 10, 16 ], [ 3, 6, 12, 13 ], 
+      [ 3, 7, 11, 15 ], [ 3, 8, 9, 14 ], [ 4, 5, 11, 14 ], [ 4, 6, 9, 15 ], 
+      [ 4, 7, 10, 13 ], [ 4, 8, 12, 16 ], [ 5, 6, 7, 8 ], [ 9, 10, 11, 12 ], 
+      [ 13, 14, 15, 16 ] ], 
+  autSubgroup := Group([ (5,9,13)(6,10,14)(7,11,15)(8,12,16), 
+      (2,5,6)(3,9,11)(4,13,16)(7,14,12)(8,10,15), 
+      (1,5)(2,6)(3,7)(4,8)(9,13)(10,14)(11,15)(12,16), 
+      (3,4)(7,8)(9,13)(10,14)(11,16)(12,15) ]), 
+  pointNames := [ [ 0*Z(2), 0*Z(2) ], [ 0*Z(2), Z(2)^0 ], [ 0*Z(2), Z(2^2) ], 
+      [ 0*Z(2), Z(2^2)^2 ], [ Z(2)^0, 0*Z(2) ], [ Z(2)^0, Z(2)^0 ], 
+      [ Z(2)^0, Z(2^2) ], [ Z(2)^0, Z(2^2)^2 ], [ Z(2^2), 0*Z(2) ], 
+      [ Z(2^2), Z(2)^0 ], [ Z(2^2), Z(2^2) ], [ Z(2^2), Z(2^2)^2 ], 
+      [ Z(2^2)^2, 0*Z(2) ], [ Z(2^2)^2, Z(2)^0 ], [ Z(2^2)^2, Z(2^2) ], 
+      [ Z(2^2)^2, Z(2^2)^2 ] ] )
+gap&gt; AllTDesignLambdas(D);
+[ 20, 5, 1 ]
+</pre>
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>PGPointFlatBlockDesign( </code><var>n</var><code>, </code><var>q</var><code>, </code><var>d</var><code> )</code>
+<p>
+Let <var>n</var> be a non-negative integer, <var>q</var> a prime-power, and <var>d</var> a
+non-negative integer less than or equal to <var>n</var>. Then this function
+returns the block design whose points are the (projective) points of
+the projective space <var>PG(<var>n</var>,<var>q</var>)</var>, and whose blocks are the <var><var>d</var></var>-flats
+of <var>PG(<var>n</var>,<var>q</var>)</var>, considering a <var><var>d</var></var>-flat as a set of projective points.
+<p>
+Note that the <strong>projective space</strong> <var>PG(<var>n</var>,<var>q</var>)</var> consists of all the
+subspaces of the vector space <var>V(<var>n</var>+1,<var>q</var>)</var>, with the <strong>projective
+points</strong> being the 1-dimensional subspaces and the <strong><var><var>d</var></var>-flats</strong> being
+the <var>(<var>d</var>+1)</var>-dimensional subspaces.
+<p>
+<pre>
+gap&gt; D:=PGPointFlatBlockDesign(3,2,1);
+rec( isBlockDesign := true, v := 15, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 1, 8, 9 ], 
+      [ 1, 10, 11 ], [ 1, 12, 13 ], [ 1, 14, 15 ], [ 2, 4, 6 ], [ 2, 5, 7 ], 
+      [ 2, 8, 10 ], [ 2, 9, 11 ], [ 2, 12, 14 ], [ 2, 13, 15 ], [ 3, 4, 7 ], 
+      [ 3, 5, 6 ], [ 3, 8, 11 ], [ 3, 9, 10 ], [ 3, 12, 15 ], [ 3, 13, 14 ], 
+      [ 4, 8, 12 ], [ 4, 9, 13 ], [ 4, 10, 14 ], [ 4, 11, 15 ], [ 5, 8, 13 ], 
+      [ 5, 9, 12 ], [ 5, 10, 15 ], [ 5, 11, 14 ], [ 6, 8, 14 ], [ 6, 9, 15 ], 
+      [ 6, 10, 12 ], [ 6, 11, 13 ], [ 7, 8, 15 ], [ 7, 9, 14 ], 
+      [ 7, 10, 13 ], [ 7, 11, 12 ] ], 
+  autSubgroup := Group([ (8,12)(9,13)(10,14)(11,15), 
+      (1,2,4,8)(3,6,12,9)(5,10)(7,14,13,11) ]), 
+  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt; ] )
+gap&gt; AllTDesignLambdas(D);
+[ 35, 7, 1 ]
+</pre>
+<p>
+<a name = "SSEC001.4"></a>
+<li><code>WittDesign( </code><var>n</var><code> )</code>
+<p>
+Suppose <var><var>n</var>in{9,10,11,12,21,22,23,24}</var>. 
+<p>
+If <var><var>n</var>=24</var> then this function returns the <strong>large Witt design</strong> <var>W<sub>24</sub></var>,
+the unique (up to isomorphism) 5-(24,8,1) design. If <var><var>n</var>=24-i</var>, where
+<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>24</sub></var>
+is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(24-i,8-i,1)</var>
+design.
+<p>
+If <var><var>n</var>=12</var> then this function returns the <strong>small Witt design</strong> <var>W<sub>12</sub></var>,
+the unique (up to isomorphism) 5-(12,6,1) design. If <var><var>n</var>=12-i</var>, where
+<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>12</sub></var>
+is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(12-i,6-i,1)</var>
+design.
+<p>
+<pre>
+gap&gt; W24:=WittDesign(24);;
+gap&gt; AllTDesignLambdas(W24);
+[ 759, 253, 77, 21, 5, 1 ]
+gap&gt; DisplayCompositionSeries(AutomorphismGroup(W24));
+G (3 gens, size 244823040)
+ | M(24)
+1 (0 gens, size 1)
+gap&gt; W10:=WittDesign(10);;
+gap&gt; AllTDesignLambdas(W10);
+[ 30, 12, 4, 1 ]
+gap&gt; DisplayCompositionSeries(AutomorphismGroup(W10));
+G (4 gens, size 1440)
+ | Z(2)
+S (4 gens, size 720)
+ | Z(2)
+S (3 gens, size 360)
+ | A(6) ~ A(1,9) = L(2,9) ~ B(1,9) = O(3,9) ~ C(1,9) = S(2,9) ~ 2A(1,9) = U(2,\
+9)
+1 (0 gens, size 1)
+</pre>
+<p>
+<a name = "SSEC001.5"></a>
+<li><code>DualBlockDesign( </code><var>D</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design for which every point lies on at least
+one block.  Then this function returns the dual of <var>D</var>, the block design
+in which the roles of points and blocks are interchanged, but incidence
+(including repeated incidence) stays the same.  Note that, since the
+list of blocks of a block design is always sorted, the block list of
+the dual of the dual of <var>D</var> may not be equal to the block list of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(4,[[1,3],[2,3,4],[3,4]]);;
+gap&gt; dualD:=DualBlockDesign(D);
+rec( isBlockDesign := true, v := 3, 
+  blocks := [ [ 1 ], [ 1, 2, 3 ], [ 2 ], [ 2, 3 ] ], 
+  pointNames := [ [ 1, 3 ], [ 2, 3, 4 ], [ 3, 4 ] ] )
+gap&gt; DualBlockDesign(dualD).blocks;           
+[ [ 1, 2 ], [ 2, 3, 4 ], [ 2, 4 ] ]
+</pre>
+<p>
+<a name = "SSEC001.6"></a>
+<li><code>ComplementBlocksBlockDesign( </code><var>D</var><code> )</code>
+<p>
+Suppose <var>D</var> is a binary incomplete-block design.
+Then this function returns the block design on the same
+point-set as <var>D</var>, whose blocks are the complements of
+those of <var>D</var> (complemented with respect to the point-set).
+<p>
+<pre>
+gap&gt; D:=PGPointFlatBlockDesign(2,2,1);
+rec( isBlockDesign := true, v := 7, 
+  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt; ], 
+  blocks := [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 1, 6, 7 ], [ 2, 4, 6 ], 
+      [ 2, 5, 7 ], [ 3, 4, 7 ], [ 3, 5, 6 ] ] )
+gap&gt; AllTDesignLambdas(D);
+[ 7, 3, 1 ]
+gap&gt; C:=ComplementBlocksBlockDesign(D);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4, 7 ], [ 1, 2, 5, 6 ], [ 1, 3, 4, 6 ], [ 1, 3, 5, 7 ], 
+      [ 2, 3, 4, 5 ], [ 2, 3, 6, 7 ], [ 4, 5, 6, 7 ] ], 
+  pointNames := [ &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt;, 
+      &lt;vector space of dimension 1 over GF(2)&gt; ] )
+gap&gt; AllTDesignLambdas(C);
+[ 7, 4, 2 ]
+</pre>
+<p>
+<a name = "SSEC001.7"></a>
+<li><code>DeletedPointsBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design and <var>Y</var> is a proper subset of the point-set
+of <var>D</var>.
+<p>
+Then this function returns the block design <var>DP</var> obtained from <var>D</var> by
+deleting the points in <var>Y</var> from the point-set, and from each block.
+It is an error if the resulting design contains an empty block.
+The points of <var>DP</var> are relabelled <var>1,2,...</var>, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <var>DP</var> (listed in
+<code></code><var>DP</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+&gt;       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap&gt; AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap&gt; DP:=DeletedPointsBlockDesign(D,[5,8]);
+rec( isBlockDesign := true, v := 9, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 2, 7, 8, 9 ], [ 1, 3, 5, 6, 7 ], 
+      [ 1, 4, 6, 8 ], [ 1, 5, 9 ], [ 2, 3, 5, 8 ], [ 2, 4, 5, 6, 9 ], 
+      [ 2, 6, 7 ], [ 3, 4, 7, 9 ], [ 3, 6, 8, 9 ], [ 4, 5, 7, 8 ] ], 
+  pointNames := [ 1, 2, 3, 4, 6, 7, 9, 10, 11 ] )
+gap&gt; PairwiseBalancedLambda(DP);
+2
+</pre>
+<p>
+<a name = "SSEC001.8"></a>
+<li><code>DeletedBlocksBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code>)</code>
+<p>
+Suppose <var>D</var> is a block design, and <var>Y</var> is a proper sublist of the 
+block-list of <var>D</var> (<var>Y</var> need not be sorted).
+<p>
+Then this function returns the block design obtained from <var>D</var> by deleting
+the blocks in <var>Y</var> (counting repeats) from the block-list of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap&gt; DeletedBlocksBlockDesign(D,[[2,3,5],[2,3,5],[4,5,7]]);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 6, 7 ], [ 2, 6, 7 ], [ 3, 4, 6 ], 
+      [ 3, 4, 6 ], [ 4, 5, 7 ] ] )
+</pre>
+<p>
+<a name = "SSEC001.9"></a>
+<li><code>AddedPointBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
+<li><code>AddedPointBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code>, </code><var>pointname</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design, and <var>Y</var> is a sublist of the block-list
+of <var>D</var> (<var>Y</var> need not be sorted).
+<p>
+Then this function returns the block design obtained from <var>D</var> by adding
+the new point <code></code><var>D</var><code>.v+1</code> to the point-set, and adding this new point
+(once) to each block of <var>Y</var> (where repeats count).
+<p>
+The optional parameter <var>pointname</var> specifies a point-name for the
+new point.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(7,[[1,2,4],[1,2,4]],Group((1,2,3,4,5,6,7)));
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap&gt; AddedPointBlockDesign(D,[[2,3,5],[2,3,5],[4,5,7]],"infinity");
+rec( isBlockDesign := true, v := 8, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5, 8 ], [ 2, 3, 5, 8 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7, 8 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 6, 7, "infinity" ] )
+</pre>
+<p>
+<a name = "SSEC001.10"></a>
+<li><code>AddedBlocksBlockDesign( </code><var>D</var><code>, </code><var>Y</var><code> )</code>
+<p>
+Suppose <var>Y</var> is a list of multisets of points of the block design <var>D</var>.
+Then this function returns a new block design, whose point-set is that
+of <var>D</var>, and whose block list is that of <var>D</var> with the elements of <var>Y</var>
+(including repeats) added.
+<p>
+<pre>
+gap&gt; D:=BlockDesign(7,[[1,2,4]],Group((1,2,3,4,5,6,7)));           
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 5, 6 ], [ 2, 3, 5 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 4, 5, 7 ] ], 
+  autSubgroup := Group([ (1,2,3,4,5,6,7) ]) )
+gap&gt; AddedBlocksBlockDesign(D,D.blocks);
+rec( isBlockDesign := true, v := 7, 
+  blocks := [ [ 1, 2, 4 ], [ 1, 2, 4 ], [ 1, 3, 7 ], [ 1, 3, 7 ], 
+      [ 1, 5, 6 ], [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 3, 5 ], [ 2, 6, 7 ], 
+      [ 2, 6, 7 ], [ 3, 4, 6 ], [ 3, 4, 6 ], [ 4, 5, 7 ], [ 4, 5, 7 ] ] )
+</pre>
+<p>
+<a name = "SSEC001.11"></a>
+<li><code>DerivedBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
+Then this function returns the <strong>derived design</strong>indexderived design
+<var>DD</var> of <var>D</var>, with respect to <var>x</var>.
+<p>
+If <var>x</var> is a point then <var>DD</var> is the block design whose blocks are those
+of <var>D</var> containing <var>x</var>, but with <var>x</var> deleted from these blocks, and the
+points of <var>DD</var> are those which occur in some block of <var>DD</var>.
+<p>
+If <var>x</var> is a block, then the points of <var>DD</var> are the points in <var>x</var>, and
+the blocks of <var>DD</var> are the blocks of <var>D</var> other than <var>x</var> containing at
+least one point of <var>x</var>, but with all points not in <var>x</var> deleted from
+these blocks.  Note that any repeat of <var>x</var>, but not <var>x</var> itself, is a
+block of <var>DD</var>.
+<p>
+It is an error if the resulting block design <var>DD</var> has no blocks or an
+empty block.
+<p>
+The points of <var>DD</var> are relabelled <var>1,2,...</var>, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <var>DD</var> (listed in
+<code></code><var>DD</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+&gt;       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap&gt; AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap&gt; DD:=DerivedBlockDesign(D,6);
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 3, 6, 8 ], [ 1, 5, 7, 10 ], [ 2, 3, 7, 9 ], 
+      [ 2, 4, 6, 10 ], [ 4, 5, 8, 9 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 7, 8, 9, 10, 11 ] )
+gap&gt; AllTDesignLambdas(DD);
+[ 5, 2 ]
+gap&gt; DD:=DerivedBlockDesign(D,D.blocks[6]);
+rec( isBlockDesign := true, v := 5, 
+  blocks := [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 4 ], 
+      [ 2, 5 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ], 
+  pointNames := [ 2, 3, 6, 8, 10 ] )
+gap&gt; AllTDesignLambdas(DD);
+[ 10, 4, 1 ]
+</pre>
+<p>
+<a name = "SSEC001.12"></a>
+<li><code>ResidualBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
+<p>
+Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
+Then this function returns the <strong>residual design</strong>indexresidual design
+<var>RD</var> of <var>D</var>, with respect to <var>x</var>.
+<p>
+If <var>x</var> is a point then <var>RD</var> is the block design whose blocks are those
+of <var>D</var> not containing <var>x</var>, and the points of <var>RD</var> are those which occur
+in some block of <var>RD</var>.
+<p>
+If <var>x</var> is a block, then the points of <var>RD</var> are those of <var>D</var> not in
+<var>x</var>, and the blocks of <var>RD</var> are the blocks of <var>D</var> (including repeats)
+containing at least one point not in <var>x</var>, but with all points in <var>x</var>
+deleted from these blocks.
+<p>
+It is an error if the resulting block design <var>RD</var> has no blocks.
+<p>
+The points of <var>RD</var> are relabelled <var>1,2,...</var>, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <var>RD</var> (listed in
+<code></code><var>RD</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
+&gt;       tSubsetStructure:=rec(t:=2,lambdas:=[2])))[1];
+rec( isBlockDesign := true, v := 11, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 9, 10, 11 ], [ 1, 3, 6, 7, 9 ], 
+      [ 1, 4, 7, 8, 10 ], [ 1, 5, 6, 8, 11 ], [ 2, 3, 6, 8, 10 ], 
+      [ 2, 4, 6, 7, 11 ], [ 2, 5, 7, 8, 9 ], [ 3, 4, 8, 9, 11 ], 
+      [ 3, 5, 7, 10, 11 ], [ 4, 5, 6, 9, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 2 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 5 ], blockNumbers := [ 11 ], r := 5, 
+  autGroup := Group([ (2,4)(3,5)(7,11)(8,9), (1,3)(2,5)(7,9)(10,11), 
+      (1,5,3)(6,11,7)(8,10,9), (1,10,5,2,11,3)(4,9,7)(6,8) ]) )
+gap&gt; AllTDesignLambdas(D);      
+[ 11, 5, 2 ]
+gap&gt; RD:=ResidualBlockDesign(D,6);
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4, 5 ], [ 1, 2, 8, 9, 10 ], [ 1, 4, 6, 7, 9 ], 
+      [ 2, 5, 6, 7, 8 ], [ 3, 4, 7, 8, 10 ], [ 3, 5, 6, 9, 10 ] ], 
+  pointNames := [ 1, 2, 3, 4, 5, 7, 8, 9, 10, 11 ] )
+gap&gt; AllTDesignLambdas(RD);
+[ 6, 3 ]
+gap&gt; RD:=ResidualBlockDesign(D,D.blocks[6]);
+rec( isBlockDesign := true, v := 6, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 6 ], [ 1, 4, 5 ], 
+      [ 1, 5, 6 ], [ 2, 3, 5 ], [ 2, 4, 6 ], [ 2, 5, 6 ], [ 3, 4, 5 ], 
+      [ 3, 4, 6 ] ], pointNames := [ 1, 4, 5, 7, 9, 11 ] )
+gap&gt; AllTDesignLambdas(RD);
+[ 10, 5, 2 ]
+</pre>
+<p>
+<a name = "SSEC001.13"></a>
+<li><code>TDesignFromTBD( </code><var>D</var><code>, </code><var>t</var><code>, </code><var>k</var><code> )</code>
+<p>
+For <var>t</var> a non-negative integer, <var>K</var> a set of positive integers, and
+<var>v,lambda</var> positive integers with <var>tlev</var>, a <var>t</var>-<strong>wise balanced design</strong>,
+or a <var>t</var>-<var>(v,K,lambda)</var> <strong>design</strong>, is a binary block design with exactly
+<var>v</var> points, such that each block has size in <var>K</var> and each <var>t</var>-subset of
+the points is contained in exactly <var>lambda</var> blocks.
+<p>
+Now let <var>t</var> and <var>k</var> be positive integers, <var>D</var> be a <var>t</var>-<var>(v,K,lambda)</var>
+design (for some set <var>K</var>), and <var><var>t</var>le<var>k</var>lek<sub>1</sub></var>, where exactly <var>s</var>
+distinct block-sizes <var>k<sub>1</sub>&lt; cdots&lt; k<sub>s</sub></var> occur in <var>D</var>. Then this
+function returns the <var>t</var>-design <var>D<sup>*</sup>=D<sup>*</sup>(t,k)</var> described and studied
+in <a href="biblio.htm#McSo"><cite>McSo</cite></a>.
+<p>
+The point set of <var>D<sup>*</sup></var> is that of <var>D</var>, and the block multiset of <var>D<sup>*</sup></var>
+consists of, for each <var>i=1,...,s</var> and each block <var>B</var> of <var>D</var> of size
+<var>k<sub>i</sub></var> (including repeats), exactly <var>n/k<sub>i</sub>-t choosek-t</var> copies of
+every <var>k</var>-subset of <var>B</var>, where <var>n:=lcm(k<sub>i</sub>-t choosek-t:1leiles)</var>.
+<p>
+It is shown in <a href="biblio.htm#McSo"><cite>McSo</cite></a> that <var>D<sup>*</sup></var> is a <var>t</var>-<var>(v,k,nlambda)</var> design,
+that <var>Aut(D)subseteqAut(D<sup>*</sup>)</var>, and that if <var>lambda=1</var> and <var>t&lt;k</var>,
+then <var>Aut(D)=Aut(D<sup>*</sup>)</var>.
+<p>
+<pre>
+gap&gt; D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       
+&gt;          tSubsetStructure:=rec(t:=2,lambdas:=[1])))[1];
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3, 4 ], [ 1, 5, 6, 7 ], [ 1, 8, 9, 10 ], [ 2, 5, 10 ], 
+      [ 2, 6, 8 ], [ 2, 7, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], [ 3, 7, 8 ], 
+      [ 4, 5, 8 ], [ 4, 6, 9 ], [ 4, 7, 10 ] ], 
+  tSubsetStructure := rec( t := 2, lambdas := [ 1 ] ), isBinary := true, 
+  isSimple := true, blockSizes := [ 3, 4 ], blockNumbers := [ 9, 3 ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,7)(8,10), 
+      (2,3,4)(5,7,6)(8,9,10), (2,3,4)(5,9,6,8,7,10), (2,6,9,3,7,10)(4,5,8) ]) 
+ )
+gap&gt; PairwiseBalancedLambda(D);                          
+1
+gap&gt; Dstar:=TDesignFromTBD(D,2,3);   
+rec( isBlockDesign := true, v := 10, 
+  blocks := [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 4 ], [ 1, 5, 6 ], 
+      [ 1, 5, 7 ], [ 1, 6, 7 ], [ 1, 8, 9 ], [ 1, 8, 10 ], [ 1, 9, 10 ], 
+      [ 2, 3, 4 ], [ 2, 5, 10 ], [ 2, 5, 10 ], [ 2, 6, 8 ], [ 2, 6, 8 ], 
+      [ 2, 7, 9 ], [ 2, 7, 9 ], [ 3, 5, 9 ], [ 3, 5, 9 ], [ 3, 6, 10 ], 
+      [ 3, 6, 10 ], [ 3, 7, 8 ], [ 3, 7, 8 ], [ 4, 5, 8 ], [ 4, 5, 8 ], 
+      [ 4, 6, 9 ], [ 4, 6, 9 ], [ 4, 7, 10 ], [ 4, 7, 10 ], [ 5, 6, 7 ], 
+      [ 8, 9, 10 ] ], 
+  autGroup := Group([ (5,6,7)(8,9,10), (2,3)(5,7)(8,10), (2,3,4)(5,7,6)(8,9,
+        10), (2,3,4)(5,9,6,8,7,10), (2,6,9,3,7,10)(4,5,8) ]) )
+gap&gt; AllTDesignLambdas(Dstar);
+[ 30, 9, 2 ]
+</pre>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>design manual<br>October 2018
+</address></body></html>

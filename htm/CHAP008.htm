@@ -1,0 +1,144 @@
+<html><head><title>[design] 8 Classifying semi-Latin squares</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href ="CHAP009.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>8 Classifying semi-Latin squares</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP008.htm#SECT001">Semi-Latin squares and SOMAs</a>
+<li> <A HREF="CHAP008.htm#SECT002">The function SemiLatinSquareDuals</a>
+</ol><p>
+<p>
+This chapter describes the function <code>SemiLatinSquareDuals</code> which can
+classify semi-Latin squares with certain given properties, and return
+a list of their duals as block designs.
+<p>
+<p>
+<h2><a name="SECT001">8.1 Semi-Latin squares and SOMAs</a></h2>
+<p><p>
+Let <var>n</var> and <var>k</var> be positive integers. An <var>(ntimesn)/k</var> <strong>semi-Latin
+square</strong>indexsemi-Latin square is an <var>n</var> by <var>n</var> array <var>A</var>, whose
+entries are <var>k</var>-subsets of a <var>kn</var>-set <var>X</var> (the <strong>symbol-set</strong>), such that
+each element of <var>X</var> occurs exactly once in each row and exactly once in
+each column of <var>A</var>. (Thus an <var>(ntimesn)/1</var> semi-Latin square is the same
+thing as a Latin square of order <var>n</var>.) For extensive useful information on
+semi-Latin squares, see <a href="http://www.maths.qmul.ac.uk/~rab/sls.html">http://www.maths.qmul.ac.uk/~rab/sls.html</a>.
+<p>
+A SOMA<var>(k,n)</var>indexSOMA is an <var>(ntimesn)/k</var> semi-Latin square <var>A</var>,
+with <var>nge2</var>, in which no 2-subset of the symbol-set is contained in
+more than one entry of <var>A</var>.  For extensive useful information on SOMAs,
+see <a href="http://www.maths.qmul.ac.uk/~leonard/soma/">http://www.maths.qmul.ac.uk/~leonard/soma/</a>.
+<p>
+Let <var>A</var> and <var>B</var> be <var>(ntimesn)/k</var> semi-Latin squares.  We say that
+<var>B</var> is <strong>(weakly) isomorphic</strong> to <var>A</var> if <var>B</var> can be obtained from <var>A</var>
+by applying one or more of: a row permutation; a column permutation;
+transposing; renaming the symbols. If transposing is not allowed then we
+get the concept of strong isomorphism. More formally, <var>B</var> is <strong>strongly
+isomorphic</strong> to <var>A</var> if <var>B</var> can be obtained from <var>A</var> by applying one or
+more of: a row permutation; a column permutation; renaming the symbols.
+<p>
+Let <var>A</var> be an <var>(ntimesn)/k</var>  semi-Latin square.  Then the dual of <var>A</var>
+can be represented as a binary block design as follows. The point-set of
+<var>D</var> is taken to be the Cartesian square of <var>{1,...,n}</var>, with <var>[x,y]</var>
+representing the <var>[x,y]</var>-entry of <var>A</var>. The blocks of <var>D</var> are in one-to-one
+correspondance with the symbols of <var>A</var>, with the <var>i</var>-th block of <var>D</var>
+consisting of the ordered pairs <var>[x,y]</var> such that the <var>i</var>-th symbol of
+<var>A</var> is contained in the <var>[x,y]</var>-entry of <var>A</var>. Given <var>D</var>, the semi-Latin
+square <var>A</var> can be recovered, up to the naming of its symbols.
+<p>
+<p>
+<h2><a name="SECT002">8.2 The function SemiLatinSquareDuals</a></h2>
+<p><p>
+<a name = "SSEC002.1"></a>
+<li><code>SemiLatinSquareDuals( </code><var>n</var><code>, </code><var>k</var><code> )</code>
+<li><code>SemiLatinSquareDuals( </code><var>n</var><code>, </code><var>k</var><code>, </code><var>maxmult</var><code> )</code>
+<li><code>SemiLatinSquareDuals( </code><var>n</var><code>, </code><var>k</var><code>, </code><var>maxmult</var><code>, </code><var>blockintsizes</var><code> )</code>
+<li><code>SemiLatinSquareDuals( </code><var>n</var><code>, </code><var>k</var><code>, </code><var>maxmult</var><code>, </code><var>blockintsizes</var><code>, </code><var>isolevel</var><code> )</code>
+<p>
+Let <var>n</var> and <var>k</var> be positive integers. Then this function (which makes
+heavy use of the function <code>BlockDesigns</code>) returns a list <var>DL</var> of block
+designs which are the duals of the <var>(<var>n</var>times<var>n</var>)/<var>k</var></var> semi-Latin
+squares whose properties are specified by the given parameters, described
+below. In practice, depending on the specified properties, this function
+can be useful for <var>n</var> up to about <var>6</var> or <var>7</var>.
+<p>
+The parameter <var>maxmult</var>, if given, must be a positive integer or
+the string <code>"default"</code>. If it is a positive integer, then <var>maxmult</var>
+specifies an upper bound on the multiplicity of each block in each
+semi-Latin square dual in <var>DL</var>. The default value for <var>maxmult</var> (if
+omitted or if given as <code>"default"</code>) is <var>k</var>, which poses no constraint
+on the block multiplicities.
+<p>
+The parameter <var>blockintsizes</var>, if given, must be a set of non-negative
+integers or the string <code>"default"</code>.  If it is given as a set, then
+<var>blockintsizes</var> specifies, for each semi-Latin square dual in <var>DL</var>,
+the set of possible sizes for the intersection of a block <var>B</var> with a
+different block (but possibly a repeat of <var>B</var>).  The default value for
+<var>blockintsizes</var> (if omitted or if given as <code>"default"</code>) is <code>[0..</code><var>n</var><code>]</code>,
+which poses no constraint on the block intersection sizes. Note that
+block intersection sizes in the dual of a semi-Latin square correspond
+to concurrencies of points in the semi-Latin square itself. Also note
+that if <var><var>n</var>ge2</var> and <var>blockintsizes</var> is specified to be <code>[0,1]</code> then
+the <var>(ntimesn)/k</var> semi-Latin squares being considered are SOMA<var>(k,n)</var>s.
+<p>
+The parameter <var>isolevel</var>, if given, must be 0, 1, 2, 3, 4 or the string
+<code>"default"</code> (the default value is 2).  The value 0 specifies that <var>DL</var>
+will contain at most one (semi-Latin square dual given as a) block design,
+and will contain one such block design if and only if a semi-Latin square
+with the required properties exists. The value&nbsp;1 specifies that <var>DL</var>
+will contain a list of duals representing all weak isomorphism classes
+of semi-Latin squares with the required properties (possibly with some
+classes represented more than once) and the value 2 specifies that <var>DL</var>
+will contain precisely one dual semi-Latin square representative for
+each weak isomorphism class of semi-Latin squares with the required
+properties. The values 3 and 4 for <var>isolevel</var> play the roles of 1 and 2,
+respectively, but with weak isomorphism replaced by strong isomorphism.
+Thus, <var><var>isolevel</var>=3</var> specifies that <var>DL</var> will contain a list of duals
+representing all strong isomorphism classes of semi-Latin squares with
+the required properties (possibly with some classes represented more than
+once) and <var><var>isolevel</var>=4</var> specifies that <var>DL</var> will contain precisely one
+dual semi-Latin square representative for each strong isomorphism class
+of semi-Latin squares with the required properties.
+<p>
+For example, we determine the numbers of weak and strong isomorphism
+classes of <var>(4times4)/k</var> semi-Latin squares for <var>k=1,...,6</var>. (These
+numbers disagree with P.&nbsp;E.&nbsp;Chigbu's classification for the cases <var>k=3,4</var>
+<a href="biblio.htm#BaCh"><cite>BaCh</cite></a>.)
+<p>
+<pre>
+gap&gt; List([1..6],k-&gt;Length(SemiLatinSquareDuals(4,k))); # weak
+[ 2, 10, 40, 164, 621, 2298 ]
+gap&gt; List([1..6],k-&gt;Length(SemiLatinSquareDuals(4,k,"default","default",4))); # strong
+[ 2, 11, 46, 201, 829, 3343 ]
+</pre>
+<p>
+Next, we determine one SOMA<var>(3,6)</var>. 
+<p>
+<pre>
+gap&gt; SemiLatinSquareDuals(6,3,"default",[0,1],0);
+[ rec( isBlockDesign := true, v := 36, 
+      blocks := [ [ 1, 8, 15, 22, 29, 36 ], [ 1, 9, 16, 23, 30, 32 ], 
+          [ 1, 12, 14, 21, 28, 35 ], [ 2, 9, 17, 24, 25, 34 ], 
+          [ 2, 11, 18, 22, 27, 31 ], [ 2, 12, 16, 19, 29, 33 ], 
+          [ 3, 10, 14, 24, 29, 31 ], [ 3, 11, 16, 20, 25, 36 ], 
+          [ 3, 12, 13, 23, 26, 34 ], [ 4, 7, 14, 23, 27, 36 ], 
+          [ 4, 8, 17, 21, 30, 31 ], [ 4, 9, 18, 19, 26, 35 ], 
+          [ 5, 7, 15, 20, 30, 34 ], [ 5, 8, 13, 24, 28, 33 ], 
+          [ 5, 10, 18, 21, 25, 32 ], [ 6, 7, 17, 22, 26, 33 ], 
+          [ 6, 10, 13, 20, 27, 35 ], [ 6, 11, 15, 19, 28, 32 ] ], 
+      tSubsetStructure := rec( t := 1, lambdas := [ 3 ] ), isBinary := true, 
+      isSimple := true, blockSizes := [ 6 ], blockNumbers := [ 18 ], r := 3, 
+      autSubgroup := &lt;permutation group of size 72 with 3 generators&gt;, 
+      pointNames := [ [ 1, 1 ], [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], 
+          [ 1, 6 ], [ 2, 1 ], [ 2, 2 ], [ 2, 3 ], [ 2, 4 ], [ 2, 5 ], 
+          [ 2, 6 ], [ 3, 1 ], [ 3, 2 ], [ 3, 3 ], [ 3, 4 ], [ 3, 5 ], 
+          [ 3, 6 ], [ 4, 1 ], [ 4, 2 ], [ 4, 3 ], [ 4, 4 ], [ 4, 5 ], 
+          [ 4, 6 ], [ 5, 1 ], [ 5, 2 ], [ 5, 3 ], [ 5, 4 ], [ 5, 5 ], 
+          [ 5, 6 ], [ 6, 1 ], [ 6, 2 ], [ 6, 3 ], [ 6, 4 ], [ 6, 5 ], 
+          [ 6, 6 ] ] ) ]
+</pre>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href ="CHAP009.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>design manual<br>October 2018
+</address></body></html>
