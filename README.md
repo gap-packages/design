@@ -44,7 +44,7 @@ DESIGN, you can find archive files for the package in various formats
 at <https://www.gap-system.org/Packages/design.html>, and then your
 archive file of choice should be downloaded and unpacked in the `pkg'
 subdirectory of an appropriate GAP root directory (see the main GAP
-reference section "Reference: GAP Root Directory").
+reference section "Reference: GAP Root Directories").
 
 The DESIGN package is written entirely in GAP code, and requires
 no further installation.  However, the DESIGN package has complete
