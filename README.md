@@ -40,6 +40,6 @@ functionality only in an environment in which the GRAPE package is
 fully installed. 
 
 -------------------------------------------------------------------------
-Leonard Soicher
-Queen Mary University of London
+Leonard Soicher,
+Queen Mary University of London,
 March 2019
