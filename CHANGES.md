@@ -1,5 +1,19 @@
-Main change from DESIGN 1.5 to DESIGN 1.6
------------------------------------------
+Main changes from DESIGN 1.6 to DESIGN 1.7 (March 2019)
+-------------------------------------------------------
+
+1. Lists of changes moved from README to new file CHANGES.md.
+
+2. README now README.md.
+
+3. gpl.txt now LICENSE.
+
+4. Added test directory tst, file tst/testall.g, and a test file
+tst/testall.tst.
+
+5. DESIGN package is now hosted on github.
+
+Main change from DESIGN 1.5 to DESIGN 1.6 (November 2011)
+---------------------------------------------------------
 
 1. Revised installation instructions.
 
@@ -16,7 +30,7 @@ Main changes from DESIGN 1.4 to DESIGN 1.5
    - BlockDesignEfficiency
 
 3. Updated documentation, including documentation for
-    the new user functions.
+the new user functions.
 
 Main changes from DESIGN 1.3 to DESIGN 1.4
 ------------------------------------------

@@ -15,7 +15,7 @@ the Free Software Foundation; either version 2 of the License, or
 If you use DESIGN to solve a problem then please reference the DESIGN
 package as follows:
 
-Soicher, L. H., DESIGN, The Design Package for GAP, Version 1.6.1 (2019)
+Soicher, L. H., DESIGN, The Design Package for GAP, Version 1.7 (2019)
 (Refereed GAP package), https://gap-packages.github.io/design.
 
 Any comments or bug reports should go to <L.H.Soicher@qmul.ac.uk>.
@@ -27,12 +27,12 @@ The DESIGN package is included in the standard GAP distribution. You
 only need to download and install DESIGN if you need to install
 the package locally or are installing an upgrade of DESIGN to an
 existing installation of GAP (see the main GAP reference section
-"ref: Installing a GAP Package").  If you do need to download DESIGN,
+"ref:Installing a GAP Package").  If you do need to download DESIGN,
 you can find archive files for the package in various formats at
 <https://www.gap-system.org/Packages/design.html>, and then your archive
 file of choice should be downloaded and unpacked in the `pkg' subdirectory
 of an appropriate GAP root directory (see the main GAP reference section
-"ref: GAP Root Directories").
+"ref:GAP Root Directories").
 
 The DESIGN package is written entirely in GAP code, and requires
 no further installation.  However, the DESIGN package has complete
