@@ -67,7 +67,7 @@ AcceptDate := "08/2006",
 ##  '<span class="pkgname">MyPKG</span>' for specifing package names.
 ##  
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
-constructing, classifying, partitioning and studying block designs.",
+constructing, classifying, partitioning, and studying block designs.",
                   
 ##  On the GAP Website there is an online version of all manuals in the
 ##  GAP distribution. To handle the documentation of a package it is
