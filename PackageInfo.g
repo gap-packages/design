@@ -109,15 +109,15 @@ PackageDoc := rec(
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.5",
+  GAP := ">=4.10",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
   # NeededOtherPackages := [["GAPDoc", ">= 0.99"]],
-  NeededOtherPackages := [["GRAPE", ">= 4.4"]],
+  NeededOtherPackages := [["GRAPE", ">= 4.8"], ["GAPDoc", ">=1.6"]],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
-  SuggestedOtherPackages := [["GAPDoc", ">= 1.4"]],
+  SuggestedOtherPackages := [],
   # needed external conditions (programs, operating system, ...)  provide 
   # just strings as text or
   # pairs [text, URL] where URL  provides further information
