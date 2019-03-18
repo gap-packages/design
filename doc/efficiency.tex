@@ -15,10 +15,9 @@ In this chapter we describe functions to calculate certain matrices
 associated with a block design, and the function `BlockDesignEfficiency'
 which determines certain statistical efficiency measures of a 1-design.
 
-We also document the utility function `DESIGN_IntervalForLeastRealZero'
-for univariate polynomials over the rationals. This useful function is
-used in the calculation of block design efficiency measures, but has
-much wider application.
+We also document the utility function `DESIGN_IntervalForLeastRealZero',
+which is used in the calculation of E-efficiency measures, but has much
+wider application.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Matrices associated with a block design}
@@ -193,7 +192,7 @@ rec( A := 33/41,
 \endexample
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{Computing an interval for a real zero of a rational polynomial}
+\Section{Computing an interval for a certain real zero of a rational polynomial}
 
 We document a {\DESIGN} package utility function used in the calculation
 of the `Einterval' component above, but is more widely applicable.
@@ -233,3 +232,4 @@ gap> List(L,Float);
 gap> L:=DESIGN_IntervalForLeastRealZero(f,2,5,10^(-5));
 [  ]
 \endexample
+

@@ -321,6 +321,26 @@ gap> DL:=BlockDesigns(rec(
 >       Group((1,2,3,4,5)(6,7,8,9,10)(11,12,13,14,15))));;
 gap> Collected(List(DL,D->Size(AutomorphismGroup(D))));
 [ [ 5, 1 ], [ 60, 1 ], [ 20160, 1 ] ]
+gap> x:=Indeterminate(Rationals,1);                     
+x_1
+gap> f:=(x+3)*(x^2-3);
+x_1^3+3*x_1^2-3*x_1-9
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-5,5,10^(-3));
+[ -3, -3 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,-2,5,10^(-3));
+[ -14193/8192, -7093/4096 ]
+gap> List(L,Float);             
+[ -1.73254, -1.73169 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-3));
+[ 14185/8192, 7095/4096 ]
+gap> List(L,Float);           
+[ 1.73157, 1.73218 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-5));
+[ 454045/262144, 908095/524288 ]
+gap> List(L,Float);                  
+[ 1.73204, 1.73205 ]
+gap> L:=DESIGN_IntervalForLeastRealZero(f,2,5,10^(-5));
+[  ]
 gap> STOP_TEST( "testall.tst", 10000 );
 ## The first argument of STOP_TEST should be the name of the test file.
 ## The number is a proportionality factor that is used to output a 

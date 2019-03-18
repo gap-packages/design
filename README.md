@@ -12,11 +12,11 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version. For details, see 
 <http://www.gnu.org/licenses/gpl.html>.
 
-If you use DESIGN to solve a problem then please reference the DESIGN
-package as follows:
+Please reference your use of the DESIGN package in a published work
+as follows:
 
-Soicher, L. H., DESIGN, The Design Package for GAP, Version 1.7 (2019)
-(Refereed GAP package), https://gap-packages.github.io/design.
+L.H. Soicher, The DESIGN package for GAP, Version 1.7, 2019,
+<https://gap-packages.github.io/design>.
 
 Any comments or bug reports should go to <L.H.Soicher@qmul.ac.uk>.
 
