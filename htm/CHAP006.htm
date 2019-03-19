@@ -9,8 +9,9 @@
 <li> <A HREF="CHAP006.htm#SECT002">Testing isomorphism</a>
 </ol><p>
 <p>
-The functions in this chapter depend on nauty via the GRAPE package,
-which must be fully installed in order for these functions to work.
+The functions in this chapter depend on nauty <a href="biblio.htm#Nau90"><cite>Nau90</cite></a>, <a href="biblio.htm#MP14"><cite>MP14</cite></a>
+or bliss <a href="biblio.htm#JK07"><cite>JK07</cite></a> via the GRAPE package, which must be fully
+installed in order for these functions to work.
 <p>
 <p>
 <h2><a name="SECT001">6.1 Computing automorphism groups</a></h2>
@@ -19,8 +20,8 @@ which must be fully installed in order for these functions to work.
 <li><code>AutGroupBlockDesign( </code><var>D</var><code> )</code>
 <p>
 This function returns the automorphism group of the block design <var>D</var>.
-The <strong>automorphism group</strong> <var>Aut(<var>D</var>)</var> of <var>D</var> is the group consisting of
-all the permutations of the points <var>{1,...,<code></code><var>D</var><code>.v</code>}</var> which preserve
+The <strong>automorphism group</strong> \Aut(<i>D</i> ) of <var>D</var> is the group consisting of
+all the permutations of the points {1,&#8230;,<i>D</i> <tt>.</tt><tt>v</tt>} which preserve
 the block-multiset of <var>D</var>.
 <p>
 This function is not yet implemented for non-binary block designs.
@@ -81,5 +82,5 @@ gap&gt; BlockDesignIsomorphismClassRepresentatives([D1,D2,D3]);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP005.htm">Previous</a>] [<a href ="CHAP007.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>

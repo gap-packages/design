@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
-Version := "1.6",
-Date := "23/11/2011", # dd/mm/yyyy format
+Version := "1.7",
+Date := "18/03/2019", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(
@@ -34,11 +34,11 @@ Persons := [
     IsAuthor := true,
     IsMaintainer := true,
     Email := "L.H.Soicher@qmul.ac.uk",
-    WWWHome := "http://www.maths.qmul.ac.uk/~leonard/",
+    WWWHome := "http://www.maths.qmul.ac.uk/~lsoicher/",
     Place := "London",
     Institution := Concatenation( [
       "School of Mathematical Sciences, ",
-      "Queen Mary, University of London",
+      "Queen Mary University of London",
       ] )
     )
 ],
@@ -67,7 +67,7 @@ AcceptDate := "08/2006",
 ##  '<span class="pkgname">MyPKG</span>' for specifing package names.
 ##  
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
-constructing, classifying, partitioning and studying block designs.",
+constructing, classifying, partitioning, and studying block designs.",
                   
 ##  On the GAP Website there is an online version of all manuals in the
 ##  GAP distribution. To handle the documentation of a package it is
@@ -109,15 +109,15 @@ PackageDoc := rec(
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.5",
+  GAP := ">=4.10",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
   # NeededOtherPackages := [["GAPDoc", ">= 0.99"]],
-  NeededOtherPackages := [["GRAPE", ">= 4.4"]],
+  NeededOtherPackages := [["GRAPE", ">= 4.8"], ["GAPDoc", ">=1.6"]],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
-  SuggestedOtherPackages := [["GAPDoc", ">= 1.4"]],
+  SuggestedOtherPackages := [],
   # needed external conditions (programs, operating system, ...)  provide 
   # just strings as text or
   # pairs [text, URL] where URL  provides further information

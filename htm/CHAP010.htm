@@ -63,7 +63,7 @@ If <var>list_id</var> is given then the id's of the output designs will be
 <p>
 <pre>
 gap&gt; D:=[ BlockDesign(3, [[1,2],[1,3]]),                        
-&gt;         BlockDesign(3, [[1,2],[1,2],[2,3]]) ];;
+&gt;      BlockDesign(3, [[1,2],[1,2],[2,3]]) ];;
 gap&gt; designs:=rec(list:=D, pairwiseNonisomorphic:=true);;
 gap&gt; BlockDesignsToXMLFile("example.xml",designs,[],"example"); 
 </pre>
@@ -100,8 +100,8 @@ element in a string.
 <pre>
 gap&gt; BlockDesignsFromXMLFile("example.xml");
 rec( 
-  infoXML := "&lt;info&gt;\n&lt;software&gt;\n[ DESIGN-1.6, GRAPE-4.5, GAPDoc-1.4, GAP-4.5\
-.2(beta) ]\n&lt;/software&gt;\n&lt;/info&gt;", 
+  infoXML := "&lt;info&gt;\n&lt;software&gt;\n[ DESIGN-1.7, GRAPE-4.8.2, GAPDoc-1.6.2, GAP\
+-4.10.1 ]\n&lt;/software&gt;\n&lt;/info&gt;", 
   list := 
     [ 
       rec( blocks := [ [ 1, 2 ], [ 1, 3 ] ], id := "example-0", 
@@ -113,5 +113,5 @@ rec(
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP009.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>

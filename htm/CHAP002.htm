@@ -12,23 +12,25 @@
 <p>
 <h2><a name="SECT001">2.1 Information from $t$-design parameters</a></h2>
 <p><p>
-For <var>t</var> a non-negative integer and <var>v,k,lambda</var> positive integers
-with <var>tleklev</var>, a <var>t</var>-<strong>design</strong>indext-design with <strong>parameters</strong>
-<var>t,v,k,lambda</var>, or a <var>t</var>-<var>(v,k,lambda)</var> <strong>design</strong>, is a binary block
-design with exactly <var>v</var> points, such that each block has size <var>k</var> and
-each <var>t</var>-subset of the points is contained in exactly <var>lambda</var> blocks.
+For <i>t</i> a non-negative integer and <i>v</i>,<i>k</i>,&#955; positive integers
+with <i>t</i> &#8804; <i>k</i> &#8804; <i>v</i>, a <i>t</i>-<strong>design</strong>
+<a name = "I0"></a>
+
+with <strong>parameters</strong>
+<i>t</i>,<i>v</i>,<i>k</i>,&#955;, or a <i>t</i>-(<i>v</i>,<i>k</i>,&#955;) <strong>design</strong>, is a binary block
+design with exactly <i>v</i> points, such that each block has size <i>k</i> and
+each <i>t</i>-subset of the points is contained in exactly &#955; blocks.
 <p>
 <a name = "SSEC001.1"></a>
 <li><code>TDesignLambdas( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
 <p>
-A <var>t</var>-<var>(v,k,lambda)</var> design is also an <var>s</var>-<var>(v,k,lambda<sub>s</sub>)</var> design
-for <var>0leslet</var>, where <var>lambda<sub>s</sub>=lambdav-s chooset-s/k-s
-chooset-s</var>.
+A <i>t</i>-(<i>v</i>,<i>k</i>,&#955;) design is also an <i>s</i>-(<i>v</i>,<i>k</i>,&#955;<sub><i>s</i></sub>) design
+for 0 &#8804; <i>s</i> &#8804; <i>t</i>, where <br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center">&#955;<sub><i>s</i></sub>=&#955;</td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>v</i>&#8722;<i>s</i><br /><i>t</i>&#8722;<i>s</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center">/</td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>k</i>&#8722;<i>s</i><br /><i>t</i>&#8722;<i>s</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center"></td></tr></table></td></tr></table>.
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var>,
-<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a length
-<var><var>t</var>+1</var> list whose <var>(s+1)</var>-st element is <var>lambda<sub>s</sub></var> as defined above,
-if all the <var>lambda<sub>s</sub></var> are integers. Otherwise, <code>fail</code> is returned.
+<var>lambda</var>, with <i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns a length
+<i>t</i> +1 list whose (<i>s</i>+1)-st element is &#955;<sub><i>s</i></sub> as defined above,
+if all the &#955;<sub><i>s</i></sub> are integers. Otherwise, <code>fail</code> is returned.
 <p>
 <pre>
 gap&gt; TDesignLambdas(5,24,8,1);
@@ -39,7 +41,7 @@ gap&gt; TDesignLambdas(5,24,8,1);
 <li><code>TDesignLambdaMin( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code> )</code>
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var> and <var>k</var>, with
-<var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the minimum positive <var>lambda</var>
+<i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns the minimum positive <var>lambda</var>
 such that <code>TDesignLambdas( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code> does not return
 <code>fail</code>.
 <p>
@@ -55,20 +57,20 @@ gap&gt; TDesignLambdaMin(2,12,4);
 <a name = "SSEC001.3"></a>
 <li><code>TDesignIntersectionTriangle( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
 <p>
-Suppose <var>D</var> is a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design, let <var>i</var> and <var>j</var>
-be non-negative integers with <var>i+jlet</var>, and suppose <var>X</var> and <var>Y</var>
-are disjoint subsets of the points of <var>D</var>, such that <var>X</var> and <var>Y</var> have
-respective sizes <var>i</var> and <var>j</var>. The <var>(i,j)</var>-<strong>intersection number</strong> is
-the number of blocks of <var>D</var> that contain <var>X</var> and are disjoint from <var>Y</var>
-(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <var>lambda</var>, <var>i</var> and <var>j</var>).
+Suppose <i>D</i> is a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design, let <i>i</i> and <i>j</i>
+be non-negative integers with <i>i</i>+<i>j</i> &#8804; <i>t</i>, and suppose <i>X</i> and <i>Y</i>
+are disjoint subsets of the points of <i>D</i>, such that <i>X</i> and <i>Y</i> have
+respective sizes <i>i</i> and <i>j</i>. The (<i>i</i>,<i>j</i>)-<strong>intersection number</strong> is
+the number of blocks of <i>D</i> that contain <i>X</i> and are disjoint from <i>Y</i>
+(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <var>lambda</var>, <i>i</i> and <i>j</i>).
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var>
-and <var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the
+and <var>lambda</var>, with <i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns the
 <strong><var>t</var>-design intersection triangle</strong>, which is a two dimensional array
-whose <var>(i+1,j+1)</var>-entry is the <var>(i,j)</var>-intersection number for
+whose (<i>i</i>+1,<i>j</i>+1)-entry is the (<i>i</i>,<i>j</i>)-intersection number for
 a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (assuming such a design exists),
-such that <var>i,jge0</var>, <var>i+jlet</var>. This function returns <code>fail</code> if
-<code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,</code><var>lambda</var><code>)</code> does. When <var><var>lambda</var>=1</var>, then more
+such that <i>i</i>,<i>j</i> &#8805; 0, <i>i</i>+<i>j</i> &#8804; <i>t</i>. This function returns <code>fail</code> if
+<code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,</code><var>lambda</var><code>)</code> does. When <i>lambda</i> =1, then more
 information can be obtained using <a href="CHAP002.htm#SSEC001.4">SteinerSystemIntersectionTriangle</a>.
 <p>
 <pre>
@@ -89,21 +91,20 @@ A <strong>Steiner system</strong> is a <var>t</var>-(<var>v</var>,<var>k</var>,1
 is possible to extend the notion of intersection triangle defined in
 <a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a>.
 <p>
-Suppose <var>D</var> is a <var>t</var>-(<var>v</var>,<var>k</var>,1) design, with <var>B</var> a block of <var>D</var>,
-let <var>i</var> and <var>j</var> be non-negative integers with <var>i+jlek</var>, and suppose
-<var>X</var> and <var>Y</var> are disjoint subsets of <var>B</var>, such that <var>X</var> and <var>Y</var> have
-respective sizes <var>i</var> and <var>j</var>. The <var>(i,j)</var>-<strong>intersection number</strong> is the
-number of blocks of <var>D</var> that contain <var>X</var> and are disjoint from <var>Y</var>
-(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <var>i</var> and <var>j</var>). Note that
-when <var>i+jlet</var>, this intersection number is the same as that defined in
+Suppose <i>D</i> is a <var>t</var>-(<var>v</var>,<var>k</var>,1) design, with <i>B</i> a block of <i>D</i>,
+let <i>i</i> and <i>j</i> be non-negative integers with <i>i</i>+<i>j</i> &#8804; <i>k</i>, and suppose
+<i>X</i> and <i>Y</i> are disjoint subsets of <i>B</i>, such that <i>X</i> and <i>Y</i> have
+respective sizes <i>i</i> and <i>j</i>. The (<i>i</i>,<i>j</i>)-<strong>intersection number</strong> is the
+number of blocks of <i>D</i> that contain <i>X</i> and are disjoint from <i>Y</i>
+(this number depends only on <var>t</var>, <var>v</var>, <var>k</var>, <i>i</i> and <i>j</i>). Note that
+when <i>i</i>+<i>j</i> &#8804; <i>t</i>, this intersection number is the same as that defined in
 <a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a> for the general <var>t</var>-design case.
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var> and
-<var>k</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns the <strong>Steiner
+<var>k</var>, with <i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns the <strong>Steiner
 system intersection triangle</strong>, which is a two dimensional array whose
-<var>(i+1,j+1)</var>-entry is the <var>(i,j)</var>-intersection number for a <var>t</var>-(<var>v</var>,<var>k</var>,1)
-design (assuming such a design exists), such that <var>i,jge0</var>, <var>i+jle
-k</var>. This function returns <code>fail</code> if <code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,1)</code> does.
+(<i>i</i>+1,<i>j</i>+1)-entry is the (<i>i</i>,<i>j</i>)-intersection number for a <var>t</var>-(<var>v</var>,<var>k</var>,1)
+design (assuming such a design exists), such that <i>i</i>,<i>j</i> &#8805; 0, <i>i</i>+<i>j</i> &#8804; <i>k</i>. This function returns <code>fail</code> if <code>TDesignLambdas(</code><var>t</var><code>,</code><var>v</var><code>,</code><var>k</var><code>,1)</code> does.
 <p>
 See also <a href="CHAP002.htm#SSEC001.3">TDesignIntersectionTriangle</a>.
 <p>
@@ -122,16 +123,16 @@ gap&gt; TDesignIntersectionTriangle(5,24,8,1);
 <li><code>TDesignBlockMultiplicityBound( </code><var>t</var><code>, </code><var>v</var><code>, </code><var>k</var><code>, </code><var>lambda</var><code> )</code>
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var> and
-<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a non-negative
+<var>lambda</var>, with <i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns a non-negative
 integer which is an upper bound on the multiplicity of any block in
 any <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (the <strong>multiplicity</strong> of a block in
 a block design is the number of times that block occurs in the block
-list). In particular, if the value <var>0</var> is returned, then this implies
+list). In particular, if the value 0 is returned, then this implies
 that a <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design does not exist.
 <p>
 Although our bounds are reasonably good, we do not claim that the
-returned bound <var>m</var> is always achieved; that is, there may not exist a
-<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <var>m</var>.
+returned bound <i>m</i> is always achieved; that is, there may not exist a
+<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <i>m</i>.
 <p>
 See also <a href="CHAP002.htm#SSEC001.6">ResolvableTDesignBlockMultiplicityBound</a>.
 <p>
@@ -158,16 +159,16 @@ subsets, each of which forms a partition of the point set, and a block
 design is <strong>resolvable</strong> if it has a resolution.
 <p>
 Given a non-negative integer <var>t</var>, and positive integers <var>v</var>, <var>k</var> and
-<var>lambda</var>, with <var><var>t</var>le<var>k</var>le<var>v</var></var>, this function returns a non-negative
+<var>lambda</var>, with <i>t</i>  &#8804; <i>k</i>  &#8804; <i>v</i> , this function returns a non-negative
 integer which is an upper bound on the multiplicity of any block in any
 resolvable <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design (the <strong>multiplicity</strong> of a block
 in a block design is the number of times that block occurs in the block
-list). In particular, if the value <var>0</var> is returned, then this implies
+list). In particular, if the value 0 is returned, then this implies
 that a resolvable <var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design does not exist.
 <p>
 Although our bounds are reasonably good, we do not claim that the returned
-bound <var>m</var> is always achieved; that is, there may not exist a resolvable
-<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <var>m</var>.
+bound <i>m</i> is always achieved; that is, there may not exist a resolvable
+<var>t</var>-(<var>v</var>,<var>k</var>,<var>lambda</var>) design having a block with multiplicity <i>m</i>.
 <p>
 See also <a href="CHAP002.htm#SSEC001.5">TDesignBlockMultiplicityBound</a>.
 <p>
@@ -195,33 +196,31 @@ polynomials.
 <a name = "SSEC002.1"></a>
 <li><code>BlockIntersectionPolynomial(</code><var>x</var><code>, </code><var>m</var><code>, </code><var>lambdavec</var><code> )</code>
 <p>
-For <var>k</var> a non-negative integer, define the polynomial
-<var>P(x,k)=x(x-1)cdots(x-k+1)</var>. Let <var>s</var> and <var>t</var> be non-negative
-integers, with <var>sget</var>, and let <var>m<sub>0</sub>,...,m<sub>s</sub></var> and
-<var>lambda<sub>0</sub>,...,lambda<sub>t</sub></var> be rational numbers. Then the <strong>block
-intersection polynomial</strong> for the sequences <var>[m<sub>0</sub>,...,m<sub>s</sub>]</var>,
-<var>[lambda<sub>0</sub>,...,lambda<sub>t</sub>]</var> is defined to be 
-<p><var>sum<sub>j=0</sub><sup>t</sup>tchoosejP(-x,t-j)[P(s,j)lambda<sub>j</sub>-sum<sub>i=j</sub><sup>s</sup> P(i,j)m<sub>i</sub>],<p></var> 
-and is denoted by <var>B(x,[m<sub>0</sub>,...,m<sub>s</sub>],[lambda<sub>0</sub>,...,lambda<sub>t</sub>]).</var>
+For <i>k</i> a non-negative integer, define the polynomial
+<i>P</i>(<i>x</i>,<i>k</i>)=<i>x</i>(<i>x</i>&#8722;1)&#8230;(<i>x</i>&#8722;<i>k</i>+1). Let <i>s</i> and <i>t</i> be non-negative
+integers, with <i>s</i> &#8805; <i>t</i>, and let <i>m</i><sub>0</sub>,&#8230;,<i>m</i><sub><i>s</i></sub> and
+&#955;<sub>0</sub>,&#8230;,&#955;<sub><i>t</i></sub> be rational numbers. Then the <strong>block
+intersection polynomial</strong> for the sequences [<i>m</i><sub>0</sub>,&#8230;,<i>m</i><sub><i>s</i></sub>],
+[&#955;<sub>0</sub>,&#8230;,&#955;<sub><i>t</i></sub>] is defined to be 
+<br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"></td><td nowrap="nowrap" align="center"><small><i>t</i></small><!--sup--><br /><span class="largerstill">&#8721;<br /></span><small><i>j</i>=0</small>&nbsp;<br /></td><td nowrap="nowrap" align="center"></td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>t</i><br /><i>j</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center"><i>P</i>(&#8722;<i>x</i>,<i>t</i>&#8722;<i>j</i>)[<i>P</i>(<i>s</i>,<i>j</i>)&#955;<sub><i>j</i></sub>&#8722;</td><td nowrap="nowrap" align="center"><small><i>s</i></small><!--sup--><br /><span class="largerstill">&#8721;<br /></span><small><i>i</i>=<i>j</i></small>&nbsp;<br /></td><td nowrap="nowrap" align="center"><i>P</i>(<i>i</i>,<i>j</i>)<i>m</i><sub><i>i</i></sub>],</td></tr></table></td></tr></table> 
+and is denoted by <i>B</i>(<i>x</i>,[<i>m</i><sub>0</sub>,&#8230;,<i>m</i><sub><i>s</i></sub>],[&#955;<sub>0</sub>,&#8230;,&#955;<sub><i>t</i></sub>])&#183;
 <p>
 Now suppose <var>x</var> is an indeterminate over the rationals, and <var>m</var> and
 <var>lambdavec</var> are non-empty lists of rational numbers, such that the length
 of <var>lambdavec</var> is not greater than that of <var>m</var>.  Then this function
-returns the block intersection polynomial <var>B(<var>x</var>,<var>m</var>,<var>lambdavec</var>)</var>.
+returns the block intersection polynomial <i>B</i>(<i>x</i> ,<i>m</i> ,<i>lambdavec</i> ).
 <p>
 The importance of a block intersection polynomial is as follows.
-Let <var>D=(V,calB)</var> be a block design, let <var>SsubseteqV</var>, with <var>s=|S|</var>,
-and for <var>i=0,...,s</var>, suppose that <var>m<sub>i</sub></var> is a non-negative integer
-with <var>m<sub>i</sub>len<sub>i</sub></var>, where <var>n<sub>i</sub></var> is the number of blocks intersecting <var>S</var>
-in exactly <var>i</var> points. Let <var>t</var> be a non-negative <strong>even</strong> integer with <var>tle
-s</var>, and suppose that, for <var>j=0...,t</var>, we have <var>lambda<sub>j</sub>=1/schoose
-jsum<sub>TsubseteqS,|T|=j</sub>lambda<sub>T</sub></var>, where <var>lambda<sub>T</sub></var> is the
-number of blocks of <var>D</var> containing <var>T</var>.  Then the block intersection
-polynomial <var>B(x)=B(x,[m<sub>0</sub>,...,m<sub>s</sub>],[lambda<sub>0</sub>,...,lambda<sub>t</sub>])</var>
-is a polynomial with integer coefficients, and <var>B(n)ge0</var> for every
-integer <var>n</var>. (These conditions can be checked using the function
-<a href="CHAP002.htm#SSEC002.2">BlockIntersectionPolynomialCheck</a>.) In addition, if <var>B(n)=0</var> for some
-integer <var>n</var>, then <var>m<sub>i</sub>=n<sub>i</sub></var> for <var>inotin{n,n+1,...,n+t-1}</var>.
+Let <i>D</i>=(<i>V</i>,<span style="font-family:helvetica"><i>B</i></span>) be a block design, let <i>S</i> &#8838; <i>V</i>, with <i>s</i>=&#124;<i>S</i>&#124;,
+and for <i>i</i>=0,&#8230;,<i>s</i>, suppose that <i>m</i><sub><i>i</i></sub> is a non-negative integer
+with <i>m</i><sub><i>i</i></sub> &#8804; <i>n</i><sub><i>i</i></sub>, where <i>n</i><sub><i>i</i></sub> is the number of blocks intersecting <i>S</i>
+in exactly <i>i</i> points. Let <i>t</i> be a non-negative <strong>even</strong> integer with <i>t</i> &#8804; <i>s</i>, and suppose that, for <i>j</i>=0&#8230;,<i>t</i>, we have <br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center">&#955;<sub><i>j</i></sub>=1/</td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>s</i><br /><i>j</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center"></td><td nowrap="nowrap" align="center"><small></small><!--sup--><br /><span class="largerstill">&#8721;<br /></span><small><i>T</i> &#8838; <i>S</i>,&#124;<i>T</i>&#124;=<i>j</i></small>&nbsp;<br /></td><td nowrap="nowrap" align="center">&#955;<sub><i>T</i></sub></td></tr></table></td></tr></table>, where &#955;<sub><i>T</i></sub> is the
+number of blocks of <i>D</i> containing <i>T</i>.  Then the block intersection
+polynomial <i>B</i>(<i>x</i>)=<i>B</i>(<i>x</i>,[<i>m</i><sub>0</sub>,&#8230;,<i>m</i><sub><i>s</i></sub>],[&#955;<sub>0</sub>,&#8230;,&#955;<sub><i>t</i></sub>])
+is a polynomial with integer coefficients, and <i>B</i>(<i>n</i>) &#8805; 0 for every
+integer <i>n</i>. (These conditions can be checked using the function
+<a href="CHAP002.htm#SSEC002.2">BlockIntersectionPolynomialCheck</a>.) In addition, if <i>B</i>(<i>n</i>)=0 for some
+integer <i>n</i>, then <i>m</i><sub><i>i</i></sub>=<i>n</i><sub><i>i</i></sub> for <i>i</i> &#8713; {<i>n</i>,<i>n</i>+1,&#8230;,<i>n</i>+<i>t</i>&#8722;1}.
 <p>
 For more information on block intersection polynomials and their
 applications, see <a href="biblio.htm#CaSo"><cite>CaSo</cite></a> and <a href="biblio.htm#Soi1"><cite>Soi1</cite></a>.
@@ -268,5 +267,5 @@ false
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP001.htm">Previous</a>] [<a href ="CHAP003.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>

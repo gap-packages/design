@@ -16,14 +16,14 @@
 <li><code>BlockDesign( </code><var>v</var><code>, </code><var>B</var><code>, </code><var>G</var><code> )</code>
 <p>
 Let <var>v</var> be a positive integer and <var>B</var> a non-empty list of non-empty
-sorted lists of elements of <var>{1,...,<var>v</var>}</var>.
+sorted lists of elements of {1,&#8230;,<i>v</i> }.
 <p>
 The first version of this function returns the block design with point-set
-<var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>, where <var>C</var> is <code>SortedList(</code><var>B</var><code>)</code>.
+{1,&#8230;,<i>v</i> } and block multiset <var>C</var>, where <var>C</var> is <code>SortedList(</code><var>B</var><code>)</code>.
 <p>
 For the second version of this function, we require <var>G</var> to be a group
-of permutations of <var>{1,...,<var>v</var>}</var>, and the function returns the
-block design with point-set <var>{1,...,<var>v</var>}</var> and block multiset <var>C</var>,
+of permutations of {1,&#8230;,<i>v</i> }, and the function returns the
+block design with point-set {1,&#8230;,<i>v</i> } and block multiset <var>C</var>,
 where <var>C</var> is the sorted list of the concatenation of the <var>G</var>-orbits of
 the elements of <var>B</var>.
 <p>
@@ -44,15 +44,15 @@ gap&gt; AllTDesignLambdas(D);
 <p>
 Let <var>n</var> be positive integer, <var>q</var> a prime-power, and <var>d</var> a non-negative
 integer less than or equal to <var>n</var>. Then this function returns the block
-design whose points are the points of the affine space <var>AG(<var>n</var>,<var>q</var>)</var>,
-and whose blocks are the <var><var>d</var></var>-flats of <var>AG(<var>n</var>,<var>q</var>)</var>, considering a
-<var><var>d</var></var>-flat as a set of points.
+design whose points are the points of the affine space <i>AG</i>(<i>n</i> ,<i>q</i> ),
+and whose blocks are the <i>d</i> -flats of <i>AG</i>(<i>n</i> ,<i>q</i> ), considering a
+<i>d</i> -flat as a set of points.
 <p>
-Note that the <strong>affine space</strong> <var>AG(<var>n</var>,<var>q</var>)</var> consists of all the cosets of
-all the subspaces of the vector space <var>V(<var>n</var>,<var>q</var>)</var>, with the <strong>points</strong>
-being the cosets of the <var>0</var>-dimensional subspace and the <strong><var><var>d</var></var>-flats</strong>
-being the cosets of the <var><var>d</var></var>-dimensional subspaces. As is usual, we
-identify the points with the vectors in <var>V(<var>n</var>,<var>q</var>)</var>, and these vectors
+Note that the <strong>affine space</strong> <i>AG</i>(<i>n</i> ,<i>q</i> ) consists of all the cosets of
+all the subspaces of the vector space <i>V</i>(<i>n</i> ,<i>q</i> ), with the <strong>points</strong>
+being the cosets of the 0-dimensional subspace and the <strong><i>d</i> -flats</strong>
+being the cosets of the <i>d</i> -dimensional subspaces. As is usual, we
+identify the points with the vectors in <i>V</i>(<i>n</i> ,<i>q</i> ), and these vectors
 are given as the point-names.
 <p>
 <pre>
@@ -84,13 +84,13 @@ gap&gt; AllTDesignLambdas(D);
 Let <var>n</var> be a non-negative integer, <var>q</var> a prime-power, and <var>d</var> a
 non-negative integer less than or equal to <var>n</var>. Then this function
 returns the block design whose points are the (projective) points of
-the projective space <var>PG(<var>n</var>,<var>q</var>)</var>, and whose blocks are the <var><var>d</var></var>-flats
-of <var>PG(<var>n</var>,<var>q</var>)</var>, considering a <var><var>d</var></var>-flat as a set of projective points.
+the projective space <i>PG</i>(<i>n</i> ,<i>q</i> ), and whose blocks are the <i>d</i> -flats
+of <i>PG</i>(<i>n</i> ,<i>q</i> ), considering a <i>d</i> -flat as a set of projective points.
 <p>
-Note that the <strong>projective space</strong> <var>PG(<var>n</var>,<var>q</var>)</var> consists of all the
-subspaces of the vector space <var>V(<var>n</var>+1,<var>q</var>)</var>, with the <strong>projective
-points</strong> being the 1-dimensional subspaces and the <strong><var><var>d</var></var>-flats</strong> being
-the <var>(<var>d</var>+1)</var>-dimensional subspaces.
+Note that the <strong>projective space</strong> <i>PG</i>(<i>n</i> ,<i>q</i> ) consists of all the
+subspaces of the vector space <i>V</i>(<i>n</i> +1,<i>q</i> ), with the <strong>projective
+points</strong> being the 1-dimensional subspaces and the <strong><i>d</i> -flats</strong> being
+the (<i>d</i> +1)-dimensional subspaces.
 <p>
 <pre>
 gap&gt; D:=PGPointFlatBlockDesign(3,2,1);
@@ -127,18 +127,18 @@ gap&gt; AllTDesignLambdas(D);
 <a name = "SSEC001.4"></a>
 <li><code>WittDesign( </code><var>n</var><code> )</code>
 <p>
-Suppose <var><var>n</var>in{9,10,11,12,21,22,23,24}</var>. 
+Suppose <i>n</i>  &#8712; {9,10,11,12,21,22,23,24}. 
 <p>
-If <var><var>n</var>=24</var> then this function returns the <strong>large Witt design</strong> <var>W<sub>24</sub></var>,
-the unique (up to isomorphism) 5-(24,8,1) design. If <var><var>n</var>=24-i</var>, where
-<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>24</sub></var>
-is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(24-i,8-i,1)</var>
+If <i>n</i> =24 then this function returns the <strong>large Witt design</strong> <i>W</i><sub>24</sub>,
+the unique (up to isomorphism) 5-(24,8,1) design. If <i>n</i> =24&#8722;<i>i</i>, where
+<i>i</i>  &#8712; {1,2,3}, then the <i>i</i>-fold point-derived design of <i>W</i><sub>24</sub>
+is returned; this is the unique (up to isomorphism) (5&#8722;<i>i</i>)-(24&#8722;<i>i</i>,8&#8722;<i>i</i>,1)
 design.
 <p>
-If <var><var>n</var>=12</var> then this function returns the <strong>small Witt design</strong> <var>W<sub>12</sub></var>,
-the unique (up to isomorphism) 5-(12,6,1) design. If <var><var>n</var>=12-i</var>, where
-<var><var>i</var>in{1,2,3}</var>, then the <var>i</var>-fold point-derived design of <var>W<sub>12</sub></var>
-is returned; this is the unique (up to isomorphism) <var>(5-i)</var>-<var>(12-i,6-i,1)</var>
+If <i>n</i> =12 then this function returns the <strong>small Witt design</strong> <i>W</i><sub>12</sub>,
+the unique (up to isomorphism) 5-(12,6,1) design. If <i>n</i> =12&#8722;<i>i</i>, where
+<i>i</i>  &#8712; {1,2,3}, then the <i>i</i>-fold point-derived design of <i>W</i><sub>12</sub>
+is returned; this is the unique (up to isomorphism) (5&#8722;<i>i</i>)-(12&#8722;<i>i</i>,6&#8722;<i>i</i>,1)
 design.
 <p>
 <pre>
@@ -226,12 +226,12 @@ gap&gt; AllTDesignLambdas(C);
 Suppose <var>D</var> is a block design and <var>Y</var> is a proper subset of the point-set
 of <var>D</var>.
 <p>
-Then this function returns the block design <var>DP</var> obtained from <var>D</var> by
+Then this function returns the block design <i>DP</i> obtained from <var>D</var> by
 deleting the points in <var>Y</var> from the point-set, and from each block.
 It is an error if the resulting design contains an empty block.
-The points of <var>DP</var> are relabelled <var>1,2,...</var>, preserving the order of
-the corresponding points of <var>D</var>; the point-names of <var>DP</var> (listed in
-<code></code><var>DP</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+The points of <i>DP</i> are relabelled 1,2,&#183;.&#183;, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <i>DP</i> (listed in
+<code><i>DP</i>.pointNames</code>) are those of these corresponding points of <var>D</var>.
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
@@ -334,25 +334,27 @@ rec( isBlockDesign := true, v := 7,
 <li><code>DerivedBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
-Then this function returns the <strong>derived design</strong>indexderived design
-<var>DD</var> of <var>D</var>, with respect to <var>x</var>.
+Then this function returns the <strong>derived design</strong>
+<a name = "I0"></a>
+
+<i>DD</i> of <var>D</var>, with respect to <var>x</var>.
 <p>
-If <var>x</var> is a point then <var>DD</var> is the block design whose blocks are those
+If <var>x</var> is a point then <i>DD</i> is the block design whose blocks are those
 of <var>D</var> containing <var>x</var>, but with <var>x</var> deleted from these blocks, and the
-points of <var>DD</var> are those which occur in some block of <var>DD</var>.
+points of <i>DD</i> are those which occur in some block of <i>DD</i>.
 <p>
-If <var>x</var> is a block, then the points of <var>DD</var> are the points in <var>x</var>, and
-the blocks of <var>DD</var> are the blocks of <var>D</var> other than <var>x</var> containing at
+If <var>x</var> is a block, then the points of <i>DD</i> are the points in <var>x</var>, and
+the blocks of <i>DD</i> are the blocks of <var>D</var> other than <var>x</var> containing at
 least one point of <var>x</var>, but with all points not in <var>x</var> deleted from
 these blocks.  Note that any repeat of <var>x</var>, but not <var>x</var> itself, is a
-block of <var>DD</var>.
+block of <i>DD</i>.
 <p>
-It is an error if the resulting block design <var>DD</var> has no blocks or an
+It is an error if the resulting block design <i>DD</i> has no blocks or an
 empty block.
 <p>
-The points of <var>DD</var> are relabelled <var>1,2,...</var>, preserving the order of
-the corresponding points of <var>D</var>; the point-names of <var>DD</var> (listed in
-<code></code><var>DD</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+The points of <i>DD</i> are relabelled 1,2,&#183;.&#183;, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <i>DD</i> (listed in
+<code><i>DD</i>.pointNames</code>) are those of these corresponding points of <var>D</var>.
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
@@ -388,23 +390,25 @@ gap&gt; AllTDesignLambdas(DD);
 <li><code>ResidualBlockDesign( </code><var>D</var><code>, </code><var>x</var><code> )</code>
 <p>
 Suppose <var>D</var> is a block design, and <var>x</var> is a point or block of <var>D</var>.
-Then this function returns the <strong>residual design</strong>indexresidual design
-<var>RD</var> of <var>D</var>, with respect to <var>x</var>.
+Then this function returns the <strong>residual design</strong>
+<a name = "I1"></a>
+
+<i>RD</i> of <var>D</var>, with respect to <var>x</var>.
 <p>
-If <var>x</var> is a point then <var>RD</var> is the block design whose blocks are those
-of <var>D</var> not containing <var>x</var>, and the points of <var>RD</var> are those which occur
-in some block of <var>RD</var>.
+If <var>x</var> is a point then <i>RD</i> is the block design whose blocks are those
+of <var>D</var> not containing <var>x</var>, and the points of <i>RD</i> are those which occur
+in some block of <i>RD</i>.
 <p>
-If <var>x</var> is a block, then the points of <var>RD</var> are those of <var>D</var> not in
-<var>x</var>, and the blocks of <var>RD</var> are the blocks of <var>D</var> (including repeats)
+If <var>x</var> is a block, then the points of <i>RD</i> are those of <var>D</var> not in
+<var>x</var>, and the blocks of <i>RD</i> are the blocks of <var>D</var> (including repeats)
 containing at least one point not in <var>x</var>, but with all points in <var>x</var>
 deleted from these blocks.
 <p>
-It is an error if the resulting block design <var>RD</var> has no blocks.
+It is an error if the resulting block design <i>RD</i> has no blocks.
 <p>
-The points of <var>RD</var> are relabelled <var>1,2,...</var>, preserving the order of
-the corresponding points of <var>D</var>; the point-names of <var>RD</var> (listed in
-<code></code><var>RD</var><code>.pointNames</code>) are those of these corresponding points of <var>D</var>.
+The points of <i>RD</i> are relabelled 1,2,&#183;.&#183;, preserving the order of
+the corresponding points of <var>D</var>; the point-names of <i>RD</i> (listed in
+<code><i>RD</i>.pointNames</code>) are those of these corresponding points of <var>D</var>.
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=11,blockSizes:=[5],
@@ -439,26 +443,26 @@ gap&gt; AllTDesignLambdas(RD);
 <a name = "SSEC001.13"></a>
 <li><code>TDesignFromTBD( </code><var>D</var><code>, </code><var>t</var><code>, </code><var>k</var><code> )</code>
 <p>
-For <var>t</var> a non-negative integer, <var>K</var> a set of positive integers, and
-<var>v,lambda</var> positive integers with <var>tlev</var>, a <var>t</var>-<strong>wise balanced design</strong>,
-or a <var>t</var>-<var>(v,K,lambda)</var> <strong>design</strong>, is a binary block design with exactly
-<var>v</var> points, such that each block has size in <var>K</var> and each <var>t</var>-subset of
-the points is contained in exactly <var>lambda</var> blocks.
+For <i>t</i> a non-negative integer, <i>K</i> a set of positive integers, and
+<i>v</i>,&#955; positive integers with <i>t</i> &#8804; <i>v</i>, a <i>t</i>-<strong>wise balanced design</strong>,
+or a <i>t</i>-(<i>v</i>,<i>K</i>,&#955;) <strong>design</strong>, is a binary block design with exactly
+<i>v</i> points, such that each block has size in <i>K</i> and each <i>t</i>-subset of
+the points is contained in exactly &#955; blocks.
 <p>
-Now let <var>t</var> and <var>k</var> be positive integers, <var>D</var> be a <var>t</var>-<var>(v,K,lambda)</var>
-design (for some set <var>K</var>), and <var><var>t</var>le<var>k</var>lek<sub>1</sub></var>, where exactly <var>s</var>
-distinct block-sizes <var>k<sub>1</sub>&lt; cdots&lt; k<sub>s</sub></var> occur in <var>D</var>. Then this
-function returns the <var>t</var>-design <var>D<sup>*</sup>=D<sup>*</sup>(t,k)</var> described and studied
+Now let <var>t</var> and <var>k</var> be positive integers, <var>D</var> be a <var>t</var>-(<i>v</i>,<i>K</i>,&#955;)
+design (for some set <i>K</i>), and <i>t</i>  &#8804; <i>k</i>  &#8804; <i>k</i><sub>1</sub>, where exactly <i>s</i>
+distinct block-sizes <i>k</i><sub>1</sub> &lt;  &#8230; &lt;  <i>k</i><sub><i>s</i></sub> occur in <var>D</var>. Then this
+function returns the <var>t</var>-design <i>D</i><sup>*</sup>=<i>D</i><sup>*</sup>(<i>t</i>,<i>k</i>) described and studied
 in <a href="biblio.htm#McSo"><cite>McSo</cite></a>.
 <p>
-The point set of <var>D<sup>*</sup></var> is that of <var>D</var>, and the block multiset of <var>D<sup>*</sup></var>
-consists of, for each <var>i=1,...,s</var> and each block <var>B</var> of <var>D</var> of size
-<var>k<sub>i</sub></var> (including repeats), exactly <var>n/k<sub>i</sub>-t choosek-t</var> copies of
-every <var>k</var>-subset of <var>B</var>, where <var>n:=lcm(k<sub>i</sub>-t choosek-t:1leiles)</var>.
+The point set of <i>D</i><sup>*</sup> is that of <var>D</var>, and the block multiset of <i>D</i><sup>*</sup>
+consists of, for each <i>i</i>=1,&#8230;,<i>s</i> and each block <i>B</i> of <var>D</var> of size
+<i>k</i><sub><i>i</i></sub> (including repeats), exactly <br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>n</i>/</td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>k</i><sub><i>i</i></sub>&#8722;<i>t</i><br /><i>k</i>&#8722;<i>t</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center"></td></tr></table></td></tr></table> copies of
+every <i>k</i>-subset of <i>B</i>, where <br clear="all" /><table border="0" width="100%"><tr><td><table align="center" cellspacing="0"  cellpadding="2"><tr><td nowrap="nowrap" align="center"><i>n</i>:=\lcm(</td><td align="left" class="cl">&#x239B;<br />&#x239D;</td><td nowrap="nowrap" align="center"><i>k</i><sub><i>i</i></sub>&#8722;<i>t</i><br /><i>k</i>&#8722;<i>t</i><br /></td><td align="left" class="cl">&#x239E;<br />&#x23A0;</td><td nowrap="nowrap" align="center">:1 &#8804; <i>i</i> &#8804; <i>s</i>)</td></tr></table></td></tr></table>.
 <p>
-It is shown in <a href="biblio.htm#McSo"><cite>McSo</cite></a> that <var>D<sup>*</sup></var> is a <var>t</var>-<var>(v,k,nlambda)</var> design,
-that <var>Aut(D)subseteqAut(D<sup>*</sup>)</var>, and that if <var>lambda=1</var> and <var>t&lt;k</var>,
-then <var>Aut(D)=Aut(D<sup>*</sup>)</var>.
+It is shown in <a href="biblio.htm#McSo"><cite>McSo</cite></a> that <i>D</i><sup>*</sup> is a <i>t</i>-(<i>v</i>,<i>k</i>,<i>n</i>&#955;) design,
+that \Aut(<i>D</i>) &#8838; \Aut(<i>D</i><sup>*</sup>), and that if &#955; = 1 and <i>t</i> &lt; <i>k</i>,
+then \Aut(<i>D</i>)=\Aut(<i>D</i><sup>*</sup>).
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       
@@ -491,5 +495,5 @@ gap&gt; AllTDesignLambdas(Dstar);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>

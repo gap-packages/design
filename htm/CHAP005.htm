@@ -7,11 +7,16 @@
 <oL>
 <li> <A HREF="CHAP005.htm#SECT001">Matrices associated with a block design</a>
 <li> <A HREF="CHAP005.htm#SECT002">The function BlockDesignEfficiency</a>
+<li> <A HREF="CHAP005.htm#SECT003">Computing an interval for a certain real zero of a rational polynomial</a>
 </ol><p>
 <p>
 In this chapter we describe functions to calculate certain matrices
 associated with a block design, and the function <code>BlockDesignEfficiency</code>
 which determines certain statistical efficiency measures of a 1-design.
+<p>
+We also document the utility function <code>DESIGN_IntervalForLeastRealZero</code>,
+which is used in the calculation of E-efficiency measures, but has much
+wider application.
 <p>
 <p>
 <h2><a name="SECT001">5.1 Matrices associated with a block design</a></h2>
@@ -21,8 +26,8 @@ which determines certain statistical efficiency measures of a 1-design.
 <p>
 This function returns the point-block incidence matrix <var>N</var> of the
 block design <var>D</var>.  This matrix has rows indexed by the points of <var>D</var>
-and columns by the blocks of <var>D</var>, with the <var>(i,j)</var>-entry of <var>N</var> being
-the number of times point <var>i</var> occurs in <code></code><var>D</var><code>.blocks[</code><var>j</var><code>]</code>.
+and columns by the blocks of <var>D</var>, with the (<i>i</i>,<i>j</i>)-entry of <var>N</var> being
+the number of times point <i>i</i> occurs in <code></code><var>D</var><code>.blocks[</code><var>j</var><code>]</code>.
 <p>
 The returned matrix <var>N</var> is immutable. 
 <p>
@@ -45,11 +50,11 @@ gap&gt; PointBlockIncidenceMatrix(D);
 <li><code>ConcurrenceMatrix( </code><var>D</var><code> )</code>
 <p>
 This function returns the concurrence matrix <var>L</var> of the block design <var>D</var>.
-This matrix is equal to <var>NN<sup>T</sup></var>, where <var>N</var> is the point-block
+This matrix is equal to <i>NN</i><sup><span class="roman">T</span></sup>, where <i>N</i> is the point-block
 incidence matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.1">PointBlockIncidenceMatrix</a>) and 
-<var>N<sup>T</sup></var> is the transpose of <var>N</var>. If <var>D</var> is a binary block design
-then the <var>(i,j)</var>-entry of its concurrence matrix is the number of blocks
-containing points <var>i</var> and <var>j</var>.
+<i>N</i><sup><span class="roman">T</span></sup> is the transpose of <i>N</i>. If <var>D</var> is a binary block design
+then the (<i>i</i>,<i>j</i>)-entry of its concurrence matrix is the number of blocks
+containing points <i>i</i> and <i>j</i>.
 <p>
 The returned matrix <var>L</var> is immutable.
 <p>
@@ -79,15 +84,15 @@ gap&gt; ConcurrenceMatrix(D);
 <p>
 This function returns the information matrix <var>C</var> of the block design <var>D</var>.
 <p>
-This matrix is defined as follows. Suppose <var>D</var> has <var>v</var> points and <var>b</var>
-blocks, let <var>R</var> be the <var>vtimesv</var> diagonal matrix whose <var>(i,i)</var>-entry
-is the replication number of the point <var>i</var>, let <var>N</var> be the point-block
-incidence matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.1">PointBlockIncidenceMatrix</a>), and let <var>K</var>
-be the <var>btimesb</var> diagonal matrix whose <var>(j,j)</var>-entry is the length of
+This matrix is defined as follows. Suppose <var>D</var> has <i>v</i> points and <i>b</i>
+blocks, let <i>R</i> be the <i>v</i>&times;<i>v</i> diagonal matrix whose (<i>i</i>,<i>i</i>)-entry
+is the replication number of the point <i>i</i>, let <i>N</i> be the point-block
+incidence matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.1">PointBlockIncidenceMatrix</a>), and let <i>K</i>
+be the <i>b</i>&times;<i>b</i> diagonal matrix whose (<i>j</i>,<i>j</i>)-entry is the length of
 <code></code><var>D</var><code>.blocks[</code><var>j</var><code>]</code>. Then the <strong>information matrix</strong> of <var>D</var> is 
-<var>C:=R-NK<sup>-1</sup>N<sup>T</sup></var>. If <var>D</var> is a 1-<var>(v,k,r)</var> design then this expression
-for <var>C</var> simplifies to <var>rI-k<sup>-1</sup>L</var>, where <var>I</var> is the <var>vtimesv</var> identity
-matrix and <var>L</var> is the concurrence matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.2">ConcurrenceMatrix</a>).
+<i>C</i>:=<i>R</i>&#8722;<i>NK</i><sup>&#8722;1</sup><i>N</i><sup><span class="roman">T</span></sup>. If <var>D</var> is a 1-(<i>v</i>,<i>k</i>,<i>r</i>) design then this expression
+for <var>C</var> simplifies to <i>rI</i>&#8722;<i>k</i><sup>&#8722;1</sup><i>L</i>, where <i>I</i> is the <i>v</i>&times;<i>v</i> identity
+matrix and <i>L</i> is the concurrence matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.2">ConcurrenceMatrix</a>).
 <p>
 The returned matrix <var>C</var> is immutable.
 <p>
@@ -120,8 +125,8 @@ gap&gt; InformationMatrix(D);
 <li><code>BlockDesignEfficiency( </code><var>D</var><code>, </code><var>eps</var><code> )</code>
 <li><code>BlockDesignEfficiency( </code><var>D</var><code>, </code><var>eps</var><code>, </code><var>includeMV</var><code> )</code>
 <p>
-Let <var>D</var> be a 1-<var>(v,k,r)</var> design with <var>v&gt;1</var>, let <var>eps</var> be a positive
-rational number (default: <var>10<sup>-6</sup></var>), and let <var>includeMV</var> be a boolean
+Let <var>D</var> be a 1-(<i>v</i>,<i>k</i>,<i>r</i>) design with <i>v</i> &gt; 1, let <var>eps</var> be a positive
+rational number (default: 10<sup>&#8722;6</sup>), and let <var>includeMV</var> be a boolean
 (default: <code>false</code>).  Then this function returns a record <var>eff</var> containing
 information on statistical efficiency measures of <var>D</var>. These measures
 are defined below.  See <a href="biblio.htm#Extrep"><cite>Extrep</cite></a>, <a href="biblio.htm#BaCa"><cite>BaCa</cite></a> and <a href="biblio.htm#BaRo"><cite>BaRo</cite></a>
@@ -130,13 +135,13 @@ algebraic computation.
 <p>
 The component <code></code><var>eff</var><code>.A</code> contains the A-efficiency measure for <var>D</var>,
 <code></code><var>eff</var><code>.Dpowered</code> contains the D-efficiency measure of <var>D</var> raised to the
-power <var>v-1</var>, and <code></code><var>eff</var><code>.Einterval</code> is a list <var>[a,b]</var> of non-negative
-rational numbers such that if <var>x</var> is the E-efficiency measure of <var>D</var>
-then <var>alexleb</var>, <var>b-ale</var><var>eps</var>, and if <var>x</var> is rational then <var>a=x=b</var>.
+power <i>v</i>&#8722;1, and <code></code><var>eff</var><code>.Einterval</code> is a list [<i>a</i>,<i>b</i>] of non-negative
+rational numbers such that if <i>x</i> is the E-efficiency measure of <var>D</var>
+then <i>a</i> &#8804; <i>x</i> &#8804; <i>b</i>, <i>b</i>&#8722;<i>a</i> &#8804; <var>eps</var>, and if <i>x</i> is rational then <i>a</i>=<i>x</i>=<i>b</i>.
 Moreover <code></code><var>eff</var><code>.CEFpolynomial</code> contains the monic polynomial over the
 rationals whose zeros (counting multiplicities) are the canonical
 efficiency factors of the design <var>D</var>.  If <code></code><var>includeMV</var><code>=true</code> then
-additional work is done to compute the MV- (also called E<var>'</var>-) efficiency
+additional work is done to compute the MV- (also called E&#8242;-) efficiency
 measure, and then <code></code><var>eff</var><code>.MV</code> contains the value of this measure. (This
 component may be set even if <code></code><var>includeMV</var><code>=false</code>, as a byproduct of
 other computation.)
@@ -144,30 +149,29 @@ other computation.)
 We now define the canonical efficiency factors and the A-, D-, E-,
 and MV-efficiency measures of a 1-design. 
 <p>
-Let <var>D</var> be a 1-<var>(v,k,r)</var> design with <var>vge2</var>, let <var>C</var> be the information
-matrix of <var>D</var> (see <a href="CHAP005.htm#SSEC001.3">InformationMatrix</a>), and let <var>F:=r<sup>-1</sup>C</var>.
-The eigenvalues of <var>F</var> are all real and lie in the interval <var>[0,1]</var>.
+Let <i>D</i> be a 1-(<i>v</i>,<i>k</i>,<i>r</i>) design with <i>v</i> &#8805; 2, let <i>C</i> be the information
+matrix of <i>D</i> (see <a href="CHAP005.htm#SSEC001.3">InformationMatrix</a>), and let <i>F</i>:=<i>r</i><sup>&#8722;1</sup><i>C</i>.
+The eigenvalues of <i>F</i> are all real and lie in the interval [0,1].
 At least one of these eigenvalues is zero: an associated eigenvector is
-the all-<var>1</var> vector. The remaining eigenvalues <var>delta<sub>1</sub>ledelta<sub>2</sub>le
-cdotsledelta<sub>v-1</sub></var> of <var>F</var> are called the <strong>canonical efficiency
-factors</strong> of <var>D</var>. These are all non-zero if and only if <var>D</var> is connected
-(that is, the point-block incidence graph of <var>D</var> is a connected graph).
+the all-1 vector. The remaining eigenvalues &#948;<sub>1</sub> &#8804; &#948;<sub>2</sub> &#8804; &#8230; &#8804; &#948;<sub><i>v</i>&#8722;1</sub> of <i>F</i> are called the <strong>canonical efficiency
+factors</strong> of <i>D</i>. These are all non-zero if and only if <i>D</i> is connected
+(that is, the point-block incidence graph of <i>D</i> is a connected graph).
 <p>
-If <var>D</var> is not connected, then the A-, D-, E-, and MV-efficiency measures
-of <var>D</var> are all defined to be zero.  Otherwise, the <strong>A-efficiency
-measure</strong> is <var>(v-1)/sum<sub>i=1</sub><sup>v-1</sup>1/delta<sub>i</sub></var> (the harmonic mean
+If <i>D</i> is not connected, then the A-, D-, E-, and MV-efficiency measures
+of <i>D</i> are all defined to be zero.  Otherwise, the <strong>A-efficiency
+measure</strong> is (<i>v</i>&#8722;1)/&#8721;<sub><i>i</i>=1</sub><sup><i>v</i>&#8722;1</sup>1/&#948;<sub><i>i</i></sub> (the harmonic mean
 of the canonical efficiency factors), the <strong>D-efficiency measure</strong>
-is <var>(prod<sub>i=1</sub><sup>v-1</sup>delta<sub>i</sub>)<sup>1/(v-1)</sup></var> (the geometric mean of
+is (&#8719;<sub><i>i</i>=1</sub><sup><i>v</i>&#8722;1</sup>&#948;<sub><i>i</i></sub>)<sup>1/(<i>v</i>&#8722;1)</sup> (the geometric mean of
 the canonical efficiency factors), and the <strong>E-efficiency measure</strong> is
-<var>delta<sub>1</sub></var> (the minimum of the canonical efficiency factors).
+&#948;<sub>1</sub> (the minimum of the canonical efficiency factors).
 <p>
-If <var>D</var> is connected, and the MV-efficiency measure is required,
-then it is computed as follows. Let <var>F:=r<sup>-1</sup>C</var> be as before,
-and let <var>P:=v<sup>-1</sup>J</var>, where <var>J</var> is the <var>vtimesv</var> all-1 matrix. Set
-<var>M:=(F+P)<sup>-1</sup>-P</var>, making <var>M</var> the ``Moore-Penrose inverse'' of <var>F</var> (see
-<a href="biblio.htm#BaCa"><cite>BaCa</cite></a>). Then the <strong>MV-efficiency measure</strong> of <var>D</var> is the minimum
-value (over all <var>i,jin{1,...,v}</var>, <var>inot=j</var>) of
-<var>2/(M<sub>ii</sub>+M<sub>jj</sub>-M<sub>ij</sub>-M<sub>ji</sub>)</var>.
+If <i>D</i> is connected, and the MV-efficiency measure is required,
+then it is computed as follows. Let <i>F</i>:=<i>r</i><sup>&#8722;1</sup><i>C</i> be as before,
+and let <i>P</i>:=<i>v</i><sup>&#8722;1</sup><i>J</i>, where <i>J</i> is the <i>v</i>&times;<i>v</i> all-1 matrix. Set
+<i>M</i>:=(<i>F</i>+<i>P</i>)<sup>&#8722;1</sup>&#8722;<i>P</i>, making <i>M</i> the ``Moore-Penrose inverse'' of <i>F</i> (see
+<a href="biblio.htm#BaCa"><cite>BaCa</cite></a>). Then the <strong>MV-efficiency measure</strong> of <i>D</i> is the minimum
+value (over all <i>i</i>,<i>j</i> &#8712; {1,&#8230;,<i>v</i>}, <i>i</i> &#8800; <i>j</i>) of
+2/(<i>M</i><sub><i>ii</i></sub>+<i>M</i><sub><i>jj</i></sub>&#8722;<i>M</i><sub><i>ij</i></sub>&#8722;<i>M</i><sub><i>ji</i></sub>).
 <p>
 <pre>
 gap&gt; D:=DualBlockDesign(AGPointFlatBlockDesign(2,3,1));;
@@ -190,7 +194,50 @@ rec( A := 33/41,
 </pre>
 <p>
 <p>
+<h2><a name="SECT003">5.3 Computing an interval for a certain real zero of a rational polynomial</a></h2>
+<p><p>
+We document a DESIGN package utility function used in the calculation
+of the <code>Einterval</code> component above, but is more widely applicable.
+<p>
+<a name = "SSEC003.1"></a>
+<li><code>DESIGN_IntervalForLeastRealZero( </code><var>f</var><code>, </code><var>a</var><code>, </code><var>b</var><code>, </code><var>eps</var><code> )</code>
+<p>
+Suppose that <var>f</var> is a univariate polynomial over the rationals, <var>a</var>,
+<var>b</var> are rational numbers with <i>a</i>  &#8804; <i>b</i> , and <var>eps</var> is a positive
+rational number.
+<p>
+If <var>f</var> has no real zero in the closed interval [<i>a</i> ,<i>b</i> ], then this
+function returns the empty list.  Otherwise, let &#945; be the least
+real zero of <var>f</var> such that <i>a</i>  &#8804; &#945; &#8804; <i>b</i> . Then this function
+returns a list [<i>c</i>,<i>d</i>] of rational numbers, with <i>c</i> &#8804; &#945; &#8804; <i>d</i>
+and <i>d</i>&#8722;<i>c</i> &#8804; <i>eps</i> . Moreover, <i>c</i>=<i>d</i> if and only if &#945; is rational
+(in which case &#945; = <i>c</i>=<i>d</i>).
+<p>
+<pre>
+gap&gt; x:=Indeterminate(Rationals,1);                     
+x_1
+gap&gt; f:=(x+3)*(x^2-3);
+x_1^3+3*x_1^2-3*x_1-9
+gap&gt; L:=DESIGN_IntervalForLeastRealZero(f,-5,5,10^(-3));
+[ -3, -3 ]
+gap&gt; L:=DESIGN_IntervalForLeastRealZero(f,-2,5,10^(-3));
+[ -14193/8192, -7093/4096 ]
+gap&gt; List(L,Float);             
+[ -1.73254, -1.73169 ]
+gap&gt; L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-3));
+[ 14185/8192, 7095/4096 ]
+gap&gt; List(L,Float);           
+[ 1.73157, 1.73218 ]
+gap&gt; L:=DESIGN_IntervalForLeastRealZero(f,0,5,10^(-5));
+[ 454045/262144, 908095/524288 ]
+gap&gt; List(L,Float);                  
+[ 1.73204, 1.73205 ]
+gap&gt; L:=DESIGN_IntervalForLeastRealZero(f,2,5,10^(-5));
+[  ]
+</pre>
+<p>
+<p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP004.htm">Previous</a>] [<a href ="CHAP006.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>

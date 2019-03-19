@@ -133,9 +133,9 @@ gap&gt; BlockSizes( BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]) );
 <li><code>BlockNumbers( </code><var>D</var><code> )</code>
 <p>
 Let <var>D</var> be a block design. Then this function returns a list of
-the same length as <code>BlockSizes(</code><var>D</var><code>)</code>, such that the <var>i</var>-th element 
+the same length as <code>BlockSizes(</code><var>D</var><code>)</code>, such that the <i>i</i>-th element 
 of this returned list is the number of blocks of <var>D</var> of size
-<code>BlockSizes(</code><var>D</var><code>)[</code><var>i</var><code>]</code>.
+<code>BlockSizes(</code><var>D</var><code>)[<i>i</i>]</code>.
 <p>
 <pre>
 gap&gt; D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]); 
@@ -153,10 +153,10 @@ gap&gt; BlockNumbers(D);
 If the block design <var>D</var> is equireplicate, then this function returns
 its replication number; otherwise <code>fail</code> is returned.
 <p>
-A block design <var>D</var> is <strong>equireplicate</strong> with <strong>replication number</strong> <var>r</var> if,
-for every point <var>x</var> of <var>D</var>, <var>r</var> is equal to the sum over the blocks of
-the multiplicity of <var>x</var> in a block. For a binary block design this is
-the same as saying that each point <var>x</var> is contained in exactly <var>r</var> blocks.
+A block design <i>D</i> is <strong>equireplicate</strong> with <strong>replication number</strong> <i>r</i> if,
+for every point <i>x</i> of <i>D</i>, <i>r</i> is equal to the sum over the blocks of
+the multiplicity of <i>x</i> in a block. For a binary block design this is
+the same as saying that each point <i>x</i> is contained in exactly <i>r</i> blocks.
 <p>
 <pre>
 gap&gt; ReplicationNumber(BlockDesign(4,[[1],[1,2],[2,3,3],[4,4]]));
@@ -168,13 +168,13 @@ fail
 <a name = "SSEC001.12"></a>
 <li><code>PairwiseBalancedLambda( </code><var>D</var><code> )</code>
 <p>
-A binary block design <var>D</var> is <strong>pairwise balanced</strong> if <var>D</var> has at least two
-points and every pair of distinct points is contained in exactly <var>lambda</var>
-blocks, for some positive constant <var>lambda</var>.
+A binary block design <i>D</i> is <strong>pairwise balanced</strong> if <i>D</i> has at least two
+points and every pair of distinct points is contained in exactly &#955;
+blocks, for some positive constant &#955;.
 <p>
 Given a binary block design <var>D</var>, this function returns <code>fail</code> if <var>D</var> is
-not pairwise balanced, and otherwise the positive constant <var>lambda</var> such
-that every pair of distinct points of <var>D</var> is in exactly <var>lambda</var> blocks.
+not pairwise balanced, and otherwise the positive constant &#955; such
+that every pair of distinct points of <var>D</var> is in exactly &#955; blocks.
 <p>
 <pre>
 gap&gt; D:=BlockDesigns(rec(v:=10, blockSizes:=[3,4],       
@@ -196,15 +196,15 @@ gap&gt; PairwiseBalancedLambda(D);
 <li><code>TSubsetLambdasVector( </code><var>D</var><code>, </code><var>t</var><code> )</code>
 <p>
 Let <var>D</var> be a block design, <var>t</var> a non-negative integer, and 
-<code></code><var>v</var><code>=</code><var>D</var><code>.v</code>. Then this function returns an integer vector <var>L</var> 
-whose positions correspond to the <var>t</var>-subsets of <var>{1,...,v}</var>.
-The <var>i</var>-th element of <var>L</var> is the sum over all blocks <var>B</var> of <var>D</var> 
-of the number of times the <var>i</var>-th <var>t</var>-subset (in lexicographic order) 
-is contained in <var>B</var>. (For example, if <var>t=2</var> and <var>B=[1,1,2,3,3,4]</var>, then
-<var>B</var> contains <var>[1,2]</var> twice, <var>[1,3]</var> four times, <var>[1,4]</var> twice,
-<var>[2,3]</var> twice, <var>[2,4]</var> once, and <var>[3,4]</var> twice.) In particular, 
-if <var>D</var> is binary then <var>L[i]</var> is simply the number of blocks of <var>D</var> 
-containing the <var>i</var>-th <var>t</var>-subset (in lexicographic order).
+<code><i>v</i>=</code><var>D</var><code>.v</code>. Then this function returns an integer vector <i>L</i> 
+whose positions correspond to the <var>t</var>-subsets of {1,&#8230;,<i>v</i>}.
+The <i>i</i>-th element of <i>L</i> is the sum over all blocks <i>B</i> of <var>D</var> 
+of the number of times the <i>i</i>-th <var>t</var>-subset (in lexicographic order) 
+is contained in <i>B</i>. (For example, if <i>t</i>=2 and <i>B</i>=[1,1,2,3,3,4], then
+<i>B</i> contains [1,2] twice, [1,3] four times, [1,4] twice,
+[2,3] twice, [2,4] once, and [3,4] twice.) In particular, 
+if <var>D</var> is binary then <i>L</i>[<i>i</i>] is simply the number of blocks of <var>D</var> 
+containing the <i>i</i>-th <var>t</var>-subset (in lexicographic order).
 <p>
 <pre>
 gap&gt; D:=BlockDesign(3,[[1],[1,2,2],[1,2,3],[2],[3]]);;
@@ -221,12 +221,12 @@ gap&gt; TSubsetLambdasVector(D,3);
 <a name = "SSEC001.14"></a>
 <li><code>AllTDesignLambdas( </code><var>D</var><code> )</code>
 <p>
-If the block design <var>D</var> is not a <var>t</var>-design for some <var>tge0</var> then this
+If the block design <var>D</var> is not a <i>t</i>-design for some <i>t</i> &#8805; 0 then this
 function returns an empty list. Otherwise <var>D</var> is a binary block design
-with constant block size <var>k</var>, say, and this function returns a list
-<var>L</var> of length <var>T+1</var>, where <var>T</var> is the maximum <var>tlek</var> such that <var>D</var>
-is a <var>t</var>-design, and, for <var>i=1,...,T+1</var>, <var>L[i]</var> is equal to the
-(constant) number of blocks of <var>D</var> containing an <var>(i-1)</var>-subset of
+with constant block size <i>k</i>, say, and this function returns a list
+<i>L</i> of length <i>T</i>+1, where <i>T</i> is the maximum <i>t</i> &#8804; <i>k</i> such that <var>D</var>
+is a <i>t</i>-design, and, for <i>i</i>=1,&#8230;,<i>T</i>+1, <i>L</i>[<i>i</i>] is equal to the
+(constant) number of blocks of <var>D</var> containing an (<i>i</i>&#8722;1)-subset of
 the point-set of <var>D</var>. The returned result is immutable.
 <p>
 <pre>
@@ -239,10 +239,10 @@ gap&gt; AllTDesignLambdas(PGPointFlatBlockDesign(3,2,1));
 <p>
 A block design is <strong>affine resolvable</strong> if the design is resolvable 
 and any two blocks not in the same parallel class of a resolution 
-meet in a constant number <var>mu</var> of points. 
+meet in a constant number &#956; of points. 
 <p>
 If the block design <var>D</var> is affine resolvable, then this function
-returns its value of <var>mu</var>; otherwise <code>fail</code> is returned.
+returns its value of &#956;; otherwise <code>fail</code> is returned.
 <p>
 The value 0 is returned if, and only if, <var>D</var> consists of a single
 parallel class.
@@ -258,5 +258,5 @@ gap&gt; AffineResolvableMu(A);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2018
+<address>design manual<br>March 2019
 </address></body></html>
