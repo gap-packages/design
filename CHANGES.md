@@ -12,7 +12,9 @@ tst/testall.tst.
 
 5. DESIGN package is now hosted on github.
 
-6. Documentation updated to reflect move to github and version change. 
+6. The utility function DESIGN_IntervalForLeastRealZero was documented. 
+
+7. Documentation updated to reflect move to github and version change. 
 
 Main change from DESIGN 1.5 to DESIGN 1.6 (November 2011)
 ---------------------------------------------------------
