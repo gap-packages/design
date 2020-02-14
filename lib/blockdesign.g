@@ -175,7 +175,7 @@ BindGlobal("BlockIntersectionPolynomialCheck",function(m,lambdavec)
 # has a non-negative value whenever x is an integer. 
 # Returns true if all this is so; else false is returned.
 #
-local c,x,B,D,i,xmin,intxmin;
+local c,x,B,D,i,xmin,closestintxmin;
 if not IsList(m) or not IsList(lambdavec) then
    Error("usage: BlockIntersectionPolynomialCheck( <List>, <List> )");
 fi;
@@ -205,12 +205,8 @@ elif Length(c)=1 then
 elif Length(c)=3 then
    # B is a quadratic with positive leading term.
    xmin:=-c[2]/(2*c[3]); #  B has minimum value at xmin. 
-   intxmin:=Int(xmin);
-   if Value(B,intxmin)<0 then
-      return false;
-   else
-      return Value(B,intxmin+1)>=0;
-   fi;
+   closestintxmin:=BestQuoInt(NumeratorRat(xmin),DenominatorRat(xmin));
+   return Value(B,closestintxmin)>=0;
 fi;
 # Now apply the bound in [Soicher, MCompSci Thesis] to the absolute
 # values of the zeros of B.  See also:  
