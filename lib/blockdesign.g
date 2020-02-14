@@ -175,7 +175,7 @@ BindGlobal("BlockIntersectionPolynomialCheck",function(m,lambdavec)
 # has a non-negative value whenever x is an integer. 
 # Returns true if all this is so; else false is returned.
 #
-local c,x,B,D,i;
+local c,x,B,D,i,xmin,intxmin;
 if not IsList(m) or not IsList(lambdavec) then
    Error("usage: BlockIntersectionPolynomialCheck( <List>, <List> )");
 fi;
@@ -200,8 +200,17 @@ elif c[Length(c)]<0 or c[1]<0 or Length(c) mod 2 = 0 then
    # B has negative leading coef or B(0)<0 or B has odd degree.
    return false;
 elif Length(c)=1 then
-   # B is a constant positive polynomial
+   # B is a constant positive polynomial.
    return true;
+elif Length(c)=3 then
+   # B is a quadratic with positive leading term.
+   xmin:=-c[2]/(2*c[3]); #  B has minimum value at xmin. 
+   intxmin:=Int(xmin);
+   if Value(B,intxmin)<0 then
+      return false;
+   else
+      return Value(B,intxmin+1)>=0;
+   fi;
 fi;
 # Now apply the bound in [Soicher, MCompSci Thesis] to the absolute
 # values of the zeros of B.  See also:  
