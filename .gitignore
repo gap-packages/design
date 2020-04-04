@@ -11,6 +11,10 @@ doc/manual.log
 doc/manual.pdf
 doc/manual.six
 doc/manual.toc
+
+doc/tthmacros.tex
+doc/tthout
+
 htm/
 
 gh-pages/
