@@ -102,6 +102,16 @@ gap> ResolvableTDesignBlockMultiplicityBound(2,12,4,3);
 1
 gap> TDesignBlockMultiplicityBound(2,12,4,3);
 2
+gap> OARunMultiplicityBound(81,14,3,3);
+1
+gap> OARunMultiplicityBound(81,15,3,3);
+0
+gap> OARunMultiplicityBound(36,[18,1,1],[2,3,6],2);
+1
+gap> OARunMultiplicityBound(72,7,6,2);
+2
+gap> OARunMultiplicityBound(72,8,6,2);
+1
 gap> x:=Indeterminate(Rationals,1);
 x_1
 gap> m:=[0,0,0,0,0,0,0,1];;

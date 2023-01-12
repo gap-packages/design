@@ -9,7 +9,7 @@
 \def\nauty{\it nauty}
 \def\Aut{{\rm Aut}\,}
 \def\x{\times}
-\Chapter{Information from block design parameters}
+\Chapter{Information from design parameters}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Information from $t$-design parameters}
@@ -191,6 +191,65 @@ gap> ResolvableTDesignBlockMultiplicityBound(2,12,4,3);
 gap> TDesignBlockMultiplicityBound(2,12,4,3);          
 2
 \endexample
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{Information from (mixed) orthogonal array parameters}
+
+For positive integers $N,k,s,t$, with $t\le k$, an *orthogonal array*
+\index{orthogonal array}
+OA$(N,k,s,t)$ is an $N\times k$ array, in which the entries come from a
+set of *symbols* of size $s>1$, with the property that in any $N\times t$
+subarray, every possible $t$-tuple of symbols occurs as a row equally
+often (which must be $N/s^t$ times).
+
+For positive integers $N,k_1,\ldots,k_w,s_1,\ldots,s_w,t$, a *mixed
+orthogonal array* 
+\index{mixed orthogonal array}
+OA$(N,s_1^{k_1},\ldots,s_w^{k_w},t)$ is an $N\times k$
+array, where $t\le k:=k_1+\cdots +k_w$, in which the entries in the first
+$k_1$ columns come from a set of symbols of size $s_1>1$, the entries
+in the next $k_2$ columns come from a set of symbols of size $s_2>1$,
+and so on, with the property that in any $N\times t$ subarray, every
+possible $t$-tuple of symbols occurs as a row equally often.
+Clearly, a mixed orthogonal array OA$(N,s^k,t)$ is the same thing as an
+orthogonal array OA$(N,k,s,t)$.  
+
+The rows of an orthogonal array or mixed orthogonal array are called *runs*. 
+The *multiplicity* of a run is the number of times it appears as a row
+in the array.
+
+
+\>OARunMultiplicityBound( <N>, <k>, <s>, <t> )
+
+Suppose <N> is a positive integer, and <k> and <s> are non-empty lists
+of the same length, $w$ say, of positive integers, <t> is a positive
+integer $\le$ `Sum(<k>)', and each entry of <s> is at least 2.
+Then this function returns an upper bound on the multiplicity of any
+run in a mixed orthogonal array 
+OA$(N,s[1]^{k[1]},...,s[w]^{k[w]},t)$.
+In particular, if the value $0$ is returned, then this implies that a
+mixed orthogonal array with the given parameters does not exist.
+If <k> is given as an integer, it is replaced by `[<k>]', and
+if <s> is given as an integer, it is replaced by `[<s>]'.
+
+We do not claim that the returned upper bound $m$ is achieved; that
+is, there may well not exist a mixed orthogonal array with the given
+parameters having a run with multiplicity $m$.
+
+\beginexample
+gap> OARunMultiplicityBound(81,14,3,3);
+1
+gap> OARunMultiplicityBound(81,15,3,3);
+0
+gap> OARunMultiplicityBound(36,[18,1,1],[2,3,6],2);
+1
+gap> OARunMultiplicityBound(72,7,6,2);
+2
+gap> OARunMultiplicityBound(72,8,6,2);
+1
+\endexample
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Block intersection polynomials}

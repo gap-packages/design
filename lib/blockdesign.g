@@ -8,7 +8,7 @@
 # block designs with given properties.
 # At present there is limited support for non-binary block designs.
 # 
-# Copyright (C) 2003-2021 Leonard H. Soicher
+# Copyright (C) 2003-2023 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -899,109 +899,89 @@ end);
 
 BindGlobal("OARunMultiplicityBound",function(N,k,s,t)
 #
-# Returns an upper bound on the multiplicity of a run in an
-# orthogonal array  OA(N,k,s,t). 
+# Suppose N is a positive integer, and k and s are non-empty
+# lists of the same length, w say, of positive integers, 
+# with each element of s >1, and t is a positive integer <= Sum(k). 
 #
+# Then this function returns an upper bound on the multiplicity of 
+# any run in a mixed orthogonal array OA(N,s[1]^k[1],...,s[w]^k[w],t). 
+#
+# If k is given as an integer, it is replaced by [k].
+# If s is given as an integer, it is replaced by [s].
+#
+local runmultiplicitybound,S,i,j;
 
-local runmultiplicitybound;
-
-runmultiplicitybound:=function(N,k,s,t)
+runmultiplicitybound:=function(N,S,t)
 #
 # This function does most of the work.
-# It is assumed that N,k,s,t are positive integers, with
-# k>=t>=1  and  s>1, but this is not checked.
+# S is a nonempty list whose length is the number of factors, and 
+# with S[i] being the number of symbols for the i-th factor.
 #
-local lambda,lambdavec,multbound,m,lower,upper,mid;
-lambda:=N/s^t;
-if not IsInt(lambda) then
-   # There cannot be an OA(N,k,s,t). 
-   return 0;
-elif t=1 then
-   return lambda;
-fi;
-# Now  k>=t>=2. 
-lambdavec:=List([0..t],i->N/s^i); 
-multbound:=runmultiplicitybound(N/s,k-1,s,t-1);
-if t mod 2 <> 0 or multbound=0 then
-   return multbound;
-fi;
-# Now t>=2 is even.
-# Refine bound using block intersection polynomials and binary search.
-m:=ListWithIdenticalEntries(k+1,0);
-lower:=0;
-upper:=multbound+1;
-# The bound on the multiplicity of a run is  >= lower  and  < upper.
-while upper-lower>1 do
-   mid:=Int((lower+upper)/2); 
-   m[k+1]:=mid;
-   if BlockIntersectionPolynomialCheck(m,lambdavec) then
-      lower:=mid;
+local lambdavec,m,i,j,C,c,nr,kk,mixed;
+lambdavec:=[N];
+kk:=Length(S); # number of factors
+mixed:=ForAny(S,x->x<>S[1]);
+for i in [1..t] do
+   # determine lambdavec[i+1]
+   if not mixed then
+      lambdavec[i+1]:=N/S[1]^i;
    else
-      upper:=mid;
+      lambdavec[i+1]:=0;
+      C:=Combinations([1..kk],i);
+      for c in C do
+         nr:=Product(S{c});
+         if N mod nr <> 0 then
+            return 0;
+         else
+            lambdavec[i+1]:=lambdavec[i+1]+N/nr;
+         fi;
+      od;
+      lambdavec[i+1]:=lambdavec[i+1]/Binomial(kk,i);
    fi;
 od;
-return lower;
+if t=1 then
+   return Minimum(List(S,x->N/x));
+fi;
+# Now  Length(S) >= t >= 2. 
+if t mod 2 <> 0 then
+   return Minimum(List([1..kk],
+      i->runmultiplicitybound(N/S[i],S{Difference([1..kk],[i])},t-1)));
+fi;
+# Now t>=2 is even.
+# Determine the bound using block intersection polynomials.
+m:=ListWithIdenticalEntries(kk+1,0);
+m[kk+1]:=1;
+while BlockIntersectionPolynomialCheck(m,lambdavec) do
+   m[kk+1]:=m[kk+1]+1;
+od;
+return m[kk+1]-1;
 end;
 
-if not (IsPosInt(N) and IsPosInt(k) and IsPosInt(s) and IsPosInt(t)) then
-   Error("usage: OARunMultiplicityBound( <PosInt>, <PosInt>, <PosInt>, <PosInt> )");
+if IsPosInt(k) then
+   k:=[k];
 fi;
-if t>k or s<2 then
-   Error("must have <t> <= <k> and <s> >= 2");
+if IsPosInt(s) then
+   s:=[s];
 fi;
-return runmultiplicitybound(N,k,s,t);
-end);
-
-BindGlobal("ResolvableOARunMultiplicityBound",function(N,k,s,t)
-#
-# Returns an upper bound on the multiplicity of a run in a
-# resolvable orthogonal array  OA(N,k,s,t). 
-#
-local lambda,lambdavec,multbound,m,lower,upper,mid;
-if not (IsPosInt(N) and IsPosInt(k) and IsPosInt(s) and IsPosInt(t)) then
-   Error("usage: ResolvableOARunMultiplicityBound( <PosInt>, <PosInt>, <PosInt>, <PosInt> )");
+if not (IsPosInt(N) and IsList(k) and IsList(s) and IsPosInt(t)) then
+   Error("usage: OARunMultiplicityBound( <PosInt>, <PosInt> or <List>, <PosInt> or <List>, <PosInt> )");
 fi;
-if t>k or s<2 then
-   Error("must have <t> <= <k> and <s> >= 2");
+if ForAny(k,x->not IsPosInt(x)) or t>Sum(k) then
+   Error("<k> must be a list of positive integers, with Sum(<k>) >= <t>");
 fi;
-lambda:=N/s^t;
-if not IsInt(lambda) then
-   # There cannot be an OA(N,k,s,t). 
-   return 0;
-elif t=1 then
-   return lambda;
+if ForAny(s,x->not IsInt(x) or x<2) then
+   Error("each element of <s> must be an integer > 1");
 fi;
-#
-# Now  k>=t>=2.  
-#
-# Initialize multbound with an upper bound to the multiplicity
-# of a run in *any* orthogonal array OA(N,k,s,t).
-#
-multbound:=OARunMultiplicityBound(N,k,s,t);
-if t mod 2 <> 0 or multbound=0 then
-   return multbound;
+if Length(s)<>Length(k) then
+   Error("<s> and <k> must have equal length");
 fi;
-#
-# Now t>=2 is even.
-#
-# Refine bound using block intersection polynomials and binary search.
-# 
-lambdavec:=List([0..t],i->N/s^i); 
-m:=ListWithIdenticalEntries(k+1,0);
-lower:=0;
-upper:=multbound+1;
-# The bound on the multiplicity of a run is  >= lower  and  < upper.
-while upper-lower>1 do
-   mid:=Int((lower+upper)/2); 
-   m[k+1]:=mid;
-   m[1]:=(s-1)*mid;
-   if BlockIntersectionPolynomialCheck(m,lambdavec) then
-      lower:=mid;
-   else
-      upper:=mid;
-   fi;
+S:=[];
+for i in [1..Length(s)] do
+   for j in [1..k[i]] do
+      Add(S,s[i]);
+   od;
 od;
-return lower;
+return runmultiplicitybound(N,S,t);
 end);
 
 BindGlobal("ResolvableTDesignBlockMultiplicityBound",function(t,v,k,lambda)
