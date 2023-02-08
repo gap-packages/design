@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
-Version := "1.7",
-Date := "18/03/2019", # dd/mm/yyyy format
+Version := "1.8",
+Date := "28/02/2023", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(
@@ -34,7 +34,7 @@ Persons := [
     IsAuthor := true,
     IsMaintainer := true,
     Email := "L.H.Soicher@qmul.ac.uk",
-    WWWHome := "http://www.maths.qmul.ac.uk/~lsoicher/",
+    WWWHome := "https://webspace.maths.qmul.ac.uk/l.h.soicher/",
     Place := "London",
     Institution := Concatenation( [
       "School of Mathematical Sciences, ",

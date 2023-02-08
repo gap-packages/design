@@ -222,19 +222,22 @@ in the array.
 
 \>OARunMultiplicityBound( <N>, <k>, <s>, <t> )
 
-Suppose <N> is a positive integer, and <k> and <s> are non-empty lists
-of the same length, $w$ say, of positive integers, <t> is a positive
-integer $\le$ `Sum(<k>)', and each entry of <s> is at least 2.
-Then this function returns an upper bound on the multiplicity of any
-run in a mixed orthogonal array 
+Suppose <N>, <k>, <s>, and <t> are positive integers, with <k> $\ge$ <t> and
+<s> $\ge 2$. Then this function returns an upper bound on the multiplicity
+of any run in an orthogonal array OA$(N,k,s,t)$. 
+
+An upper bound on the multiplicity of a run in a mixed orthogonal array
+can be obtained by replacing <k> and <s> by non-empty lists of the same
+length, $w$ say, of positive integers, such that <t> $\le$ `Sum(<k>)',
+and each entry of <s> is at least 2.  Then the function returns an
+upper bound on the multiplicity of any run in a mixed orthogonal array
 OA$(N,s[1]^{k[1]},...,s[w]^{k[w]},t)$.
-In particular, if the value $0$ is returned, then this implies that a
-mixed orthogonal array with the given parameters does not exist.
-If <k> is given as an integer, it is replaced by `[<k>]', and
-if <s> is given as an integer, it is replaced by `[<s>]'.
+
+If the value $0$ is returned, then this implies that an orthogonal array
+or mixed orthogonal array with the given parameters does not exist.
 
 We do not claim that the returned upper bound $m$ is achieved; that
-is, there may well not exist a mixed orthogonal array with the given
+is, there may well not exist a (mixed) orthogonal array with the given
 parameters having a run with multiplicity $m$.
 
 \beginexample

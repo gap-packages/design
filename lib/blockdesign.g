@@ -904,57 +904,80 @@ BindGlobal("OARunMultiplicityBound",function(N,k,s,t)
 # with each element of s >1, and t is a positive integer <= Sum(k). 
 #
 # Then this function returns an upper bound on the multiplicity of 
-# any run in a mixed orthogonal array OA(N,s[1]^k[1],...,s[w]^k[w],t). 
+# any run in a (mixed) orthogonal array OA(N,s[1]^k[1],...,s[w]^k[w],t). 
 #
 # If k is given as an integer, it is replaced by [k].
 # If s is given as an integer, it is replaced by [s].
 #
+# The technique used is based on 
+# P.J. Cameron and L.H. Soicher, Block intersection polynomials, 
+# Bull. London Math. Soc. 39 (2007), 559-564.
+#
+
 local runmultiplicitybound,S,i,j;
 
 runmultiplicitybound:=function(N,S,t)
 #
 # This function does most of the work.
 # S is a nonempty list whose length is the number of factors, and 
-# with S[i] being the number of symbols for the i-th factor.
+# with S[i] being the size of the symbol set for the i-th factor.
 #
-local lambdavec,m,i,j,C,c,nr,kk,mixed;
-lambdavec:=[N];
-kk:=Length(S); # number of factors
-mixed:=ForAny(S,x->x<>S[1]);
-for i in [1..t] do
-   # determine lambdavec[i+1]
-   if not mixed then
-      lambdavec[i+1]:=N/S[1]^i;
-   else
-      lambdavec[i+1]:=0;
-      C:=Combinations([1..kk],i);
-      for c in C do
-         nr:=Product(S{c});
-         if N mod nr <> 0 then
-            return 0;
-         else
-            lambdavec[i+1]:=lambdavec[i+1]+N/nr;
-         fi;
-      od;
-      lambdavec[i+1]:=lambdavec[i+1]/Binomial(kk,i);
-   fi;
-od;
+local lambdavec,m,i,C,c,count,nrtuples,nrfactors,num,
+   symbolsetsizes,maxsymbolsetsize;
+nrfactors:=Length(S);
+symbolsetsizes:=Set(S); # the set of the sizes of the symbol sets
+maxsymbolsetsize:=symbolsetsizes[Length(symbolsetsizes)];
 if t=1 then
-   return Minimum(List(S,x->N/x));
+   if ForAny(symbolsetsizes,size->N mod size <> 0) then
+      return 0;
+   else
+      return N/maxsymbolsetsize;
+   fi;
 fi;
-# Now  Length(S) >= t >= 2. 
+# Now Length(S) >= t >= 2. 
 if t mod 2 <> 0 then
-   return Minimum(List([1..kk],
-      i->runmultiplicitybound(N/S[i],S{Difference([1..kk],[i])},t-1)));
+   return Minimum(List(symbolsetsizes,size->
+      runmultiplicitybound(N/size,S{Difference([1..nrfactors],[Position(S,size)])},t-1)));
 fi;
-# Now t>=2 is even.
-# Determine the bound using block intersection polynomials.
-m:=ListWithIdenticalEntries(kk+1,0);
-m[kk+1]:=1;
-while BlockIntersectionPolynomialCheck(m,lambdavec) do
-   m[kk+1]:=m[kk+1]+1;
+# Now t>=2 is even, and we determine the bound using
+# block intersection polynomials.
+num:=ListWithIdenticalEntries(maxsymbolsetsize,0);
+for i in [1..nrfactors] do
+   num[S[i]]:=num[S[i]]+1;
 od;
-return m[kk+1]-1;
+# So now, num[j] is the number of factors having a symbol set of size j.
+lambdavec:=[N];
+for i in [1..t] do
+   #
+   # determine lambdavec[i+1]
+   #
+   lambdavec[i+1]:=0;
+   C:=Combinations(S,i); # the set of submultisets of S of size i 
+   for c in C do
+      nrtuples:=Product(c);
+      # nrtuples is the number of i-tuples where the first element
+      # is from a symbol set of size c[1], the second from a symbol
+      # set of size c[2], and so on.
+      if N mod nrtuples <> 0 then
+         return 0;
+      fi;
+      count:=Product(Collected(c),x->Binomial(num[x[1]],x[2]));
+      # count is the number of times the multiset  c  occurs over 
+      # all choices of  i  elements from  S.
+      #
+      # Now add in their contribution.
+      # 
+      lambdavec[i+1]:=lambdavec[i+1]+count*(N/nrtuples);
+   od;
+   # Now take the average contribution.
+   lambdavec[i+1]:=lambdavec[i+1]/Binomial(nrfactors,i); 
+od;
+m:=ListWithIdenticalEntries(nrfactors+1,0);
+m[nrfactors+1]:=1;
+while BlockIntersectionPolynomialCheck(m,lambdavec) do
+   m[nrfactors+1]:=m[nrfactors+1]+1;
+od;
+return m[nrfactors+1]-1;
 end;
 
 if IsPosInt(k) then
