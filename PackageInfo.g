@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
-Version := "1.7",
-Date := "18/03/2019", # dd/mm/yyyy format
+Version := "1.8",
+Date := "20/02/2023", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(
@@ -34,7 +34,7 @@ Persons := [
     IsAuthor := true,
     IsMaintainer := true,
     Email := "L.H.Soicher@qmul.ac.uk",
-    WWWHome := "http://www.maths.qmul.ac.uk/~lsoicher/",
+    WWWHome := "https://webspace.maths.qmul.ac.uk/l.h.soicher/",
     Place := "London",
     Institution := Concatenation( [
       "School of Mathematical Sciences, ",
@@ -64,7 +64,7 @@ AcceptDate := "08/2006",
 ##  for a Webpage with more detailed information about the package
 ##  (not more than a few lines, less is ok):
 ##  Please, use '<span class="pkgname">GAP</span>' and
-##  '<span class="pkgname">MyPKG</span>' for specifing package names.
+##  '<span class="pkgname">MyPKG</span>' for specifying package names.
 ##  
 AbstractHTML := "<span class=\"pkgname\">DESIGN</span> is a package for \
 constructing, classifying, partitioning, and studying block designs.",
@@ -147,7 +147,7 @@ TestFile := "tst/testall.g",
 ##  *Optional*: Here you can list some keyword related to the topic 
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["block design","t-design","design","resolution","efficiency","semi-Latin square","SOMA"]
+Keywords := ["block design","t-design","design","resolution","efficiency","semi-Latin square","SOMA","orthogonal array"]
 
 ));
 

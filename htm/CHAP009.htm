@@ -86,9 +86,9 @@ and at least one entry of <code></code><var>param</var><code>.blockNumbers</code
 <p>
 <code></code><var>param</var><code>.blockIntersectionNumbers</code> must be a symmetric matrix of sets
 of non-negative integers, the <code>[</code><var>i</var><code>][</code><var>j</var><code>]</code>-element of which specifies
-the set of possible sizes for the intersection of a block <i>B</i> of size
+the set of possible sizes for the intersection of a block <var>B</var> of size
 <code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> with a different block (but possibly a repeat of
-<i>B</i>) of size <code></code><var>param</var><code>.blockSizes[</code><var>j</var><code>]</code> (in each design in each partition
+<var>B</var>) of size <code></code><var>param</var><code>.blockSizes[</code><var>j</var><code>]</code> (in each design in each partition
 in <var>PL</var>). In the case of multisets, we take the multiplicity of an
 element in the intersection to be the minimum of its multiplicities in
 the multisets being intersected; for example, the intersection of
@@ -216,12 +216,12 @@ This function computes resolutions of the block design <var>D</var>, and stores
 the result in <code></code><var>D</var><code>.resolutions</code>. If <code></code><var>D</var><code>.resolutions</code> already exists
 then it is ignored and overwritten. This function returns no value.
 <p>
-A <strong>resolution</strong> of a block design <i>D</i> is a partition of the blocks into
+A <strong>resolution</strong> of a block design <var>D</var> is a partition of the blocks into
 subsets, each of which forms a partition of the point set.  We say that
-two resolutions <i>R</i> and <i>S</i> of <i>D</i> are <strong>isomorphic</strong> if there is an element
-<i>g</i> in the automorphism group of <i>D</i>, such that the <i>g</i>-image of <i>R</i>
-is <i>S</i>. (Isomorphism defines an equivalence relation on the set of
-resolutions of <i>D</i>.)
+two resolutions <var>R</var> and <var>S</var> of <var>D</var> are <strong>isomorphic</strong> if there is an element
+<var>g</var> in the automorphism group of <var>D</var>, such that the <var>g</var>-image of <var>R</var>
+is <var>S</var>. (Isomorphism defines an equivalence relation on the set of
+resolutions of <var>D</var>.)
 <p>
 The parameter <var>isolevel</var> (default 2) determines how many resolutions are
 computed: <var>isolevel</var>=2 means to classify up to isomorphism, <var>isolevel</var>=1
@@ -278,5 +278,5 @@ rec( isBlockDesign := true, v := 9,
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP008.htm">Previous</a>] [<a href ="CHAP010.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>March 2019
+<address>design manual<br>February 2023
 </address></body></html>

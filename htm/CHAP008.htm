@@ -16,41 +16,41 @@ a list of their duals as block designs.
 <p>
 <h2><a name="SECT001">8.1 Semi-Latin squares and SOMAs</a></h2>
 <p><p>
-Let <i>n</i> and <i>k</i> be positive integers. An (<i>n</i>&times;<i>n</i>)/<i>k</i> <strong>semi-Latin
+Let <var>n</var> and <var>k</var> be positive integers. An <var>(ntimesn)/k</var> <strong>semi-Latin
 square</strong>
 <a name = "I0"></a>
 
-is an <i>n</i> by <i>n</i> array <i>A</i>, whose
-entries are <i>k</i>-subsets of a <i>kn</i>-set <i>X</i> (the <strong>symbol-set</strong>), such that
-each element of <i>X</i> occurs exactly once in each row and exactly once in
-each column of <i>A</i>. (Thus an (<i>n</i>&times;<i>n</i>)/1 semi-Latin square is the same
-thing as a Latin square of order <i>n</i>.) For extensive useful information on
+is an <var>n</var> by <var>n</var> array <var>A</var>, whose
+entries are <var>k</var>-subsets of a <var>kn</var>-set <var>X</var> (the <strong>symbol-set</strong>), such that
+each element of <var>X</var> occurs exactly once in each row and exactly once in
+each column of <var>A</var>. (Thus an <var>(ntimesn)/1</var> semi-Latin square is the same
+thing as a Latin square of order <var>n</var>.) For extensive useful information on
 semi-Latin squares, see <a href="http://www.maths.qmul.ac.uk/~rab/sls.html">http://www.maths.qmul.ac.uk/~rab/sls.html</a>.
 <p>
-A SOMA(<i>k</i>,<i>n</i>)
+A SOMA<var>(k,n)</var>
 <a name = "I1"></a>
 
-is an (<i>n</i>&times;<i>n</i>)/<i>k</i> semi-Latin square <i>A</i>,
-with <i>n</i> &#8805; 2, in which no 2-subset of the symbol-set is contained in
-more than one entry of <i>A</i>.  For extensive useful information on SOMAs,
+is an <var>(ntimesn)/k</var> semi-Latin square <var>A</var>,
+with <var>nge2</var>, in which no 2-subset of the symbol-set is contained in
+more than one entry of <var>A</var>.  For extensive useful information on SOMAs,
 see <a href="http://www.maths.qmul.ac.uk/~lsoicher/soma/">http://www.maths.qmul.ac.uk/~lsoicher/soma/</a>.
 <p>
-Let <i>A</i> and <i>B</i> be (<i>n</i>&times;<i>n</i>)/<i>k</i> semi-Latin squares.  We say that
-<i>B</i> is <strong>(weakly) isomorphic</strong> to <i>A</i> if <i>B</i> can be obtained from <i>A</i>
+Let <var>A</var> and <var>B</var> be <var>(ntimesn)/k</var> semi-Latin squares.  We say that
+<var>B</var> is <strong>(weakly) isomorphic</strong> to <var>A</var> if <var>B</var> can be obtained from <var>A</var>
 by applying one or more of: a row permutation; a column permutation;
 transposing; renaming the symbols. If transposing is not allowed then we
-get the concept of strong isomorphism. More formally, <i>B</i> is <strong>strongly
-isomorphic</strong> to <i>A</i> if <i>B</i> can be obtained from <i>A</i> by applying one or
+get the concept of strong isomorphism. More formally, <var>B</var> is <strong>strongly
+isomorphic</strong> to <var>A</var> if <var>B</var> can be obtained from <var>A</var> by applying one or
 more of: a row permutation; a column permutation; renaming the symbols.
 <p>
-Let <i>A</i> be an (<i>n</i>&times;<i>n</i>)/<i>k</i>  semi-Latin square.  Then the dual of <i>A</i>
+Let <var>A</var> be an <var>(ntimesn)/k</var>  semi-Latin square.  Then the dual of <var>A</var>
 can be represented as a binary block design as follows. The point-set of
-<i>D</i> is taken to be the Cartesian square of {1,&#8230;,<i>n</i>}, with [<i>x</i>,<i>y</i>]
-representing the [<i>x</i>,<i>y</i>]-entry of <i>A</i>. The blocks of <i>D</i> are in one-to-one
-correspondance with the symbols of <i>A</i>, with the <i>i</i>-th block of <i>D</i>
-consisting of the ordered pairs [<i>x</i>,<i>y</i>] such that the <i>i</i>-th symbol of
-<i>A</i> is contained in the [<i>x</i>,<i>y</i>]-entry of <i>A</i>. Given <i>D</i>, the semi-Latin
-square <i>A</i> can be recovered, up to the naming of its symbols.
+<var>D</var> is taken to be the Cartesian square of <var>{1,...,n}</var>, with <var>[x,y]</var>
+representing the <var>[x,y]</var>-entry of <var>A</var>. The blocks of <var>D</var> are in one-to-one
+correspondence with the symbols of <var>A</var>, with the <var>i</var>-th block of <var>D</var>
+consisting of the ordered pairs <var>[x,y]</var> such that the <var>i</var>-th symbol of
+<var>A</var> is contained in the <var>[x,y]</var>-entry of <var>A</var>. Given <var>D</var>, the semi-Latin
+square <var>A</var> can be recovered, up to the naming of its symbols.
 <p>
 <p>
 <h2><a name="SECT002">8.2 The function SemiLatinSquareDuals</a></h2>
@@ -63,10 +63,10 @@ square <i>A</i> can be recovered, up to the naming of its symbols.
 <p>
 Let <var>n</var> and <var>k</var> be positive integers. Then this function (which makes
 heavy use of the function <code>BlockDesigns</code>) returns a list <var>DL</var> of block
-designs which are the duals of the (<i>n</i> &times;<i>n</i> )/<i>k</i>  semi-Latin
+designs which are the duals of the <var>(<var>n</var>times<var>n</var>)/<var>k</var></var> semi-Latin
 squares whose properties are specified by the given parameters, described
 below. In practice, depending on the specified properties, this function
-can be useful for <var>n</var> up to about 6 or 7.
+can be useful for <var>n</var> up to about <var>6</var> or <var>7</var>.
 <p>
 The parameter <var>maxmult</var>, if given, must be a positive integer or
 the string <code>"default"</code>. If it is a positive integer, then <var>maxmult</var>
@@ -78,14 +78,14 @@ on the block multiplicities.
 The parameter <var>blockintsizes</var>, if given, must be a set of non-negative
 integers or the string <code>"default"</code>.  If it is given as a set, then
 <var>blockintsizes</var> specifies, for each semi-Latin square dual in <var>DL</var>,
-the set of possible sizes for the intersection of a block <i>B</i> with a
-different block (but possibly a repeat of <i>B</i>).  The default value for
+the set of possible sizes for the intersection of a block <var>B</var> with a
+different block (but possibly a repeat of <var>B</var>).  The default value for
 <var>blockintsizes</var> (if omitted or if given as <code>"default"</code>) is <code>[0..</code><var>n</var><code>]</code>,
 which poses no constraint on the block intersection sizes. Note that
 block intersection sizes in the dual of a semi-Latin square correspond
 to concurrencies of points in the semi-Latin square itself. Also note
-that if <i>n</i>  &#8805; 2 and <var>blockintsizes</var> is specified to be <code>[0,1]</code> then
-the (<i>n</i>&times;<i>n</i>)/<i>k</i> semi-Latin squares being considered are SOMA(<i>k</i>,<i>n</i>)s.
+that if <var><var>n</var>ge2</var> and <var>blockintsizes</var> is specified to be <code>[0,1]</code> then
+the <var>(ntimesn)/k</var> semi-Latin squares being considered are SOMA<var>(k,n)</var>s.
 <p>
 The parameter <var>isolevel</var>, if given, must be 0, 1, 2, 3, 4 or the string
 <code>"default"</code> (the default value is 2).  The value 0 specifies that <var>DL</var>
@@ -99,16 +99,16 @@ will contain precisely one dual semi-Latin square representative for
 each weak isomorphism class of semi-Latin squares with the required
 properties. The values 3 and 4 for <var>isolevel</var> play the roles of 1 and 2,
 respectively, but with weak isomorphism replaced by strong isomorphism.
-Thus, <i>isolevel</i> =3 specifies that <var>DL</var> will contain a list of duals
+Thus, <var><var>isolevel</var>=3</var> specifies that <var>DL</var> will contain a list of duals
 representing all strong isomorphism classes of semi-Latin squares with
 the required properties (possibly with some classes represented more than
-once) and <i>isolevel</i> =4 specifies that <var>DL</var> will contain precisely one
+once) and <var><var>isolevel</var>=4</var> specifies that <var>DL</var> will contain precisely one
 dual semi-Latin square representative for each strong isomorphism class
 of semi-Latin squares with the required properties.
 <p>
 For example, we determine the numbers of weak and strong isomorphism
-classes of (4&times;4)/<i>k</i> semi-Latin squares for <i>k</i>=1,&#8230;,6. (These
-numbers disagree with P.&nbsp;E.&nbsp;Chigbu's classification for the cases <i>k</i>=3,4
+classes of <var>(4times4)/k</var> semi-Latin squares for <var>k=1,...,6</var>. (These
+numbers disagree with P.&nbsp;E.&nbsp;Chigbu's classification for the cases <var>k=3,4</var>
 <a href="biblio.htm#BaCh"><cite>BaCh</cite></a>.)
 <p>
 <pre>
@@ -118,7 +118,7 @@ gap&gt; List([1..6],k-&gt;Length(SemiLatinSquareDuals(4,k,"default","default",4)
 [ 2, 11, 46, 201, 829, 3343 ]
 </pre>
 <p>
-Next, we determine one SOMA(3,6). 
+Next, we determine one SOMA<var>(3,6)</var>. 
 <p>
 <pre>
 gap&gt; SemiLatinSquareDuals(6,3,"default",[0,1],0);
@@ -146,5 +146,5 @@ gap&gt; SemiLatinSquareDuals(6,3,"default",[0,1],0);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href ="CHAP009.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>March 2019
+<address>design manual<br>February 2023
 </address></body></html>

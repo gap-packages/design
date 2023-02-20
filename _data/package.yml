@@ -1,16 +1,16 @@
 name: DESIGN
-version: 1.7
-date: 2019-03-18
+version: 1.8
+date: 2023-02-20
 description: |
     The Design Package for GAP
 
 authors:
     - name: Leonard H. Soicher
-      url: http://www.maths.qmul.ac.uk/~lsoicher/
+      url: https://webspace.maths.qmul.ac.uk/l.h.soicher/
 
 maintainers:
     - name: Leonard H. Soicher
-      url: http://www.maths.qmul.ac.uk/~lsoicher/
+      url: https://webspace.maths.qmul.ac.uk/l.h.soicher/
 
 GAP: ">=4.10"
 
@@ -28,7 +28,7 @@ packageinfo: https://gap-packages.github.io/design/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/design/releases/download/v1.7/design-1.7.tar.gz
+      url: https://github.com/gap-packages/design/releases/download/v1.8/design-1.8.tar.gz
 
 abstract: |
     <span class="pkgname">DESIGN</span> is a package for constructing, classifying, partitioning, and studying block designs.
@@ -37,30 +37,30 @@ status: accepted
 doc-html: htm/chapters.htm
 doc-pdf: doc/manual.pdf
 keywords: |
-    block design, t-design, design, resolution, efficiency, semi-Latin square, SOMA.
+    block design, t-design, design, resolution, efficiency, semi-Latin square, SOMA, orthogonal array.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>Soi19</span>]   <b class='BibAuthor'>Soicher, L. H.</b>,
+    [<span class='BibKey'>Soi23</span>]   <b class='BibAuthor'>Soicher, L. H.</b>,
      <i class='BibTitle'>DESIGN, The Design Package for GAP,
-             Version 1.7</i>
-     (<span class='BibYear'>2019</span>)<br />
+             Version 1.8</i>
+     (<span class='BibYear'>2023</span>)<br />
     (<span class='BibNote'>Refereed GAP package</span>),
     <span class='BibHowpublished'><a href="https://gap-packages.github.io/design">https://gap-packages.github.io/design</a></span>.
     </p>
     
 
 bibtex: |
-    @misc{ DESIGN1.7,
+    @misc{ DESIGN1.8,
       author =           {Soicher, L. H.},
-      title =            {{DESIGN}, The Design Package for GAP, {V}ersion 1.7},
-      month =            {Mar},
-      year =             {2019},
+      title =            {{DESIGN}, The Design Package for GAP, {V}ersion 1.8},
+      month =            {Feb},
+      year =             {2023},
       note =             {Refereed GAP package},
       howpublished =     {\href          {https://gap-packages.github.io/design}
                           {\texttt{https://gap-packages.github.io/}\discretionary
                           {}{}{}\texttt{design}}},
       keywords =         {block    design;    t-design;    design;   resolution;
-                          efficiency; semi-Latin square; SOMA},
-      printedkey =       {Soi19}
+                          efficiency; semi-Latin square; SOMA; orthogonal array},
+      printedkey =       {Soi23}
     }
 
