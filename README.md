@@ -18,20 +18,21 @@ as follows:
 L.H. Soicher, The DESIGN package for GAP, Version 1.8, 2023,
 <https://gap-packages.github.io/design>.
 
-Any comments or bug reports should go to <L.H.Soicher@qmul.ac.uk>.
+For questions, remarks, suggestions, and issues, please use the issue
+tracker at <https://github.com/gap-packages/design/issues>.
 
 Installing the DESIGN Package
 -----------------------------
 
 The DESIGN package is included in the standard GAP distribution. You
 only need to download and install DESIGN if you need to install
-the package locally or are installing an upgrade of DESIGN to an
-existing installation of GAP (see the main GAP reference section
-"ref:Installing a GAP Package").  If you do need to download DESIGN,
-you can find archive files for the package in various formats at
-<https://www.gap-system.org/Packages/design.html>, and then your archive
-file of choice should be downloaded and unpacked in the `pkg' subdirectory
-of an appropriate GAP root directory (see the main GAP reference section
+the package locally or are installing an upgrade of DESIGN to
+an existing installation of GAP (see the main GAP reference
+section "ref:Installing a GAP Package"). If you do need to download
+DESIGN, you can find an archive file for the latest release at
+<https://github.com/gap-packages/design/releases>.  This archive
+file can then be downloaded and unpacked in the `pkg' subdirectory of
+an appropriate GAP root directory (see the main GAP reference section
 "ref:GAP Root Directories").
 
 The DESIGN package is written entirely in GAP code, and requires

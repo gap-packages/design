@@ -8,7 +8,7 @@ SetPackageInfo( rec(
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
 Version := "1.8",
-Date := "28/02/2023", # dd/mm/yyyy format
+Date := "20/02/2023", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(
@@ -147,7 +147,7 @@ TestFile := "tst/testall.g",
 ##  *Optional*: Here you can list some keyword related to the topic 
 ##  of the package.
 # Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
-Keywords := ["block design","t-design","design","resolution","efficiency","semi-Latin square","SOMA"]
+Keywords := ["block design","t-design","design","resolution","efficiency","semi-Latin square","SOMA","orthogonal array"]
 
 ));
 

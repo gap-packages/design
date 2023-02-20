@@ -196,20 +196,21 @@ gap> TDesignBlockMultiplicityBound(2,12,4,3);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Information from (mixed) orthogonal array parameters}
 
-For positive integers $N,k,s,t$, with $t\le k$, an *orthogonal array*
-\index{orthogonal array}
+For integers $N,k,s,t$, with $N,k>0$, $s>1$, and $0\le t\le k$, 
+an *orthogonal array* \index{orthogonal array}
 OA$(N,k,s,t)$ is an $N\times k$ array, in which the entries come from a
-set of *symbols* of size $s>1$, with the property that in any $N\times t$
+set of size $s$ of *symbols*, with the property that in any $N\times t$
 subarray, every possible $t$-tuple of symbols occurs as a row equally
 often (which must be $N/s^t$ times).
 
-For positive integers $N,k_1,\ldots,k_w,s_1,\ldots,s_w,t$, a *mixed
-orthogonal array* 
+For integers $N,k_1,\ldots,k_w,s_1,\ldots,s_w,t$, with
+$w,N,k_1,\ldots,k_w>0$, $s_1,\ldots,s_w>1$, and $0\le t\le k:=k_1+\cdots+k_w$,
+a *mixed orthogonal array* 
 \index{mixed orthogonal array}
 OA$(N,s_1^{k_1},\ldots,s_w^{k_w},t)$ is an $N\times k$
-array, where $t\le k:=k_1+\cdots +k_w$, in which the entries in the first
-$k_1$ columns come from a set of symbols of size $s_1>1$, the entries
-in the next $k_2$ columns come from a set of symbols of size $s_2>1$,
+array, in which the entries in the first
+$k_1$ columns come from a set of symbols of size $s_1$, the entries
+in the next $k_2$ columns come from a set of symbols of size $s_2$,
 and so on, with the property that in any $N\times t$ subarray, every
 possible $t$-tuple of symbols occurs as a row equally often.
 Clearly, a mixed orthogonal array OA$(N,s^k,t)$ is the same thing as an
@@ -222,13 +223,13 @@ in the array.
 
 \>OARunMultiplicityBound( <N>, <k>, <s>, <t> )
 
-Suppose <N>, <k>, <s>, and <t> are positive integers, with <k> $\ge$ <t> and
-<s> $\ge 2$. Then this function returns an upper bound on the multiplicity
-of any run in an orthogonal array OA$(N,k,s,t)$. 
+Suppose <N>, <k>, <s>, and <t> are integers, with <N>, <k> positive,
+$<s> > 1$, and $0\le <t>\le <k>$.  Then this function returns an upper
+bound on the multiplicity of any run in an orthogonal array OA$(N,k,s,t)$.
 
 An upper bound on the multiplicity of a run in a mixed orthogonal array
 can be obtained by replacing <k> and <s> by non-empty lists of the same
-length, $w$ say, of positive integers, such that <t> $\le$ `Sum(<k>)',
+length, $w$ say, of positive integers, such that $0\le <t> \le$ `Sum(<k>)',
 and each entry of <s> is at least 2.  Then the function returns an
 upper bound on the multiplicity of any run in a mixed orthogonal array
 OA$(N,s[1]^{k[1]},...,s[w]^{k[w]},t)$.
@@ -237,7 +238,7 @@ If the value $0$ is returned, then this implies that an orthogonal array
 or mixed orthogonal array with the given parameters does not exist.
 
 We do not claim that the returned upper bound $m$ is achieved; that
-is, there may well not exist a (mixed) orthogonal array with the given
+is, there may well be no (mixed) orthogonal array with the given
 parameters having a run with multiplicity $m$.
 
 \beginexample

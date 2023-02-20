@@ -2,7 +2,7 @@ Main changes from DESIGN 1.7 to DESIGN 1.8 (February 2023)
 ----------------------------------------------------------
 
 1. Added (and documented) the new function OARunMultiplicityBound,
-which gives an upper boound on the multiplicity of any run
+which gives an upper bound on the multiplicity of any run
 in an orthogonal array or mixed orthogonal array with given
 parameters.
 

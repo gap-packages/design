@@ -204,6 +204,7 @@ elif Length(c)=1 then
    return true;
 elif Length(c)=3 then
    # B is a quadratic with positive leading term.
+   # Handle this case as suggested by Rhys Evans.
    xmin:=-c[2]/(2*c[3]); #  B has minimum value at xmin. 
    closestintxmin:=BestQuoInt(NumeratorRat(xmin),DenominatorRat(xmin));
    return Value(B,closestintxmin)>=0;
@@ -900,8 +901,8 @@ end);
 BindGlobal("OARunMultiplicityBound",function(N,k,s,t)
 #
 # Suppose N is a positive integer, and k and s are non-empty
-# lists of the same length, w say, of positive integers, 
-# with each element of s >1, and t is a positive integer <= Sum(k). 
+# lists of the same length, w say, of positive integers, with 
+# each element of s >1, and t is a non-negative integer <= Sum(k). 
 #
 # Then this function returns an upper bound on the multiplicity of 
 # any run in a (mixed) orthogonal array OA(N,s[1]^k[1],...,s[w]^k[w],t). 
@@ -909,7 +910,7 @@ BindGlobal("OARunMultiplicityBound",function(N,k,s,t)
 # If k is given as an integer, it is replaced by [k].
 # If s is given as an integer, it is replaced by [s].
 #
-# The technique used is based on 
+# The technique used is based on the results in: 
 # P.J. Cameron and L.H. Soicher, Block intersection polynomials, 
 # Bull. London Math. Soc. 39 (2007), 559-564.
 #
@@ -924,6 +925,9 @@ runmultiplicitybound:=function(N,S,t)
 #
 local lambdavec,m,i,C,c,count,nrtuples,nrfactors,num,
    symbolsetsizes,maxsymbolsetsize;
+if t=0 then
+   return N;
+fi; 
 nrfactors:=Length(S);
 symbolsetsizes:=Set(S); # the set of the sizes of the symbol sets
 maxsymbolsetsize:=symbolsetsizes[Length(symbolsetsizes)];
@@ -980,23 +984,26 @@ od;
 return m[nrfactors+1]-1;
 end;
 
-if IsPosInt(k) then
+if IsInt(k) then
    k:=[k];
 fi;
-if IsPosInt(s) then
+if IsInt(s) then
    s:=[s];
 fi;
-if not (IsPosInt(N) and IsList(k) and IsList(s) and IsPosInt(t)) then
-   Error("usage: OARunMultiplicityBound( <PosInt>, <PosInt> or <List>, <PosInt> or <List>, <PosInt> )");
+if not (IsInt(N) and IsList(k) and IsList(s) and IsInt(t)) then
+   Error("usage: OARunMultiplicityBound( <Int>, <Int> or <List>, <Int> or <List>, <Int> )");
+fi;
+if N<1 or t<0 then
+   Error("<N> must be positive and <t> must be non-negative");
+fi;
+if Length(s)<>Length(k) or Length(s)=0 then
+   Error("<s> and <k> must have equal positive length");
 fi;
 if ForAny(k,x->not IsPosInt(x)) or t>Sum(k) then
    Error("<k> must be a list of positive integers, with Sum(<k>) >= <t>");
 fi;
 if ForAny(s,x->not IsInt(x) or x<2) then
    Error("each element of <s> must be an integer > 1");
-fi;
-if Length(s)<>Length(k) then
-   Error("<s> and <k> must have equal length");
 fi;
 S:=[];
 for i in [1..Length(s)] do
