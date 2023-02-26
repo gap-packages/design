@@ -25,8 +25,6 @@ ArchiveURL      := Concatenation( ~.SourceRepository.URL,
 
 ArchiveFormats := ".tar.gz", 
 
-BinaryFiles := ["doc/manual.dvi", "doc/manual.pdf"],
-
 Persons := [
   rec(
     LastName := "Soicher",
