@@ -2499,7 +2499,7 @@ gamma:=Graph(NN,L,OnSets,
    end,
   true);     
 KK:=CompleteSubgraphsMain(gamma,targetvector{leastreps},isolevel,
-      false,false,
+      false,true,
       List(gamma.names,x->Sum(weightvectors{x}){leastreps}),
       [1..Length(leastreps)]);
 KK:=List(KK,x->rec(clique:=Union(List(x,y->gamma.names[y]))));
