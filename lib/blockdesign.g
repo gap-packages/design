@@ -40,10 +40,10 @@ BindGlobal("IsSylowTowerGroupOfSomeComplexion",function(G)
 # This function returns  true  if G is a Sylow tower group of some complexion; 
 # else  false  is returned. 
 #
-# See: L.H. Soicher, On classifying objects with specified groups of 
-# automorphisms, friendly subgroups, and Sylow tower groups, 
-# Research report, 2008, http://designtheory.org/library/preprints/ 
-#
+# See: L.H. Soicher, On classifying objects with specified groups of
+# automorphisms, friendly subgroups, and Sylow tower groups, Port. Math. 74
+# (2017), 233-242.
+# 
 local P,T,U,indices,usedindices,found,i;
 if not IsGroup(G) or not IsFinite(G) then
    Error("<G> must be a finite group");
@@ -2542,11 +2542,11 @@ if isolevel=2 then
          # subgroup of A of its isomorphism type. 
          # Thus, Length(KK)=1  or  C is normal in G,  or
          # C is a "friendly" subgroup of A
-         # (see: L.H. Soicher, Computational group theory problems arising 
-         # from computational design theory, Oberwolfach Rep. 3 (2006), 
-         # Report 30/2006: Computational group theory, 1809-1811,  
-         # (preprint at: http://designtheory.org/library/preprints/ ), and
-         # P. Hall, Theorems like Sylow's, Proc. LMS 6, 1956).
+         # (see: L.H. Soicher, On classifying objects with specified 
+         # groups of automorphisms, friendly subgroups, and Sylow tower 
+         # groups, Port. Math. 74 (2017), 233-242,  and
+         # P. Hall, Theorems like Sylow's, Proc. London Math. Soc. (3) 6
+         # (1956), 286-304.)
          # It follows that isomorph-rejection of GG-images of kk.clique 
          # has already been handled by  Image(hom,Normalizer(G,C)),  
          # and so no further isomorph-rejection (using GG) is needed.
