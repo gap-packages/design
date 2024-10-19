@@ -1,6 +1,6 @@
 ############################################################################
 ##
-##    blockdesign.g             Design 1.8 Package          Leonard Soicher
+##    blockdesign.g             Design 1.8.1 Package         Leonard Soicher
 ##
 ##
 # Functions to study, construct and classify (sub)block designs 
@@ -8,7 +8,7 @@
 # block designs with given properties.
 # At present there is limited support for non-binary block designs.
 # 
-# Copyright (C) 2003-2023 Leonard H. Soicher
+# Copyright (C) 2003-2024 Leonard H. Soicher
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

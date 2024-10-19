@@ -1,3 +1,10 @@
+Main changes from DESIGN 1.8 to DESIGN 1.8.1 (October 2024)
+-----------------------------------------------------------
+
+1. Updated and added references.
+
+2. Now uses partial-colouring in (sub)design search and classification. 
+
 Main changes from DESIGN 1.7 to DESIGN 1.8 (February 2023)
 ----------------------------------------------------------
 
@@ -117,7 +124,7 @@ of blocks given to BlockDesign need no longer be sorted.
 
 3. Improved documentation of the function TDesignFromTBD, and changed
 the parameters (in a backward compatible way) to match the description
-of the "*-construction" in the McSorley-Soicher paper.
+of the star-construction in the McSorley-Soicher paper.
 
 4. The (undocumented) resolveSimple option removed from functions
 BlockDesigns and PartitionsIntoBlockDesigns, and the option b added
