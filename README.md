@@ -1,10 +1,10 @@
-The DESIGN Package for GAP
-==========================
+The DESIGN 1.8.1 Package for GAP
+================================
 
 The DESIGN package is for constructing, classifying, partitioning,
 and studying block designs.
 
-The DESIGN package is Copyright (C) Leonard H. Soicher 2003--2023.  
+The DESIGN package is Copyright (C) Leonard H. Soicher 2003--2024.  
 
 DESIGN is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@ the Free Software Foundation; either version 2 of the License, or
 Please reference your use of the DESIGN package in a published work
 as follows:
 
-L.H. Soicher, The DESIGN package for GAP, Version 1.8, 2023,
+L.H. Soicher, The DESIGN package for GAP, Version 1.8.1, 2024,
 <https://gap-packages.github.io/design>.
 
 For questions, remarks, suggestions, and issues, please use the issue
@@ -40,7 +40,3 @@ no further installation.  However, the DESIGN package has complete
 functionality only in an environment in which the GRAPE package is
 fully installed. 
 
--------------------------------------------------------------------------
-Leonard Soicher,
-Queen Mary University of London,
-February 2023

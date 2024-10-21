@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
-Version := "1.8",
-Date := "20/02/2023", # dd/mm/yyyy format
+Version := "1.8.1",
+Date := "21/10/2024", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(
@@ -24,8 +24,6 @@ ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/design-", ~.Version ),
 
 ArchiveFormats := ".tar.gz", 
-
-BinaryFiles := ["doc/manual.dvi", "doc/manual.pdf"],
 
 Persons := [
   rec(
