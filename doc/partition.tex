@@ -47,9 +47,10 @@ that the block sizes of each block design in each partition in <PL>
 will be contained in `<param>.blockSizes'.
 
 `<param>.tSubsetStructure' must be a record, having
-components `t', `partition', and `lambdas'. Let <t> be
-equal to `<param>.tSubsetStructure.t', <partition> be
-`<param>.tSubsetStructure.partition', and <lambdas> be
+components `t', `partition', and `lambdas'. 
+
+Let <t> be `<param>.tSubsetStructure.t', let <partition> be
+`<param>.tSubsetStructure.partition', and let <lambdas> be
 `<param>.tSubsetStructure.lambdas'.  Then <t> must be a non-negative
 integer, <partition> must be a list of non-empty sets of <t>-subsets of
 `[1..<param>.v]', forming an ordered partition of all the <t>-subsets of
@@ -79,8 +80,8 @@ times in the list of blocks.
 `<param>.b' must be a positive integer, and specifies that each design
 in each partition in <PL> has exactly `<param>.b' blocks.
 
-`<param>.blockNumbers' must be a list of non-negative integers, the <i>-th
-element of which specifies the number of blocks whose size is equal to
+`<param>.blockNumbers' must be a list of non-negative integers. The <i>-th
+element in this list specifies the number of blocks whose size is equal to
 `<param>.blockSizes[<i>]' (in each design in each partition in <PL>). The
 length of `<param>.blockNumbers' must equal that of `<param>.blockSizes',
 and at least one entry of `<param>.blockNumbers' must be positive.
@@ -213,8 +214,9 @@ gap> PL:=PartitionsIntoBlockDesigns(rec(
 \>MakeResolutionsComponent( <D>, <isolevel> )
 
 This function computes resolutions of the block design <D>, and stores
-the result in `<D>.resolutions'. If `<D>.resolutions' already exists
-then it is ignored and overwritten. This function returns no value.
+the result in `<D>.resolutions'. If the component `<D>.resolutions' 
+already exists then it is ignored and overwritten. 
+This function returns no value.
  
 A *resolution* of a block design $D$ is a partition of the blocks into
 subsets, each of which forms a partition of the point set.  We say that

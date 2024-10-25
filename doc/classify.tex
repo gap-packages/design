@@ -38,10 +38,11 @@ design in the list <DL>, the points are 1,...,`<param>.v'.
 that the block sizes of each block design in <DL> will be contained in
 `<param>.blockSizes'.
 
-`<param>.tSubsetStructure' must be a record, having
-components `t', `partition', and `lambdas'. Let <t>
-be equal to `<param>.tSubsetStructure.t', <partition>
-be `<param>.tSubsetStructure.partition', and <lambdas> be
+`<param>.tSubsetStructure' must be a record, having components `t',
+`partition', and `lambdas'.
+
+Let <t> be `<param>.tSubsetStructure.t', let <partition>
+be `<param>.tSubsetStructure.partition', and let <lambdas> be
 `<param>.tSubsetStructure.lambdas'.  Then <t> must be a non-negative
 integer, <partition> must be a list of non-empty sets of <t>-subsets of
 `[1..<param>.v]', forming an ordered partition of all the <t>-subsets of
@@ -55,7 +56,9 @@ The `partition' component is optional if <lambdas> has length 1.
 We require that <t> is less than or equal to each element of
 `<param>.blockSizes', and if `<param>.blockDesign' is bound,
 then each block of `<param>.blockDesign' must contain at least <t>
-distinct elements. Note that if `<param>.tSubsetStructure' is equal to
+distinct elements. 
+
+Note that if `<param>.tSubsetStructure' is equal to
 `rec(t:=0,lambdas:=[<b>])', for some positive integer <b>, then all
 that is being specified is that each design in <DL> must have exactly
 <b> blocks.
