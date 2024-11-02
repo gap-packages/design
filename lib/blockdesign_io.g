@@ -1,6 +1,6 @@
 #############################################################################
 ##
-##    blockdesign_io.g          Design 1.8.1 Package         Leonard Soicher
+##    blockdesign_io.g          Design 1.8.2 Package         Leonard Soicher
 ##
 ##    
 # The "GAP Expander/Writer" to expand the information about 

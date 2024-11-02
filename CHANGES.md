@@ -1,3 +1,10 @@
+Main changes from DESIGN 1.8.1 to DESIGN 1.8.2 (November 2024)
+--------------------------------------------------------------
+
+1. Fixed worst overfull hboxes in the documentation.
+
+2. Improved references and updated QMUL URLs in the documentation.
+
 Main changes from DESIGN 1.8 to DESIGN 1.8.1 (October 2024)
 -----------------------------------------------------------
 

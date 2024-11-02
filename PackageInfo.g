@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "DESIGN",
 Subtitle := "The Design Package for GAP",
-Version := "1.8.1",
-Date := "21/10/2024", # dd/mm/yyyy format
+Version := "1.8.2",
+Date := "02/11/2024", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 SourceRepository := rec(

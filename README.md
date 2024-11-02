@@ -1,4 +1,4 @@
-The DESIGN 1.8.1 Package for GAP
+The DESIGN 1.8.2 Package for GAP
 ================================
 
 The DESIGN package is for constructing, classifying, partitioning,
@@ -15,7 +15,7 @@ the Free Software Foundation; either version 2 of the License, or
 Please reference your use of the DESIGN package in a published work
 as follows:
 
-L.H. Soicher, The DESIGN package for GAP, Version 1.8.1, 2024,
+L.H. Soicher, The DESIGN package for GAP, Version 1.8.2, 2024,
 <https://gap-packages.github.io/design>.
 
 For questions, remarks, suggestions, and issues, please use the issue
