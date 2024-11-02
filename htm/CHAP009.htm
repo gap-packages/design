@@ -46,9 +46,10 @@ that the block sizes of each block design in each partition in <var>PL</var>
 will be contained in <code></code><var>param</var><code>.blockSizes</code>.
 <p>
 <code></code><var>param</var><code>.tSubsetStructure</code> must be a record, having
-components <code>t</code>, <code>partition</code>, and <code>lambdas</code>. Let <var>t</var> be
-equal to <code></code><var>param</var><code>.tSubsetStructure.t</code>, <var>partition</var> be
-<code></code><var>param</var><code>.tSubsetStructure.partition</code>, and <var>lambdas</var> be
+components <code>t</code>, <code>partition</code>, and <code>lambdas</code>. 
+<p>
+Let <var>t</var> be <code></code><var>param</var><code>.tSubsetStructure.t</code>, let <var>partition</var> be
+<code></code><var>param</var><code>.tSubsetStructure.partition</code>, and let <var>lambdas</var> be
 <code></code><var>param</var><code>.tSubsetStructure.lambdas</code>.  Then <var>t</var> must be a non-negative
 integer, <var>partition</var> must be a list of non-empty sets of <var>t</var>-subsets of
 <code>[1..</code><var>param</var><code>.v]</code>, forming an ordered partition of all the <var>t</var>-subsets of
@@ -78,8 +79,8 @@ times in the list of blocks.
 <code></code><var>param</var><code>.b</code> must be a positive integer, and specifies that each design
 in each partition in <var>PL</var> has exactly <code></code><var>param</var><code>.b</code> blocks.
 <p>
-<code></code><var>param</var><code>.blockNumbers</code> must be a list of non-negative integers, the <var>i</var>-th
-element of which specifies the number of blocks whose size is equal to
+<code></code><var>param</var><code>.blockNumbers</code> must be a list of non-negative integers. The <var>i</var>-th
+element in this list specifies the number of blocks whose size is equal to
 <code></code><var>param</var><code>.blockSizes[</code><var>i</var><code>]</code> (in each design in each partition in <var>PL</var>). The
 length of <code></code><var>param</var><code>.blockNumbers</code> must equal that of <code></code><var>param</var><code>.blockSizes</code>,
 and at least one entry of <code></code><var>param</var><code>.blockNumbers</code> must be positive.
@@ -213,8 +214,9 @@ gap&gt; PL:=PartitionsIntoBlockDesigns(rec(
 <li><code>MakeResolutionsComponent( </code><var>D</var><code>, </code><var>isolevel</var><code> )</code>
 <p>
 This function computes resolutions of the block design <var>D</var>, and stores
-the result in <code></code><var>D</var><code>.resolutions</code>. If <code></code><var>D</var><code>.resolutions</code> already exists
-then it is ignored and overwritten. This function returns no value.
+the result in <code></code><var>D</var><code>.resolutions</code>. If the component <code></code><var>D</var><code>.resolutions</code> 
+already exists then it is ignored and overwritten. 
+This function returns no value.
 <p>
 A <strong>resolution</strong> of a block design <var>D</var> is a partition of the blocks into
 subsets, each of which forms a partition of the point set.  We say that
@@ -278,5 +280,5 @@ rec( isBlockDesign := true, v := 9,
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP008.htm">Previous</a>] [<a href ="CHAP010.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>design manual<br>October 2024
+<address>design manual<br>November 2024
 </address></body></html>

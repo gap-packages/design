@@ -1,7 +1,7 @@
 name: DESIGN
-version: "1.8.1"
+version: "1.8.2"
 license: "GPL-2.0-or-later"
-date: 2024-10-21
+date: 2024-11-02
 description: |
     The Design Package for GAP
 
@@ -29,7 +29,7 @@ packageinfo: https://gap-packages.github.io/design/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/design/releases/download/v1.8.1/design-1.8.1.tar.gz
+      url: https://github.com/gap-packages/design/releases/download/v1.8.2/design-1.8.2.tar.gz
 
 abstract: |
     <span class="pkgname">DESIGN</span> is a package for constructing, classifying, partitioning, and studying block designs.
@@ -43,7 +43,7 @@ citeas: |
     <p class='BibEntry'>
     [<span class='BibKey'>Soi24</span>]   <b class='BibAuthor'>Soicher, L. H.</b>,
      <i class='BibTitle'>DESIGN, The Design Package for GAP,
-             Version 1.8.1</i>
+             Version 1.8.2</i>
      (<span class='BibYear'>2024</span>)<br />
     (<span class='BibNote'>GAP package</span>),
     <span class='BibHowpublished'><a href="https://gap-packages.github.io/design">https://gap-packages.github.io/design</a></span>.
@@ -53,8 +53,8 @@ citeas: |
 bibtex: |
     @misc{ DESIGN,
       author =           {Soicher, L. H.},
-      title =            {{DESIGN}, The Design Package for GAP, {V}ersion 1.8.1},
-      month =            {Oct},
+      title =            {{DESIGN}, The Design Package for GAP, {V}ersion 1.8.2},
+      month =            {Nov},
       year =             {2024},
       note =             {GAP package},
       howpublished =     {\href          {https://gap-packages.github.io/design}
