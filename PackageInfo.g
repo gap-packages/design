@@ -98,7 +98,6 @@ PackageDoc := rec(
   LongTitle := "The Design Package for GAP",
   # Should this help book be autoloaded when GAP starts up? This should
   # usually be 'true', otherwise say 'false'. 
-  Autoload := true
 ),
 
 
