@@ -96,8 +96,6 @@ PackageDoc := rec(
   # a longer title of the book, this together with the book name should
   # fit on a single text line (appears with the '?books' command in GAP)
   LongTitle := "The Design Package for GAP",
-  # Should this help book be autoloaded when GAP starts up? This should
-  # usually be 'true', otherwise say 'false'. 
 ),
 
 
@@ -147,5 +145,3 @@ TestFile := "tst/testall.g",
 Keywords := ["block design","t-design","design","resolution","efficiency","semi-Latin square","SOMA","orthogonal array"]
 
 ));
-
-
