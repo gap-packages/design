@@ -1,19 +1,16 @@
-Main changes from DESIGN 1.8.1 to DESIGN 1.8.2 (November 2024)
---------------------------------------------------------------
+## 1.8.2 (2024-11-02)
 
 1. Fixed worst overfull hboxes in the documentation.
 
 2. Improved references and updated QMUL URLs in the documentation.
 
-Main changes from DESIGN 1.8 to DESIGN 1.8.1 (October 2024)
------------------------------------------------------------
+## 1.8.1 (2024-10-21)
 
 1. Updated and added references.
 
 2. Now uses partial-colouring in (sub)design search and classification. 
 
-Main changes from DESIGN 1.7 to DESIGN 1.8 (February 2023)
-----------------------------------------------------------
+## 1.8 (2023-02-20)
 
 1. Added (and documented) the new function OARunMultiplicityBound,
 which gives an upper bound on the multiplicity of any run
@@ -24,8 +21,7 @@ parameters.
 for the important special case of quadratic block intersection
 polynomials. (This used a suggestion of Rhys J. Evans.)
 
-Main changes from DESIGN 1.6 to DESIGN 1.7 (March 2019)
--------------------------------------------------------
+## 1.7 (2019-03-18)
 
 1. Lists of changes moved from README to new file CHANGES.md.
 
@@ -42,13 +38,11 @@ tst/testall.tst.
 
 7. Documentation updated to reflect move to github and version change. 
 
-Main change from DESIGN 1.5 to DESIGN 1.6 (November 2011)
----------------------------------------------------------
+## 1.6 (2011-11-23)
 
 1. Revised installation instructions.
 
-Main changes from DESIGN 1.4 to DESIGN 1.5
-------------------------------------------
+## 1.5 (2011-09-09)
 
 1. Added internal function:
    - DESIGN_IntervalForLeastRealZero
@@ -62,8 +56,7 @@ Main changes from DESIGN 1.4 to DESIGN 1.5
 3. Updated documentation, including documentation for
 the new user functions.
 
-Main changes from DESIGN 1.3 to DESIGN 1.4
-------------------------------------------
+## 1.4 (2009-09-17)
 
 1. Added function: AGPointFlatBlockDesign.
 
@@ -85,8 +78,7 @@ Theorem when t=2 and `k<v=b`.
 ResolvableTDesignBlockMultiplicityBound by employing binary search to
 find the bounds.
 
-Main changes from DESIGN 1.2 to DESIGN 1.3
-------------------------------------------
+## 1.3 (2006-11-08)
 
 1. Added function: WittDesign.
 
@@ -100,8 +92,7 @@ block each.
 
 4. Small improvements made to the documentation and the code.
 
-Main changes from DESIGN 1.1 to DESIGN 1.2
-------------------------------------------
+## 1.2 (2006-08-30)
 
 1. Added functions:
    - BlockIntersectionPolynomial
@@ -141,8 +132,7 @@ design or partition part).
 5. Improvements made to the use of store (and time?) by the function
 BlockDesigns.
 
-Main changes from DESIGN 1.0 to DESIGN 1.1
-------------------------------------------
+## 1.1 (2004-06-22)
 
 1. Made compatible with GAP 4.4 and its package loading mechanism.
 DESIGN 1.1 works only with GAP 4.4/GRAPE 4.2/GAPDoc.
@@ -163,4 +153,3 @@ minimal expansion and writing out, which is a *change* from DESIGN 1.0.
 6. Some utility functionality moved to GRAPE 4.2.
 
 7. Added files README and gpl.txt.
-
